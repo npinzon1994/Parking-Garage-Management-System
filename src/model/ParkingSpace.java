@@ -10,9 +10,10 @@ public abstract class ParkingSpace {
 
 	public ParkingSpace(String size, boolean status) {
 		super();
+		this.id = String.valueOf(idInt);
 		this.size = size;
-		this.id = id;
 		this.status = status;
+		idInt++;
 	}
 
 	public static int getIdInt() {
