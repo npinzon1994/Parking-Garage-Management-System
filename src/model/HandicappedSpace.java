@@ -17,4 +17,9 @@ public class HandicappedSpace extends ParkingSpace {
 		this.hourlyRate = hourlyRate;
 	}
 
+	@Override
+	public String toString() {
+		return "HandicappedSpace [hourlyRate=" + hourlyRate + "]";
+	}
+
 }

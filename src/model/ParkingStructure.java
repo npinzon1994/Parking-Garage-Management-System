@@ -54,4 +54,9 @@ public class ParkingStructure {
 		return level3;
 	}
 
+	@Override
+	public String toString() {
+		return "ParkingStructure []";
+	}
+
 }

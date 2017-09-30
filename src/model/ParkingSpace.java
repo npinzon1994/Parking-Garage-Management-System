@@ -40,4 +40,9 @@ public abstract class ParkingSpace {
 		this.status = status;
 	}
 
+	@Override
+	public String toString() {
+		return "ParkingSpace [size=" + size + ", id=" + id + ", status=" + status + "]";
+	}
+
 }

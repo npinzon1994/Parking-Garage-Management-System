@@ -1,35 +1,41 @@
 package model;
 
-import java.util.HashMap;
+import java.util.HashSet;
 
 public class ParkingLot {
 
-	private HashMap<ParkingSpace, String> motorcycleLot;
-	private HashMap<ParkingSpace, String> compactLot;
-	private HashMap<ParkingSpace, String> midSizeLot;
-	private HashMap<ParkingSpace, String> truckLot;
+	private HashSet<ParkingSpace> motorcycleLot;
+	private HashSet<ParkingSpace> compactLot;
+	private HashSet<ParkingSpace> midSizeLot;
+	private HashSet<ParkingSpace> truckLot;
 
 	public ParkingLot() {
-		motorcycleLot = new HashMap<ParkingSpace, String>();
-		compactLot = new HashMap<ParkingSpace, String>();
-		midSizeLot = new HashMap<ParkingSpace, String>();
-		truckLot = new HashMap<ParkingSpace, String>();
+		motorcycleLot = new HashSet<ParkingSpace>();
+		compactLot = new HashSet<ParkingSpace>();
+		midSizeLot = new HashSet<ParkingSpace>();
+		truckLot = new HashSet<ParkingSpace>();
 	}
 
-	public HashMap<ParkingSpace, String> getMotorcycleLot() {
+	public HashSet<ParkingSpace> getMotorcycleLot() {
 		return motorcycleLot;
 	}
 
-	public HashMap<ParkingSpace, String> getCompactLot() {
+	public HashSet<ParkingSpace> getCompactLot() {
 		return compactLot;
 	}
 
-	public HashMap<ParkingSpace, String> getMidSizeLot() {
+	public HashSet<ParkingSpace> getMidSizeLot() {
 		return midSizeLot;
 	}
 
-	public HashMap<ParkingSpace, String> getTruckLot() {
+	public HashSet<ParkingSpace> getTruckLot() {
 		return truckLot;
+	}
+
+	@Override
+	public String toString() {
+		return "ParkingLot [motorcycleLot=" + motorcycleLot + ", compactLot=" + compactLot + ", midSizeLot="
+				+ midSizeLot + ", truckLot=" + truckLot + "]";
 	}
 
 }
