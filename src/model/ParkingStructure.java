@@ -26,6 +26,7 @@ public class ParkingStructure {
 
 	public static ParkingStructure getStructure() {
 		if (_structure == null) {
+			_structure = new ParkingStructure();
 			System.out.println("A Parking Structure has been created");
 		} else {
 			System.out.println("A Parking Structure already exists");
