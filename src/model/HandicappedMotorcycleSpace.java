@@ -2,11 +2,18 @@ package model;
 
 public class HandicappedMotorcycleSpace extends HandicappedSpace {
 
+	private HourlyRate earlyBirdRate;
+	private HourlyRate regularRate;
+
 	public HandicappedMotorcycleSpace(String size, boolean status) {
 		super(size, status);
-		// TODO Auto-generated constructor stub
+		earlyBirdRate = new EarlyBirdRate();
+		regularRate = new RegularRate();
 	}
 
-	
+	@Override
+	public String toString() {
+		return "HandicappedMotorcycleSpace [earlyBirdRate=" + earlyBirdRate + ", regularRate=" + regularRate + "]";
+	}
 
 }
