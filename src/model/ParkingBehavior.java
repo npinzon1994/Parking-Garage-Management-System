@@ -1,6 +1,6 @@
 package model;
 
-public interface ParkBehavior {
+public interface ParkingBehavior {
 
 	public void park();
 	
