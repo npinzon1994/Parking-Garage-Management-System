@@ -7,12 +7,18 @@ public abstract class ParkingSpace {
 	private String size;
 	private String id;
 	private boolean status;
+	private Vehicle vehicle;
 
-	public ParkingSpace(String size, boolean status) {
+	public ParkingSpace(String size, Vehicle vehicle) {
 		super();
 		this.id = String.valueOf(idInt);
 		this.size = size;
-		this.status = status;
+		this.vehicle = vehicle;
+		if (vehicle == null) {
+			this.status = true; //spot is empty
+		} else {
+			this.status = false; //spot is taken
+		}
 		idInt++;
 	}
 

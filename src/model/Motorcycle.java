@@ -2,8 +2,10 @@ package model;
 
 public class Motorcycle extends Vehicle {
 
-	public Motorcycle(String licensePlate) {
-		super(licensePlate);
+	public Motorcycle(String firstName, String lastName, String licensePlate) {
+		super(firstName, lastName, licensePlate);
 	}
+
+	
 
 }

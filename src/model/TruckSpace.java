@@ -5,8 +5,8 @@ public class TruckSpace extends RegularSpace {
 	private HourlyRate earlyBirdRate;
 	private HourlyRate regularRate;
 
-	public TruckSpace(String size, boolean status) {
-		super(size, status);
+	public TruckSpace(String size, Vehicle vehicle) {
+		super(size, vehicle);
 		earlyBirdRate = new EarlyBirdRate();
 		regularRate = new RegularRate();
 	}

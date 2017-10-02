@@ -2,8 +2,9 @@ package model;
 
 public class RegularSpace extends ParkingSpace {
 
-	public RegularSpace(String size, boolean status) {
-		super(size, status);
+	public RegularSpace(String size, Vehicle vehicle) {
+		super(size, vehicle);
+		// TODO Auto-generated constructor stub
 	}
 
 	@Override

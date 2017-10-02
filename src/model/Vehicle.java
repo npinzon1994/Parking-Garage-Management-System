@@ -7,9 +7,14 @@ public class Vehicle {
 	private String licensePlate;
 	private String tagNumber;
 
-	public Vehicle(String licensePlate) {
+	private String firstName;
+	private String lastName;
+
+	public Vehicle(String firstName, String lastName, String licensePlate) {
 		this.tagNumber = String.valueOf(idInt);
 		this.licensePlate = licensePlate;
+		this.firstName = firstName;
+		this.lastName = lastName;
 		idInt++;
 	}
 
@@ -31,7 +36,8 @@ public class Vehicle {
 
 	@Override
 	public String toString() {
-		return "Vehicle [licensePlate=" + licensePlate + ", tagNumber=" + tagNumber + "]";
+		return "Vehicle [licensePlate=" + licensePlate + ", tagNumber=" + tagNumber + ", firstName=" + firstName
+				+ ", lastName=" + lastName + "]";
 	}
 
 }

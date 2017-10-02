@@ -5,8 +5,8 @@ public class HandicappedTruckSpace extends HandicappedSpace {
 	private HourlyRate earlyBirdRate;
 	private HourlyRate regularRate;
 
-	public HandicappedTruckSpace(String size, boolean status) {
-		super(size, status);
+	public HandicappedTruckSpace(String size, Vehicle vehicle) {
+		super(size, vehicle);
 		earlyBirdRate = new EarlyBirdRate();
 		regularRate = new RegularRate();
 	}

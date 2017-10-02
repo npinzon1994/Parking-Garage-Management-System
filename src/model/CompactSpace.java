@@ -5,12 +5,12 @@ public class CompactSpace extends RegularSpace {
 	private HourlyRate earlyBirdRate; // interface
 	private HourlyRate regularRate; // interface
 
-	public CompactSpace(String size, boolean status) {
-		super(size, status);
+	public CompactSpace(String size, Vehicle vehicle) {
+		super(size, vehicle);
 		earlyBirdRate = new EarlyBirdRate(); // object containing double value
 												// for early bird rate
 		regularRate = new RegularRate(); // object containing double value for
-										// regular hourly rate
+											// regular hourly rate
 	}
 
 	@Override
