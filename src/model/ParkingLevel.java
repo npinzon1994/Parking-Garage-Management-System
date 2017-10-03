@@ -1,57 +1,57 @@
 package model;
 
-import java.util.HashSet;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 public class ParkingLevel {
 
-	private HashSet<ParkingSpace> motorcycleLot;
+	private HashMap<ParkingSpace, String> motorcycleLot;
 	private LinkedList<ParkingSpace> takenMotorcycleSpaces;
 	private int motorcycleSpaceCounter;
 
-	private HashSet<ParkingSpace> compactLot;
+	private HashMap<ParkingSpace, String> compactLot;
 	private LinkedList<ParkingSpace> takenCompactSpaces;
 	private int compactSpaceCounter;
 
-	private HashSet<ParkingSpace> midSizeLot;
+	private HashMap<ParkingSpace, String> midSizeLot;
 	private LinkedList<ParkingSpace> takenMidSizeSpaces;
 	private int midSizeSpaceCounter;
 
-	private HashSet<ParkingSpace> truckLot;
+	private HashMap<ParkingSpace, String> truckLot;
 	private LinkedList<ParkingSpace> takenTruckSpaces;
 	private int truckSpaceCounter;
 
 	public ParkingLevel() {
-		motorcycleLot = new HashSet<ParkingSpace>();
+		motorcycleLot = new HashMap<ParkingSpace, String>();
 		takenMotorcycleSpaces = new LinkedList();
 		motorcycleSpaceCounter = 0;
 
-		compactLot = new HashSet<ParkingSpace>();
+		compactLot = new HashMap<ParkingSpace, String>();
 		takenCompactSpaces = new LinkedList();
 		compactSpaceCounter = 0;
 
-		midSizeLot = new HashSet<ParkingSpace>();
+		midSizeLot = new HashMap<ParkingSpace, String>();
 		takenMidSizeSpaces = new LinkedList();
 		midSizeSpaceCounter = 0;
 
-		truckLot = new HashSet<ParkingSpace>();
+		truckLot = new HashMap<ParkingSpace, String>();
 		takenTruckSpaces = new LinkedList();
 		truckSpaceCounter = 0;
 	}
 
-	public HashSet<ParkingSpace> getMotorcycleLot() {
+	public HashMap<ParkingSpace, String> getMotorcycleLot() {
 		return motorcycleLot;
 	}
 
-	public HashSet<ParkingSpace> getCompactLot() {
+	public HashMap<ParkingSpace, String> getCompactLot() {
 		return compactLot;
 	}
 
-	public HashSet<ParkingSpace> getMidSizeLot() {
+	public HashMap<ParkingSpace, String> getMidSizeLot() {
 		return midSizeLot;
 	}
 
-	public HashSet<ParkingSpace> getTruckLot() {
+	public HashMap<ParkingSpace, String> getTruckLot() {
 		return truckLot;
 	}
 
@@ -89,8 +89,12 @@ public class ParkingLevel {
 
 	@Override
 	public String toString() {
-		return "ParkingLevel [motorcycleLot=" + motorcycleLot + ", compactLot=" + compactLot + ", midSizeLot="
-				+ midSizeLot + ", truckLot=" + truckLot + "]";
+		return "ParkingLevel [motorcycleLot=" + motorcycleLot + ", takenMotorcycleSpaces=" + takenMotorcycleSpaces
+				+ ", motorcycleSpaceCounter=" + motorcycleSpaceCounter + ", compactLot=" + compactLot
+				+ ", takenCompactSpaces=" + takenCompactSpaces + ", compactSpaceCounter=" + compactSpaceCounter
+				+ ", midSizeLot=" + midSizeLot + ", takenMidSizeSpaces=" + takenMidSizeSpaces + ", midSizeSpaceCounter="
+				+ midSizeSpaceCounter + ", truckLot=" + truckLot + ", takenTruckSpaces=" + takenTruckSpaces
+				+ ", truckSpaceCounter=" + truckSpaceCounter + "]";
 	}
 
 }

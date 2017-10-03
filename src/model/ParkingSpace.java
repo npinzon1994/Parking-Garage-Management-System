@@ -4,15 +4,13 @@ public abstract class ParkingSpace {
 
 	private static int idInt = 1;
 
-	private String size;
 	private String id;
 	private boolean status;
 	private Vehicle vehicle;
 
-	public ParkingSpace(String size, Vehicle vehicle) {
+	public ParkingSpace(Vehicle vehicle) {
 		super();
 		this.id = String.valueOf(idInt);
-		this.size = size;
 		this.vehicle = vehicle;
 		if (vehicle == null) {
 			this.status = true; //spot is empty
@@ -26,14 +24,6 @@ public abstract class ParkingSpace {
 		return idInt;
 	}
 
-	public String getSize() {
-		return size;
-	}
-
-	public void setSize(String size) {
-		this.size = size;
-	}
-
 	public String getId() {
 		return id;
 	}
@@ -45,10 +35,18 @@ public abstract class ParkingSpace {
 	public void setStatus(boolean status) {
 		this.status = status;
 	}
+	
+	public void setVehicle(Vehicle vehicle){
+		this.vehicle = vehicle;
+	}
+	
+	public Vehicle getVehicle(){
+		return this.vehicle;
+	}
 
 	@Override
 	public String toString() {
-		return "ParkingSpace [size=" + size + ", id=" + id + ", status=" + status + "]";
+		return "ParkingSpace [id=" + id + ", status=" + status + "]";
 	}
 
 }

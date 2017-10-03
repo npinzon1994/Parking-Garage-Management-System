@@ -5,8 +5,8 @@ public class MidSizeSpace extends RegularSpace {
 	private HourlyRate earlyBirdRate; // interface
 	private HourlyRate regularRate; // interface
 
-	public MidSizeSpace(String size, Vehicle vehicle) {
-		super(size, vehicle);
+	public MidSizeSpace(Vehicle vehicle) {
+		super(vehicle);
 		earlyBirdRate = new EarlyBirdRate(); // object containing double value
 		// for early bird rate
 		regularRate = new RegularRate(); // object containing double value for

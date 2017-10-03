@@ -10,7 +10,7 @@ import javafx.animation.Timeline;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
 
-public class ParkingStructure {
+public class ParkingStructure implements ParkingBehavior {
 
 	private static ParkingStructure _structure;
 
@@ -47,7 +47,7 @@ public class ParkingStructure {
 	}
 
 	public static String getTime() {
-		
+
 		return timeFormat.format(time);
 	}
 
@@ -61,6 +61,54 @@ public class ParkingStructure {
 
 	public static ParkingLevel getLevel3() {
 		return level3;
+	}
+
+	public static void parkOnLevel1(ParkingSpace space, Vehicle vehicle) {
+		if (vehicle instanceof Motorcycle && ParkingStructure.getLevel1().getMotorcycleLot().size() < 25) {
+			space.setVehicle(vehicle);
+			ParkingStructure.getLevel1().getMotorcycleLot().put(space, vehicle.getTagNumber());
+		} else if (vehicle instanceof CompactCar && ParkingStructure.getLevel1().getCompactLot().size() < 50) {
+			space.setVehicle(vehicle);
+			ParkingStructure.getLevel1().getCompactLot().put(space, vehicle.getTagNumber());
+		} if (vehicle instanceof MidSizeCar && ParkingStructure.getLevel1().getMidSizeLot().size() < 50) {
+			space.setVehicle(vehicle);
+			ParkingStructure.getLevel1().getMidSizeLot().put(space, vehicle.getTagNumber());
+		} if (vehicle instanceof Truck && ParkingStructure.getLevel1().getTruckLot().size() < 50) {
+			space.setVehicle(vehicle);
+			ParkingStructure.getLevel1().getTruckLot().put(space, vehicle.getTagNumber());
+		}
+	}
+	
+	public static void parkOnLevel2(ParkingSpace space, Vehicle vehicle) {
+		if (vehicle instanceof Motorcycle && ParkingStructure.getLevel2().getMotorcycleLot().size() < 25) {
+			space.setVehicle(vehicle);
+			ParkingStructure.getLevel2().getMotorcycleLot().put(space, vehicle.getTagNumber());
+		} else if (vehicle instanceof CompactCar && ParkingStructure.getLevel2().getCompactLot().size() < 50) {
+			space.setVehicle(vehicle);
+			ParkingStructure.getLevel2().getCompactLot().put(space, vehicle.getTagNumber());
+		} if (vehicle instanceof MidSizeCar && ParkingStructure.getLevel2().getMidSizeLot().size() < 50) {
+			space.setVehicle(vehicle);
+			ParkingStructure.getLevel2().getMidSizeLot().put(space, vehicle.getTagNumber());
+		} if (vehicle instanceof Truck && ParkingStructure.getLevel2().getTruckLot().size() < 50) {
+			space.setVehicle(vehicle);
+			ParkingStructure.getLevel2().getTruckLot().put(space, vehicle.getTagNumber());
+		}
+	}
+	
+	public static void parkOnLevel3(ParkingSpace space, Vehicle vehicle) {
+		if (vehicle instanceof Motorcycle && ParkingStructure.getLevel3().getMotorcycleLot().size() < 25) {
+			space.setVehicle(vehicle);
+			ParkingStructure.getLevel3().getMotorcycleLot().put(space, vehicle.getTagNumber());
+		} else if (vehicle instanceof CompactCar && ParkingStructure.getLevel3().getCompactLot().size() < 50) {
+			space.setVehicle(vehicle);
+			ParkingStructure.getLevel3().getCompactLot().put(space, vehicle.getTagNumber());
+		} if (vehicle instanceof MidSizeCar && ParkingStructure.getLevel3().getMidSizeLot().size() < 50) {
+			space.setVehicle(vehicle);
+			ParkingStructure.getLevel3().getMidSizeLot().put(space, vehicle.getTagNumber());
+		} if (vehicle instanceof Truck && ParkingStructure.getLevel3().getTruckLot().size() < 50) {
+			space.setVehicle(vehicle);
+			ParkingStructure.getLevel3().getTruckLot().put(space, vehicle.getTagNumber());
+		}
 	}
 
 	@Override

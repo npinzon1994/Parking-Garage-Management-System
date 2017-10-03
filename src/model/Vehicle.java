@@ -33,6 +33,22 @@ public class Vehicle {
 	public String getTagNumber() {
 		return tagNumber;
 	}
+	
+	public String getFirstName(){
+		return firstName;
+	}
+	
+	public String getLastName(){
+		return lastName;
+	}
+	
+	public void setFirstName(String first){
+		this.firstName = first;
+	}
+	
+	public void setLastName(String last){
+		this.lastName = last;
+	}
 
 	@Override
 	public String toString() {
