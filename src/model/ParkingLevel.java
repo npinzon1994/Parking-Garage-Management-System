@@ -1,100 +1,111 @@
 package model;
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 
 public class ParkingLevel {
 
-	private HashMap<ParkingSpace, String> motorcycleLot;
-	private LinkedList<ParkingSpace> takenMotorcycleSpaces;
-	private int motorcycleSpaceCounter;
+	private HashMap<String, ParkingSpace> motorcycleLot;
+	private ParkingSpace motorcycleSpace;
 
-	private HashMap<ParkingSpace, String> compactLot;
-	private LinkedList<ParkingSpace> takenCompactSpaces;
-	private int compactSpaceCounter;
+	private HashMap<String, ParkingSpace> compactLot;
+	private ParkingSpace compactSpace;
 
-	private HashMap<ParkingSpace, String> midSizeLot;
-	private LinkedList<ParkingSpace> takenMidSizeSpaces;
-	private int midSizeSpaceCounter;
+	private HashMap<String, ParkingSpace> midSizeLot;
+	private ParkingSpace midSizeSpace;
 
-	private HashMap<ParkingSpace, String> truckLot;
-	private LinkedList<ParkingSpace> takenTruckSpaces;
-	private int truckSpaceCounter;
+	private HashMap<String, ParkingSpace> truckLot;
+	private ParkingSpace truckSpace;
 
 	public ParkingLevel() {
-		motorcycleLot = new HashMap<ParkingSpace, String>();
-		takenMotorcycleSpaces = new LinkedList();
-		motorcycleSpaceCounter = 0;
+		motorcycleLot = new HashMap<String, ParkingSpace>();
+		motorcycleSpace = new MotorcycleSpace(null);
+		for (int i = 0; i < 25; i++) {
+			motorcycleLot.put(motorcycleSpace.getId(), motorcycleSpace);
+		}
 
-		compactLot = new HashMap<ParkingSpace, String>();
-		takenCompactSpaces = new LinkedList();
-		compactSpaceCounter = 0;
+		compactLot = new HashMap<String, ParkingSpace>();
+		compactSpace = new CompactSpace(null);
+		for (int i = 0; i < 50; i++) {
+			compactLot.put(compactSpace.getId(), compactSpace);
+		}
 
-		midSizeLot = new HashMap<ParkingSpace, String>();
-		takenMidSizeSpaces = new LinkedList();
-		midSizeSpaceCounter = 0;
+		midSizeLot = new HashMap<String, ParkingSpace>();
+		midSizeSpace = new MidSizeSpace(null);
+		for (int i = 0; i < 50; i++) {
+			midSizeLot.put(midSizeSpace.getId(), midSizeSpace);
+		}
 
-		truckLot = new HashMap<ParkingSpace, String>();
-		takenTruckSpaces = new LinkedList();
-		truckSpaceCounter = 0;
+		truckLot = new HashMap<String, ParkingSpace>();
+		truckSpace = new TruckSpace(null);
+		for (int i = 0; i < 50; i++) {
+			truckLot.put(truckSpace.getId(), truckSpace);
+		}
+
 	}
-
-	public HashMap<ParkingSpace, String> getMotorcycleLot() {
+	
+	public ParkingSpace getMotorcycleSpace(){
+		return motorcycleSpace;
+	}
+	
+	public ParkingSpace getCompactSpace(){
+		return compactSpace;
+	}
+	
+	public ParkingSpace getMidSizeSpace(){
+		return midSizeSpace;
+	}
+	
+	public ParkingSpace getTruckSpace(){
+		return truckSpace;
+	}
+	
+	public HashMap<String, ParkingSpace> getMotorcycleLot() {
 		return motorcycleLot;
 	}
 
-	public HashMap<ParkingSpace, String> getCompactLot() {
+	public HashMap<String, ParkingSpace> getCompactLot() {
 		return compactLot;
 	}
 
-	public HashMap<ParkingSpace, String> getMidSizeLot() {
+	public HashMap<String, ParkingSpace> getMidSizeLot() {
 		return midSizeLot;
 	}
 
-	public HashMap<ParkingSpace, String> getTruckLot() {
+	public HashMap<String, ParkingSpace> getTruckLot() {
 		return truckLot;
 	}
-
-	public LinkedList<ParkingSpace> getTakenMotorcycleSpaces() {
-		return takenMotorcycleSpaces;
+	
+//	public ArrayList<ParkingSpace> getMotorcycleSpaces(HashMap<String, ParkingSpace> lot){
+//		lot = ParkingStructure.getLevel1().getMotorcycleLot();
+//		ArrayList<ParkingSpace> motorcycleSpaces = new ArrayList<ParkingSpace>();
+//		
+//			motorcycleSpaces.addAll(lot.keySet());
+//			return motorcycleSpaces;
+//	
+//	}
+	
+	public boolean hasMotorcycle(){
+		return motorcycleSpace.getVehicle()!=null;
 	}
-
-	public void setTakenMotorcycleSpaces(LinkedList<ParkingSpace> takenMotorcycleSpaces) {
-		this.takenMotorcycleSpaces = takenMotorcycleSpaces;
+	
+	public boolean hasCompact(){
+		return compactSpace.getVehicle()!=null;
 	}
-
-	public LinkedList<ParkingSpace> getTakenCompactSpaces() {
-		return takenCompactSpaces;
+	
+	public boolean hasMidSize(){
+		return midSizeSpace.getVehicle()!=null;
 	}
-
-	public void setTakenCompactSpaces(LinkedList<ParkingSpace> takenCompactSpaces) {
-		this.takenCompactSpaces = takenCompactSpaces;
-	}
-
-	public LinkedList<ParkingSpace> getTakenMidSizeSpaces() {
-		return takenMidSizeSpaces;
-	}
-
-	public void setTakenMidSizeSpaces(LinkedList<ParkingSpace> takenMidSizeSpaces) {
-		this.takenMidSizeSpaces = takenMidSizeSpaces;
-	}
-
-	public LinkedList<ParkingSpace> getTakenTruckSpaces() {
-		return takenTruckSpaces;
-	}
-
-	public void setTakenTruckSpaces(LinkedList<ParkingSpace> takenTruckSpaces) {
-		this.takenTruckSpaces = takenTruckSpaces;
+	
+	public boolean hasTruck(){
+		return truckSpace.getVehicle()!=null;
 	}
 
 	@Override
 	public String toString() {
-		return "ParkingLevel [motorcycleLot=" + motorcycleLot + ", takenMotorcycleSpaces=" + takenMotorcycleSpaces
-				+ ", motorcycleSpaceCounter=" + motorcycleSpaceCounter + ", compactLot=" + compactLot
-				+ ", takenCompactSpaces=" + takenCompactSpaces + ", compactSpaceCounter=" + compactSpaceCounter
-				+ ", midSizeLot=" + midSizeLot + ", takenMidSizeSpaces=" + takenMidSizeSpaces + ", midSizeSpaceCounter="
-				+ midSizeSpaceCounter + ", truckLot=" + truckLot + ", takenTruckSpaces=" + takenTruckSpaces
-				+ ", truckSpaceCounter=" + truckSpaceCounter + "]";
+		return "ParkingLevel [motorcycleLot=" + motorcycleLot + ", motorcycleSpace=" + motorcycleSpace + ", compactLot="
+				+ compactLot + ", compactSpace=" + compactSpace + ", midSizeLot=" + midSizeLot + ", midSizeSpace="
+				+ midSizeSpace + ", truckLot=" + truckLot + ", truckSpace=" + truckSpace + "]";
 	}
 
 }

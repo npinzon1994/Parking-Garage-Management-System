@@ -1,6 +1,7 @@
 package view;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -9,10 +10,10 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
-import model.CompactSpace;
-import model.MotorcycleSpace;
+import model.ParkingLevel;
 import model.ParkingSpace;
 import model.ParkingStructure;
+import model.Vehicle;
 
 public class ViewParkedWindow extends Application {
 
@@ -28,8 +29,8 @@ public class ViewParkedWindow extends Application {
 	
 	private ArrayList<Hyperlink> motorcycleHyperLinks;
 	private ArrayList<Hyperlink> compactHyperLinks;
-	private ArrayList<ParkingSpace> motorcycleTemp;
-	private ArrayList<ParkingSpace> compactTemp;
+	private ArrayList<Vehicle> motorcycleTemp;
+	private ArrayList<Vehicle> compactTemp;
 	
 
 	private int i;
@@ -111,12 +112,20 @@ public class ViewParkedWindow extends Application {
 		return totalSpacesTakenLv1 + totalSpacesTakenLv2 + totalSpacesTakenLv3;
 	}
 
-	public void displayParkedMotorcycles(ParkingSpace space) {
+	public void displayParkedMotorcycles(ParkingLevel level, ParkingSpace space) {
 
-		motorcycleTemp = new ArrayList<ParkingSpace>();
+		motorcycleTemp = new ArrayList<Vehicle>();
 		motorcycleHyperLinks = new ArrayList<Hyperlink>();
 
-		motorcycleTemp.addAll(ParkingStructure.getLevel1().getMotorcycleLot().keySet());
+		level = ParkingStructure.getLevel1();
+		space = level.getMotorcycleSpace();
+		
+		
+		level.getMotorcycleLot().entrySet().stream().forEach
+		(level.getMotorcycleSpace() -> {
+			motorcycleTemp.add(vehicle);
+			
+		}));
 		motorcycleTemp.addAll(ParkingStructure.getLevel2().getMotorcycleLot().keySet());
 		motorcycleTemp.addAll(ParkingStructure.getLevel3().getMotorcycleLot().keySet());
 		

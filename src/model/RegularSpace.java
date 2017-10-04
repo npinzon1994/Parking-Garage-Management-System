@@ -9,7 +9,7 @@ public class RegularSpace extends ParkingSpace {
 
 	@Override
 	public String toString() {
-		return "RegularSpace [getId()=" + getId() + ", isStatus()=" + isStatus()
+		return "RegularSpace [getId()=" + getId() 
 				+ ", toString()=" + super.toString() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
 				+ "]";
 	}

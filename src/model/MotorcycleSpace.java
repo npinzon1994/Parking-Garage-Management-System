@@ -13,9 +13,8 @@ public class MotorcycleSpace extends RegularSpace {
 
 	@Override
 	public String toString() {
-		return "MotorcycleSpace [earlyBirdRate=" + earlyBirdRate + ", regularRate=" + regularRate + ", toString()="
-				+ super.toString() + ", getId()=" + getId() + ", isStatus()=" + isStatus()
-				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + "]";
+		return "MotorcycleSpace [earlyBirdRate=" + earlyBirdRate + ", regularRate=" + regularRate + "]";
 	}
 
+	
 }

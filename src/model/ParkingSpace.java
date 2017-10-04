@@ -28,8 +28,8 @@ public abstract class ParkingSpace {
 		return id;
 	}
 
-	public boolean isStatus() {
-		return status;
+	public boolean isEmpty() {
+		return status = true;
 	}
 
 	public void setStatus(boolean status) {
@@ -42,6 +42,10 @@ public abstract class ParkingSpace {
 	
 	public Vehicle getVehicle(){
 		return this.vehicle;
+	}
+	
+	public void removeVehicle(Vehicle vehicle){
+		this.vehicle = null;
 	}
 
 	@Override

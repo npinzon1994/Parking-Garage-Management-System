@@ -1,5 +1,9 @@
 package view;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -16,7 +20,6 @@ import model.CompactSpace;
 import model.MidSizeCar;
 import model.MidSizeSpace;
 import model.Motorcycle;
-import model.MotorcycleSpace;
 import model.ParkingSpace;
 import model.ParkingStructure;
 import model.Truck;
@@ -31,6 +34,8 @@ public class Pane4MainWindow extends Stage {
 	private ParkingSpace compactSpace;
 	private ParkingSpace midSizeSpace;
 	private ParkingSpace truckSpace;
+	
+	private ViewParkedWindow viewParked = new ViewParkedWindow();
 
 	private StackPane root;
 	
@@ -55,6 +60,9 @@ public class Pane4MainWindow extends Stage {
 	private Vehicle vehicle;
 	
 	private Truck truck;
+	
+	private Iterator<ParkingSpace> iterator;
+	
 
 	public Pane4MainWindow() {
 
@@ -101,64 +109,77 @@ public class Pane4MainWindow extends Stage {
 			if (createPane.getSizeBox().getValue().equals("Motorcycle")) {
 				vehicle = new Motorcycle(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
 						createPane.getLicensePlateNoField().getText());
-				motorcycleSpace = new MotorcycleSpace(vehicle);
-				ParkingStructure.parkOnLevel1(motorcycleSpace, vehicle);
+				ParkingStructure.parkOnLevel1(vehicle);
 				createNewSpotAlert();
 				resetFields();
 			} else if (createPane.getSizeBox().getValue().equals("Compact")) {
 				vehicle = new CompactCar(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
 						createPane.getLicensePlateNoField().getText());
 				compactSpace = new CompactSpace(vehicle);
-				ParkingStructure.parkOnLevel1(compactSpace, vehicle);
+				ParkingStructure.parkOnLevel1(vehicle);
 				createNewSpotAlert();
 				resetFields();
 			} else if (createPane.getSizeBox().getValue().equals("Mid Size")) {
 				vehicle = new MidSizeCar(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
 						createPane.getLicensePlateNoField().getText());
 				midSizeSpace = new MidSizeSpace(vehicle);
-				ParkingStructure.parkOnLevel1(midSizeSpace, vehicle);
+				ParkingStructure.parkOnLevel1(vehicle);
 				createNewSpotAlert();
 				resetFields();
 			} else if (createPane.getSizeBox().getValue().equals("Truck/Van/SUV")) {
 				vehicle = new Truck(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
 						createPane.getLicensePlateNoField().getText());
 				truckSpace = new TruckSpace(vehicle);
-				ParkingStructure.parkOnLevel1(truckSpace, vehicle);
+				ParkingStructure.parkOnLevel1(vehicle);
 				createNewSpotAlert();
 				resetFields();
 			}
 		});
+		
 
 		viewEntriesBtn.setOnAction(e -> {
-			if (ParkingStructure.getLevel1().getMotorcycleLot().isEmpty() && 
-					ParkingStructure.getLevel1().getCompactLot().isEmpty() &&
-					ParkingStructure.getLevel1().getMidSizeLot().isEmpty() &&
-					ParkingStructure.getLevel1().getTruckLot().isEmpty()) {
+			if (!hasMotorcycles(ParkingStructure.getLevel1().getMotorcycleLot())) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setHeaderText("Level 1 lot is empty!");
 				alert.showAndWait();
 			}  else {
-
-				ViewParkedWindow viewParked = new ViewParkedWindow();
-				try {
-					viewParked.start(this);
-				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-				
-				
-				if(isMotorcycle(vehicle)){
-					viewParked.displayParkedMotorcycles(motorcycleSpace);
-					viewParked.displayParkedCompactCars(compactSpace);
-				} else if(isCompact(vehicle)){
-					viewParked.displayParkedCompactCars(compactSpace);
-					viewParked.displayParkedMotorcycles(motorcycleSpace);
-				}
+					ParkingStructure.getLevel1().getMotorcycleLot().entrySet().stream().forEach
+					(vehicle -> {
+						System.out.println(vehicle.getValue().getVehicle());
+						//viewParked.displayParkedMotorcycles(motorcycleSpace);
+					});
+			
+					ParkingStructure.getLevel1().getCompactLot().entrySet().stream().forEach
+					(vehicle -> {
+						System.out.println(vehicle.getValue().getVehicle());
+						//viewParked.displayParkedCompactCars(compactSpace);
+					});
+					
+					ParkingStructure.getLevel1().getMidSizeLot().entrySet().stream().forEach
+					(vehicle -> {
+						System.out.println(vehicle);
+						//viewParked.displayParkedMotorcycles(motorcycleSpace);
+					});
+			
+					ParkingStructure.getLevel1().getTruckLot().entrySet().stream().forEach
+					(vehicle -> {
+						System.out.println(vehicle);
+						//viewParked.displayParkedCompactCars(compactSpace);
+					});
+			}
 //				viewParked.displayParkedCars(midSizeSpace);
 //				viewParked.displayParkedCars(truckSpace);
 				
-			}
+//				try {
+//					viewParked.start(this);
+//				} catch (Exception e1) {
+//					// TODO Auto-generated catch block
+//					e1.printStackTrace();
+//				}
+				
+				
+				
+			
 
 		});
 
@@ -184,12 +205,25 @@ public class Pane4MainWindow extends Stage {
 		return alert;
 	}
 	
-	public void displayParkedCars(Vehicle vehicle, ParkingSpace space){
+	public void displayParkedCompactCars(Vehicle vehicle, ParkingSpace space){
 		if (vehicle != null && space != null){
-			System.out.println(vehicle);
-			System.out.println(space);
+			System.out.println("Vehicles currently in lot:");
+			System.out.println("---------------------------------------");
+			System.out.println(viewParked.getTempCompactList());
 			System.out.println();
 		}
+		
+		
+	}
+	
+	public void displayParkedMotorcycles(Vehicle vehicle, ParkingSpace space){
+		if (vehicle != null && space != null){
+			System.out.println("Vehicles currently in lot:");
+			System.out.println("---------------------------------------");
+			System.out.println(viewParked.getTempMotorcycleList());
+			System.out.println();
+		}
+		
 		
 	}
 
@@ -211,4 +245,18 @@ public class Pane4MainWindow extends Stage {
 		return false;
 	}
 
+	public boolean hasMotorcycles(HashMap<String, ParkingSpace> map){
+		ArrayList<ParkingSpace> tempSpaces = new ArrayList<ParkingSpace>();
+		for (ParkingSpace space: map.values()) {
+		    tempSpaces.add(space);
+		    
+		}
+		for(ParkingSpace space : tempSpaces){
+			if(space.getVehicle() != null){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 }
