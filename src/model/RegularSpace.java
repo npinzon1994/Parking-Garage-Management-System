@@ -1,9 +1,9 @@
 package model;
 
-public class RegularSpace extends ParkingSpace {
+public abstract class RegularSpace extends ParkingSpace {
 
-	public RegularSpace(Vehicle vehicle) {
-		super(vehicle);
+	public RegularSpace(Vehicle vehicle, long startTime, long endTime, double hoursParked) {
+		super(vehicle, startTime, endTime, hoursParked);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -13,5 +13,8 @@ public class RegularSpace extends ParkingSpace {
 				+ ", toString()=" + super.toString() + ", getClass()=" + getClass() + ", hashCode()=" + hashCode()
 				+ "]";
 	}
+
+	public abstract double calculateEarlyBirdRate(String startTime, String endTime);
+	public abstract double calculateRegularRate(String startTime, String endTime);
 
 }

@@ -1,9 +1,8 @@
 package view;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
+import javafx.animation.AnimationTimer;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -16,14 +15,11 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import model.CompactCar;
-import model.CompactSpace;
 import model.MidSizeCar;
-import model.MidSizeSpace;
 import model.Motorcycle;
 import model.ParkingSpace;
 import model.ParkingStructure;
 import model.Truck;
-import model.TruckSpace;
 import model.Vehicle;
 
 public class Pane4MainWindow extends Stage {
@@ -41,8 +37,10 @@ public class Pane4MainWindow extends Stage {
 	
 	private VBox timeBox;
 
-	private Label currentDate;
+	private long startTime;
 	private Label currentTime;
+	
+	private Label currentDate;
 
 	private Button showSpacesBtn;
 	private Button newEntryBtn;
@@ -57,11 +55,7 @@ public class Pane4MainWindow extends Stage {
 	private CompactCar compactCar;
 	private MidSizeCar midSizeCar;
 	
-	private Vehicle vehicle;
-	
 	private Truck truck;
-	
-	private Iterator<ParkingSpace> iterator;
 	
 
 	public Pane4MainWindow() {
@@ -84,6 +78,16 @@ public class Pane4MainWindow extends Stage {
 		showSpacesBtn = new Button("Show Parking Spots");
 		showSpacesBtn.setPrefHeight(160);
 		showSpacesBtn.setPrefWidth(160);
+		
+		startTime = System.currentTimeMillis();
+
+        new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                long elapsedMillis = System.currentTimeMillis() - startTime ;
+                currentTime.setText(Long.toString((elapsedMillis/1000)/60));
+            }
+        }.start();
 
 		timeBox.getChildren().addAll(currentDate, currentTime);
 		topBox.getChildren().addAll(newEntryBtn, viewEntriesBtn, timeBox);
@@ -107,30 +111,31 @@ public class Pane4MainWindow extends Stage {
 
 		createPane.getBookSpotButton().setOnAction(e -> {
 			if (createPane.getSizeBox().getValue().equals("Motorcycle")) {
-				vehicle = new Motorcycle(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
+				Vehicle vehicle = new Motorcycle(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
 						createPane.getLicensePlateNoField().getText());
 				ParkingStructure.parkOnLevel1(vehicle);
+				//ParkingStructure.getLevel1().getMotorcycleSpace().setStartTime(System.currentTimeMillis());
 				createNewSpotAlert();
 				resetFields();
 			} else if (createPane.getSizeBox().getValue().equals("Compact")) {
-				vehicle = new CompactCar(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
+				Vehicle vehicle = new CompactCar(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
 						createPane.getLicensePlateNoField().getText());
-				compactSpace = new CompactSpace(vehicle);
 				ParkingStructure.parkOnLevel1(vehicle);
+				//ParkingStructure.getLevel1().getCompactSpace().setStartTime(System.currentTimeMillis());
 				createNewSpotAlert();
 				resetFields();
 			} else if (createPane.getSizeBox().getValue().equals("Mid Size")) {
-				vehicle = new MidSizeCar(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
+				Vehicle vehicle = new MidSizeCar(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
 						createPane.getLicensePlateNoField().getText());
-				midSizeSpace = new MidSizeSpace(vehicle);
 				ParkingStructure.parkOnLevel1(vehicle);
+				//ParkingStructure.getLevel1().getMidSizeSpace().setStartTime(System.currentTimeMillis());
 				createNewSpotAlert();
 				resetFields();
 			} else if (createPane.getSizeBox().getValue().equals("Truck/Van/SUV")) {
-				vehicle = new Truck(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
+				Vehicle vehicle = new Truck(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
 						createPane.getLicensePlateNoField().getText());
-				truckSpace = new TruckSpace(vehicle);
 				ParkingStructure.parkOnLevel1(vehicle);
+				//ParkingStructure.getLevel1().getTruckSpace().setStartTime(System.currentTimeMillis());
 				createNewSpotAlert();
 				resetFields();
 			}
@@ -138,44 +143,56 @@ public class Pane4MainWindow extends Stage {
 		
 
 		viewEntriesBtn.setOnAction(e -> {
-			if (!hasMotorcycles(ParkingStructure.getLevel1().getMotorcycleLot())) {
+			if (!hasVehicles(ParkingStructure.getLevel1().getMotorcycleLot()) && 
+					!hasVehicles(ParkingStructure.getLevel1().getCompactLot()) &&
+					!hasVehicles(ParkingStructure.getLevel1().getMidSizeLot()) &&
+					!hasVehicles(ParkingStructure.getLevel1().getTruckLot())) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setHeaderText("Level 1 lot is empty!");
 				alert.showAndWait();
 			}  else {
-					ParkingStructure.getLevel1().getMotorcycleLot().entrySet().stream().forEach
-					(vehicle -> {
-						System.out.println(vehicle.getValue().getVehicle());
-						//viewParked.displayParkedMotorcycles(motorcycleSpace);
-					});
-			
-					ParkingStructure.getLevel1().getCompactLot().entrySet().stream().forEach
-					(vehicle -> {
-						System.out.println(vehicle.getValue().getVehicle());
-						//viewParked.displayParkedCompactCars(compactSpace);
-					});
+				
+				
+						try {
+							viewParked.start(this);
+						} catch (Exception e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						viewParked.displayParkedMotorcycles();
+						viewParked.displayParkedCompactCars();
+						viewParked.displayParkedMidSizeCars();
+						viewParked.displayParkedTrucks();
 					
-					ParkingStructure.getLevel1().getMidSizeLot().entrySet().stream().forEach
-					(vehicle -> {
-						System.out.println(vehicle);
-						//viewParked.displayParkedMotorcycles(motorcycleSpace);
-					});
 			
-					ParkingStructure.getLevel1().getTruckLot().entrySet().stream().forEach
-					(vehicle -> {
-						System.out.println(vehicle);
-						//viewParked.displayParkedCompactCars(compactSpace);
-					});
+			
+//					for(ParkingSpace space: ParkingStructure.getLevel1().getCompactLot().values()){
+//						if (space.hasVehicle()) {
+//							System.out.println(space.getVehicle());
+//							//viewParked.displayParkedMotorcycles(motorcycleSpace);
+//						}
+//					}
+//					
+//					for(ParkingSpace space: ParkingStructure.getLevel1().getMidSizeLot().values()){
+//						if (space.hasVehicle()) {
+//							System.out.println(space.getVehicle());
+//							//viewParked.displayParkedMotorcycles(motorcycleSpace);
+//						}
+//					}
+//					
+//					for(ParkingSpace space: ParkingStructure.getLevel1().getTruckLot().values()){
+//						if (space.hasVehicle()) {
+//							System.out.println(space.getVehicle());
+//							//viewParked.displayParkedMotorcycles(motorcycleSpace);
+//						}
+//					}
+				
 			}
+	
 //				viewParked.displayParkedCars(midSizeSpace);
 //				viewParked.displayParkedCars(truckSpace);
 				
-//				try {
-//					viewParked.start(this);
-//				} catch (Exception e1) {
-//					// TODO Auto-generated catch block
-//					e1.printStackTrace();
-//				}
+				
 				
 				
 				
@@ -245,14 +262,9 @@ public class Pane4MainWindow extends Stage {
 		return false;
 	}
 
-	public boolean hasMotorcycles(HashMap<String, ParkingSpace> map){
-		ArrayList<ParkingSpace> tempSpaces = new ArrayList<ParkingSpace>();
+	public boolean hasVehicles(HashMap<String, ParkingSpace> map){
 		for (ParkingSpace space: map.values()) {
-		    tempSpaces.add(space);
-		    
-		}
-		for(ParkingSpace space : tempSpaces){
-			if(space.getVehicle() != null){
+		    if(space.getVehicle() != null){
 				return true;
 			}
 		}

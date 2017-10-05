@@ -17,7 +17,24 @@ public class Demo {
 		System.out.println(ParkingStructure.getDate());
 		System.out.println(ParkingStructure.getTime());
 		
+	
+		
+	}
+	public float getElapsedTime(long start, long end){
+		start = System.currentTimeMillis();
 
+	    try {
+			Thread.sleep(5000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	    // Get elapsed time in milliseconds
+	    long elapsedTimeMillis = System.currentTimeMillis() - start;
+	    
+	    // Get elapsed time in minutes
+	    return elapsedTimeMillis/(60*1000F);
 	}
 
 }

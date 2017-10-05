@@ -5,8 +5,8 @@ public class HandicappedMotorcycleSpace extends HandicappedSpace {
 	private HourlyRate earlyBirdRate;
 	private HourlyRate regularRate;
 
-	public HandicappedMotorcycleSpace(Vehicle vehicle) {
-		super(vehicle);
+	public HandicappedMotorcycleSpace(Vehicle vehicle, double hoursParked) {
+		super(vehicle, hoursParked);
 		earlyBirdRate = new EarlyBirdRate();
 		regularRate = new RegularRate();
 	}

@@ -2,8 +2,8 @@ package model;
 
 public class HandicappedSpace extends ParkingSpace {
 
-	public HandicappedSpace(Vehicle vehicle) {
-		super(vehicle);
+	public HandicappedSpace(Vehicle vehicle, double hoursParked) {
+		super(vehicle, hoursParked);
 
 	}
 

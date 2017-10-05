@@ -5,18 +5,17 @@ public abstract class ParkingSpace {
 	private static int idInt = 1;
 
 	private String id;
-	private boolean status;
 	private Vehicle vehicle;
+	private long startTime;
+	private long endTime;
+	private double hoursParked;
 
-	public ParkingSpace(Vehicle vehicle) {
-		super();
+	public ParkingSpace(Vehicle vehicle, long startTime, long endTime, double hoursParked) {
 		this.id = String.valueOf(idInt);
 		this.vehicle = vehicle;
-		if (vehicle == null) {
-			this.status = true; //spot is empty
-		} else {
-			this.status = false; //spot is taken
-		}
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.hoursParked = hoursParked;
 		idInt++;
 	}
 
@@ -28,29 +27,52 @@ public abstract class ParkingSpace {
 		return id;
 	}
 
-	public boolean isEmpty() {
-		return status = true;
+	public boolean hasVehicle() {
+		if (vehicle != null) {
+			return true;
+		}
+		return false;
 	}
 
-	public void setStatus(boolean status) {
-		this.status = status;
-	}
-	
-	public void setVehicle(Vehicle vehicle){
+	public void setVehicle(Vehicle vehicle) {
 		this.vehicle = vehicle;
 	}
-	
-	public Vehicle getVehicle(){
+
+	public Vehicle getVehicle() {
 		return this.vehicle;
 	}
-	
-	public void removeVehicle(Vehicle vehicle){
+
+	public void removeVehicle(Vehicle vehicle) {
 		this.vehicle = null;
+	}
+
+	public long getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
+	}
+
+	public long getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(long endTime) {
+		this.endTime = endTime;
+	}
+
+	public double getHoursParked() {
+		return hoursParked;
+	}
+
+	public void setHoursParked(double hoursParked) {
+		this.hoursParked = hoursParked;
 	}
 
 	@Override
 	public String toString() {
-		return "ParkingSpace [id=" + id + ", status=" + status + "]";
+		return "ParkingSpace [id=" + "id]";
 	}
 
 }

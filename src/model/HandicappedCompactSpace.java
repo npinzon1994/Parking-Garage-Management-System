@@ -5,8 +5,8 @@ public class HandicappedCompactSpace extends HandicappedSpace {
 	private HourlyRate earlyBirdRate; // interface
 	private HourlyRate regularRate; // interface
 
-	public HandicappedCompactSpace(Vehicle vehicle) {
-		super(vehicle);
+	public HandicappedCompactSpace(Vehicle vehicle, double hoursParked) {
+		super(vehicle, hoursParked);
 		earlyBirdRate = new EarlyBirdRate();
 		regularRate = new RegularRate();
 	}
