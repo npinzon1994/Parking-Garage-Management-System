@@ -1,9 +1,17 @@
 package model;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class ParkingLevel {
+public class ParkingLevel implements Serializable {
 
 	private HashMap<String, ParkingSpace> motorcycleLot;
 	private ParkingSpace[] motorcycleSpaces;
@@ -47,23 +55,23 @@ public class ParkingLevel {
 		}
 
 	}
-	
-	public ParkingSpace[] getMotorcycleSpaces(){
+
+	public ParkingSpace[] getMotorcycleSpaces() {
 		return motorcycleSpaces;
 	}
-	
-	public ParkingSpace[] getCompactSpace(){
+
+	public ParkingSpace[] getCompactSpace() {
 		return compactSpaces;
 	}
-	
-	public ParkingSpace[] getMidSizeSpace(){
+
+	public ParkingSpace[] getMidSizeSpace() {
 		return midSizeSpaces;
 	}
-	
-	public ParkingSpace[] getTruckSpace(){
+
+	public ParkingSpace[] getTruckSpace() {
 		return truckSpaces;
 	}
-	
+
 	public HashMap<String, ParkingSpace> getMotorcycleLot() {
 		return motorcycleLot;
 	}
@@ -80,6 +88,63 @@ public class ParkingLevel {
 		return truckLot;
 	}
 
+	public void saveLevel() {
+		FileOutputStream fileOutput = null;
+		ObjectOutputStream objectOutput = null;
+		try {
+			fileOutput = new FileOutputStream("saveData.dat");
+			objectOutput = new ObjectOutputStream(fileOutput);
+			objectOutput.writeObject(motorcycleLot);
+			objectOutput.writeObject(motorcycleSpaces);
+			objectOutput.writeObject(compactLot);
+			objectOutput.writeObject(compactSpaces);
+			objectOutput.writeObject(midSizeLot);
+			objectOutput.writeObject(midSizeSpaces);
+			objectOutput.writeObject(truckLot);
+			objectOutput.writeObject(truckSpaces);
+			objectOutput.close();
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+	
+	public void loadLevel(){
+		FileInputStream fileInput = null;
+		ObjectInputStream objectInput = null;
+		
+		try {
+			fileInput = new FileInputStream("saveData.dat");
+			File file = new File("saveData.dat");
+			objectInput = new ObjectInputStream(fileInput);
+			if(file.exists()){
+				motorcycleLot = (HashMap<String, ParkingSpace>) objectInput.readObject();
+				motorcycleSpaces = (ParkingSpace[]) objectInput.readObject();
+				compactLot = (HashMap<String, ParkingSpace>) objectInput.readObject();
+				compactSpaces = (ParkingSpace[]) objectInput.readObject();
+				midSizeLot = (HashMap<String, ParkingSpace>) objectInput.readObject();
+				midSizeSpaces = (ParkingSpace[]) objectInput.readObject();
+				truckLot = (HashMap<String, ParkingSpace>) objectInput.readObject();
+				truckSpaces = (ParkingSpace[]) objectInput.readObject();
+			}
+			objectInput.close();
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 	@Override
 	public String toString() {
 		return "ParkingLevel [motorcycleLot=" + motorcycleLot + ", motorcycleSpaces="
@@ -88,32 +153,5 @@ public class ParkingLevel {
 				+ Arrays.toString(midSizeSpaces) + ", truckLot=" + truckLot + ", truckSpaces="
 				+ Arrays.toString(truckSpaces) + "]";
 	}
-	
-//	public ArrayList<ParkingSpace> getMotorcycleSpaces(HashMap<String, ParkingSpace> lot){
-//		lot = ParkingStructure.getLevel1().getMotorcycleLot();
-//		ArrayList<ParkingSpace> motorcycleSpaces = new ArrayList<ParkingSpace>();
-//		
-//			motorcycleSpaces.addAll(lot.keySet());
-//			return motorcycleSpaces;
-//	
-//	}
-	
-//	public boolean hasMotorcycle(){
-//		return motorcycleSpaces;
-//	}
-//	
-//	public boolean hasCompact(){
-//		return compactSpace.getVehicle()!=null;
-//	}
-//	
-//	public boolean hasMidSize(){
-//		return midSizeSpace.getVehicle()!=null;
-//	}
-//	
-//	public boolean hasTruck(){
-//		return truckSpace.getVehicle()!=null;
-//	}
-
-	
 
 }

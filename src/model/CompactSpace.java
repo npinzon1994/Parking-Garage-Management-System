@@ -1,6 +1,8 @@
 package model;
 
-public class CompactSpace extends RegularSpace {
+import java.io.Serializable;
+
+public class CompactSpace extends RegularSpace implements Serializable {
 
 	private HourlyRate earlyBirdRate; // interface
 	private HourlyRate regularRate; // interface

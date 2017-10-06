@@ -1,6 +1,8 @@
 package model;
 
-public class RegularRate implements HourlyRate {
+import java.io.Serializable;
+
+public class RegularRate implements HourlyRate, Serializable {
 
 	private double normalRate; //daily rate between the hours of 7AM and 11:59PM
 

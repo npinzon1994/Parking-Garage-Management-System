@@ -1,5 +1,7 @@
 package view;
 
+import java.io.Serializable;
+
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -11,7 +13,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.ParkingStructure;
 
-public class Pane4Create extends Stage {
+public class Pane4Create extends Stage implements Serializable {
 
 	private Label firstName;
 	private Label lastName;

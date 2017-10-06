@@ -1,6 +1,8 @@
 package model;
 
-public abstract class RegularSpace extends ParkingSpace {
+import java.io.Serializable;
+
+public abstract class RegularSpace extends ParkingSpace implements Serializable {
 
 	public RegularSpace(Vehicle vehicle, long startTime, long endTime, double hoursParked) {
 		super(vehicle, startTime, endTime, hoursParked);

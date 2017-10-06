@@ -1,6 +1,8 @@
 package model;
 
-public class TruckSpace extends RegularSpace {
+import java.io.Serializable;
+
+public class TruckSpace extends RegularSpace implements Serializable {
 
 	private HourlyRate earlyBirdRate;
 	private HourlyRate regularRate;

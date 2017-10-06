@@ -1,6 +1,8 @@
 package model;
 
-public class MotorcycleSpace extends RegularSpace {
+import java.io.Serializable;
+
+public class MotorcycleSpace extends RegularSpace implements Serializable {
 
 	public MotorcycleSpace(Vehicle vehicle, long startTime, long endTime, double hoursParked) {
 		super(vehicle, startTime, endTime, hoursParked);

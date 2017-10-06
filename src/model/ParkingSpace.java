@@ -1,6 +1,8 @@
 package model;
 
-public abstract class ParkingSpace {
+import java.io.Serializable;
+
+public abstract class ParkingSpace implements Serializable {
 
 	private static int idInt = 1;
 

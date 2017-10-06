@@ -1,13 +1,18 @@
 package view;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
 import javafx.animation.AnimationTimer;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -22,11 +27,20 @@ import model.ParkingStructure;
 import model.Truck;
 import model.Vehicle;
 
-public class Pane4MainWindow extends Stage {
+public class Pane4MainWindow extends Stage implements Serializable{
 
 	private Pane4Create createPane;
 
 	private ViewParkedWindow viewParked = new ViewParkedWindow();
+	
+	private MenuBar menuBar;
+	private Menu fileMenu;
+	
+	private MenuItem newSpaceItem;
+	private MenuItem viewSpacesItem;
+	private MenuItem quitItem;
+	private MenuItem loadItem;
+	
 
 	private StackPane root;
 
@@ -64,6 +78,17 @@ public class Pane4MainWindow extends Stage {
 
 		newEntryBtn = new Button("New Entry");
 		viewEntriesBtn = new Button("View Entries");
+		
+		newSpaceItem = new MenuItem("New Entry");
+		viewSpacesItem = new MenuItem("View Entries");
+		quitItem = new MenuItem("Quit");
+		loadItem = new MenuItem("Load");
+		
+		fileMenu = new Menu("File");
+		menuBar = new MenuBar();
+		
+		fileMenu.getItems().addAll(newSpaceItem, viewSpacesItem, quitItem);
+		menuBar.getMenus().add(fileMenu);
 
 		showSpacesBtn = new Button("Show Parking Spots");
 		showSpacesBtn.setPrefHeight(160);
@@ -81,10 +106,10 @@ public class Pane4MainWindow extends Stage {
 
 		timeBox.getChildren().addAll(currentDate, currentTime);
 		topBox.getChildren().addAll(newEntryBtn, viewEntriesBtn, timeBox);
-		mainPane.setTop(topBox);
+		mainPane.setTop(menuBar);
 		root.getChildren().add(mainPane);
 
-		newEntryBtn.setOnAction(e -> {
+		newSpaceItem.setOnAction(e -> {
 			mainPane.getChildren().removeAll();
 			mainPane.setCenter(createPane.getPane());
 		});
@@ -125,9 +150,10 @@ public class Pane4MainWindow extends Stage {
 				createNewSpotAlert();
 				resetFields();
 			}
+			ParkingStructure.getLevel1().saveLevel();
 		});
 
-		viewEntriesBtn.setOnAction(e -> {
+		viewSpacesItem.setOnAction(e -> {
 			if (!hasVehicles(ParkingStructure.getLevel1().getMotorcycleLot())
 					&& !hasVehicles(ParkingStructure.getLevel1().getCompactLot())
 					&& !hasVehicles(ParkingStructure.getLevel1().getMidSizeLot())
@@ -145,12 +171,13 @@ public class Pane4MainWindow extends Stage {
 					e1.printStackTrace();
 				}
 				viewParked.displayParkedCars();
-//				viewParked.displayParkedCompactCars();
-//				viewParked.displayParkedMidSizeCars();
-//				viewParked.displayParkedTrucks();
-
 			}
 
+		});
+		
+		quitItem.setOnAction(e -> {
+			
+			Platform.exit();
 		});
 
 		scene = new Scene(root, 600, 600);

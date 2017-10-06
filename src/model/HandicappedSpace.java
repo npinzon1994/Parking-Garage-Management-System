@@ -1,9 +1,11 @@
 package model;
 
-public class HandicappedSpace extends ParkingSpace {
+import java.io.Serializable;
 
-	public HandicappedSpace(Vehicle vehicle, double hoursParked) {
-		super(vehicle, hoursParked);
+public class HandicappedSpace extends ParkingSpace implements Serializable {
+
+	public HandicappedSpace(Vehicle vehicle, long startTime, long endTime, double hoursParked) {
+		super(vehicle, startTime, endTime, hoursParked);
 
 	}
 

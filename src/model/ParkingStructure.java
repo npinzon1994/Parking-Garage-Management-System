@@ -1,12 +1,13 @@
 package model;
 
+import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javafx.scene.control.Hyperlink;
 
-public class ParkingStructure implements ParkingBehavior {
+public class ParkingStructure implements ParkingBehavior, Serializable {
 
 	private static ParkingStructure _structure;
 
