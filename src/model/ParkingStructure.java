@@ -2,20 +2,16 @@ package model;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Collection;
 import java.util.Date;
 
-import javafx.animation.Animation;
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.scene.control.Label;
-import javafx.util.Duration;
+import javafx.scene.control.Hyperlink;
 
 public class ParkingStructure implements ParkingBehavior {
 
 	private static ParkingStructure _structure;
 
 	private static String stringNewDate;
+	private static Hyperlink link;
 
 	private static DateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 	private static Date date = new Date();
@@ -72,6 +68,7 @@ public class ParkingStructure implements ParkingBehavior {
 				ParkingSpace tempSpace = ParkingStructure.getLevel1().getMotorcycleLot().get(e);
 				if(tempSpace.getVehicle() == null && !spaceFound[0] ){
 					tempSpace.setVehicle(vehicle);
+					tempSpace.setStartTime(System.currentTimeMillis());
 					spaceFound[0] = true;
 				} 
 				
@@ -82,6 +79,7 @@ public class ParkingStructure implements ParkingBehavior {
 				ParkingSpace tempSpace = ParkingStructure.getLevel1().getCompactLot().get(e);
 				if(tempSpace.getVehicle() == null && !spaceFound[0] ){
 					tempSpace.setVehicle(vehicle);
+					tempSpace.setStartTime(System.currentTimeMillis());
 					spaceFound[0] = true;
 				}	
 				
@@ -92,6 +90,7 @@ public class ParkingStructure implements ParkingBehavior {
 				ParkingSpace tempSpace = ParkingStructure.getLevel1().getMidSizeLot().get(e);
 				if(tempSpace.getVehicle() == null && !spaceFound[0] ){
 					tempSpace.setVehicle(vehicle);
+					tempSpace.setStartTime(System.currentTimeMillis());
 					spaceFound[0] = true;
 				}	
 				
@@ -99,9 +98,10 @@ public class ParkingStructure implements ParkingBehavior {
 		} else if (vehicle instanceof Truck) {
 			final boolean[] spaceFound = {false};
 			ParkingStructure.getLevel1().getTruckLot().keySet().forEach(e -> {
-				ParkingSpace tempSpace = ParkingStructure.getLevel1().getMotorcycleLot().get(e);
+				ParkingSpace tempSpace = ParkingStructure.getLevel1().getTruckLot().get(e);
 				if(tempSpace.getVehicle() == null && !spaceFound[0] ){
 					tempSpace.setVehicle(vehicle);
+					tempSpace.setStartTime(System.currentTimeMillis());
 					spaceFound[0] = true;
 				}	
 				
@@ -133,17 +133,54 @@ public class ParkingStructure implements ParkingBehavior {
 //		}
 //	}
 //	
-//	public static void unparkOnLevel1(ParkingSpace space, Vehicle vehicle) {
-//		if (vehicle instanceof Motorcycle && ParkingStructure.getLevel1().getMotorcycleLot().size() < 25) {
-//			ParkingStructure.getLevel2().getMotorcycleSpace().removeVehicle(vehicle);
-//		} else if (vehicle instanceof CompactCar && ParkingStructure.getLevel1().getCompactLot().size() < 50) {
-//			ParkingStructure.getLevel2().getCompactSpace().removeVehicle(vehicle);
-//		} if (vehicle instanceof MidSizeCar && ParkingStructure.getLevel1().getMidSizeLot().size() < 50) {
-//			ParkingStructure.getLevel2().getMidSizeSpace().removeVehicle(vehicle);
-//		} if (vehicle instanceof Truck && ParkingStructure.getLevel1().getTruckLot().size() < 50) {
-//			ParkingStructure.getLevel2().getTruckSpace().removeVehicle(vehicle);
-//		}
-//	}
+	public static void unparkOnLevel1(Vehicle vehicle) {
+		if (vehicle instanceof Motorcycle) {
+			final boolean[] spaceFound = {false};
+			ParkingStructure.getLevel1().getMotorcycleLot().keySet().forEach(e -> { //loops through keys
+				//for each iteration, the tempSpace variable is equal to the value of each key
+				ParkingSpace tempSpace = ParkingStructure.getLevel1().getMotorcycleLot().get(e);
+				if(tempSpace.contains(vehicle) && !spaceFound[0] ){
+					tempSpace.removeVehicle(vehicle);
+					tempSpace.setEndTime(System.currentTimeMillis());
+					spaceFound[0] = true;
+				} 
+				
+			});
+		} else if (vehicle instanceof CompactCar) {
+			final boolean[] spaceFound = {false};
+			ParkingStructure.getLevel1().getCompactLot().keySet().forEach(e -> {
+				ParkingSpace tempSpace = ParkingStructure.getLevel1().getCompactLot().get(e);
+				if(tempSpace.contains(vehicle) && !spaceFound[0] ){
+					tempSpace.removeVehicle(vehicle);
+					tempSpace.setEndTime(System.currentTimeMillis());
+					spaceFound[0] = true;
+				}	
+				
+			});
+		} else if (vehicle instanceof MidSizeCar) {
+			final boolean[] spaceFound = {false};
+			ParkingStructure.getLevel1().getMidSizeLot().keySet().forEach(e -> {
+				ParkingSpace tempSpace = ParkingStructure.getLevel1().getMidSizeLot().get(e);
+				if(tempSpace.contains(vehicle) && !spaceFound[0] ){
+					tempSpace.removeVehicle(vehicle);
+					tempSpace.setEndTime(System.currentTimeMillis());
+					spaceFound[0] = true;
+				}	
+				
+			});
+		} else if (vehicle instanceof Truck) {
+			final boolean[] spaceFound = {false};
+			ParkingStructure.getLevel1().getTruckLot().keySet().forEach(e -> {
+				ParkingSpace tempSpace = ParkingStructure.getLevel1().getTruckLot().get(e);
+				if(tempSpace.contains(vehicle) && !spaceFound[0] ){
+					tempSpace.removeVehicle(vehicle);
+					tempSpace.setEndTime(System.currentTimeMillis());
+					spaceFound[0] = true;
+				}	
+				
+			});
+		}
+	}
 
 	@Override
 	public String toString() {

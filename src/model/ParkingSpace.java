@@ -69,6 +69,13 @@ public abstract class ParkingSpace {
 	public void setHoursParked(double hoursParked) {
 		this.hoursParked = hoursParked;
 	}
+	
+	public boolean contains(Vehicle vehicle){
+		if(vehicle == this.vehicle){
+			return true;
+		}
+		return false;
+	}
 
 	@Override
 	public String toString() {
