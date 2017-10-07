@@ -1,6 +1,9 @@
 package model;
 
 import java.io.Serializable;
+import java.time.LocalTime;
+
+import javafx.scene.control.ComboBox;
 
 public abstract class Vehicle implements Serializable {
 
@@ -12,20 +15,21 @@ public abstract class Vehicle implements Serializable {
 
 	private String firstName;
 	private String lastName;
+	private String timeSelect;
 
-	private long startTime;
-	private long endTime;
+	private LocalTime startTime;
+	private LocalTime endTime;
 	private double amountCharged;
+	private double secondsParked;
 
-	public Vehicle(String firstName, String lastName, String licensePlate, long startTime, long endTime,
-			double amountCharged) {
+	public Vehicle(String firstName, String lastName, String licensePlate, String timeSelect, double secondsParked) {
 		this.tagNumber = String.valueOf(idInt);
 		this.licensePlate = licensePlate;
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.startTime = startTime;
-		this.endTime = endTime;
-		this.amountCharged = amountCharged;
+		this.startTime = LocalTime.now();
+		this.secondsParked = secondsParked;
+		this.timeSelect = timeSelect;
 		idInt++;
 	}
 
@@ -43,6 +47,14 @@ public abstract class Vehicle implements Serializable {
 
 	public void setLicensePlate(String licensePlate) {
 		this.licensePlate = licensePlate;
+	}
+
+	public String getTimeSelect() {
+		return timeSelect;
+	}
+
+	public void setTimeSelect(String timeSelect) {
+		this.timeSelect = timeSelect;
 	}
 
 	public String getTagNumber() {
@@ -69,19 +81,19 @@ public abstract class Vehicle implements Serializable {
 		this.lastName = last;
 	}
 
-	public long getStartTime() {
+	public LocalTime getStartTime() {
 		return startTime;
 	}
 
-	public void setStartTime(long startTime) {
+	public void setStartTime(LocalTime startTime) {
 		this.startTime = startTime;
 	}
 
-	public long getEndTime() {
+	public LocalTime getEndTime() {
 		return endTime;
 	}
 
-	public void setEndTime(long endTime) {
+	public void setEndTime(LocalTime endTime) {
 		this.endTime = endTime;
 	}
 
@@ -91,6 +103,14 @@ public abstract class Vehicle implements Serializable {
 
 	public void setAmountCharged(double amountCharged) {
 		this.amountCharged = amountCharged;
+	}
+
+	public double getSecondsParked() {
+		return secondsParked;
+	}
+
+	public void setSecondsParked(double secondsParked) {
+		this.secondsParked = secondsParked;
 	}
 
 	@Override
@@ -136,9 +156,11 @@ public abstract class Vehicle implements Serializable {
 		return true;
 	}
 
-	public abstract double calculateEarlyBirdRate(long startTime, long endTime);
+	public abstract double calculateEarlyBirdRate(LocalTime startTime, LocalTime endTime);
 
-	public abstract double calculateRegularRate(long startTime, long endTime);
+	public abstract double calculateRegularRate(LocalTime startTime, LocalTime endTime);
+
+	public abstract double FlatRateTilClose();
 
 	@Override
 	public String toString() {

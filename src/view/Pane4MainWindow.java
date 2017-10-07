@@ -126,26 +126,30 @@ public class Pane4MainWindow extends Stage implements Serializable {
 
 		createPane.getBookSpotButton().setOnAction(e -> {
 			if (createPane.getSizeBox().getValue().equals("Motorcycle")) {
+				TimeslotValue timeParked = new TimeslotValue(createPane.getTimeslotBox().getValue());
 				vehicle = new Motorcycle(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
-						createPane.getLicensePlateNoField().getText(), System.currentTimeMillis(), 0, 0);
+						createPane.getLicensePlateNoField().getText(), createPane.getTimeslotBox().getValue(), timeParked.getSlotNumber());
 				ParkingStructure.parkOnLevel1(vehicle);
 				createNewSpotAlert();
 				resetFields();
 			} else if (createPane.getSizeBox().getValue().equals("Compact")) {
+				TimeslotValue timeParked = new TimeslotValue(createPane.getTimeslotBox().getValue());
 				vehicle = new CompactCar(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
-						createPane.getLicensePlateNoField().getText(), System.currentTimeMillis(), 0, 0);
+						createPane.getLicensePlateNoField().getText(), createPane.getTimeslotBox().getValue(), timeParked.getSlotNumber());
 				ParkingStructure.parkOnLevel1(vehicle);
 				createNewSpotAlert();
 				resetFields();
 			} else if (createPane.getSizeBox().getValue().equals("Mid Size")) {
+				TimeslotValue timeParked = new TimeslotValue(createPane.getTimeslotBox().getValue());
 				vehicle = new MidSizeCar(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
-						createPane.getLicensePlateNoField().getText(), System.currentTimeMillis(), 0, 0);
+						createPane.getLicensePlateNoField().getText(), createPane.getTimeslotBox().getValue(), timeParked.getSlotNumber());
 				ParkingStructure.parkOnLevel1(vehicle);
 				createNewSpotAlert();
 				resetFields();
 			} else if (createPane.getSizeBox().getValue().equals("Truck/Van/SUV")) {
+				TimeslotValue timeParked = new TimeslotValue(createPane.getTimeslotBox().getValue());
 				vehicle = new Truck(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
-						createPane.getLicensePlateNoField().getText(), System.currentTimeMillis(), 0, 0);
+						createPane.getLicensePlateNoField().getText(), createPane.getTimeslotBox().getValue(), timeParked.getSlotNumber());
 				ParkingStructure.parkOnLevel1(vehicle);
 				createNewSpotAlert();
 				resetFields();

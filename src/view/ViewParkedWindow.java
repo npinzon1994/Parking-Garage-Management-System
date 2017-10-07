@@ -1,5 +1,7 @@
 package view;
 
+import static java.time.temporal.ChronoUnit.SECONDS;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -8,11 +10,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
-import java.util.Date;
 
 import com.sun.javafx.scene.control.skin.TableHeaderRow;
 
@@ -36,24 +35,29 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import model.CompactCar;
+import model.MidSizeCar;
+import model.Motorcycle;
 import model.ParkingSpace;
 import model.ParkingStructure;
+import model.Truck;
 import model.Vehicle;
 
 public class ViewParkedWindow extends Application implements Serializable {
 
 	private static final long serialVersionUID = 844618332991485586L;
-	
+	private final double TAX_RATE = 0.18235;
+
 	private Pane4MainWindow mainWindowPane;
 	private StackPane root;
 	private String[] nameTokens;
 	private ObservableList<Vehicle> saveList;
 	private ArrayList<Vehicle> saveVehicles;
-	
+	private Stage paymentStage;
+	private Label label;
+
 	private Button button;
-	private double earlyBirdPayment;
-	private double regularPayment;
-	
+
 	private Label amountLabel;
 	private Label amountLabel2;
 
@@ -133,6 +137,9 @@ public class ViewParkedWindow extends Application implements Serializable {
 			LocalTime noon = LocalTime.NOON;
 			LocalTime elevenFiftyNine = LocalTime.MAX;
 			LocalTime midnight = LocalTime.MIDNIGHT;
+			Pane4Create pfc = new Pane4Create();
+			paymentStage = new Stage();
+
 			if (tableView.getSelectionModel().getSelectedItem() != null) {
 				Alert alert = new Alert(AlertType.CONFIRMATION, "Ticket will now be processed", ButtonType.YES,
 						ButtonType.CANCEL);
@@ -142,41 +149,52 @@ public class ViewParkedWindow extends Application implements Serializable {
 				if (alert.getResult() == ButtonType.CANCEL) {
 					alert.close();
 				} else if (alert.getResult() == ButtonType.YES) {
+					label = new Label("Total payment due: ");
+					button = new Button("Back");
 					for (Vehicle vehicle : vehiclesSelected) {
-						if (vehicle.equals(tableView.getSelectionModel().getSelectedItem())) {
-							allVehicles.remove(vehicle);
-							ParkingStructure.unparkOnLevel1(vehicle);
-							Stage paymentStage = new Stage();
-							Label label = new Label("Total payment due: ");
-							button = new Button("Back");
-							if (currentTime.compareTo(midnight) > 0 && currentTime.compareTo(noon) < 0) {
-								earlyBirdPayment = vehicle.calculateEarlyBirdRate(vehicle.getStartTime(), vehicle.getEndTime());
-								amountLabel = new Label(String.valueOf(earlyBirdPayment));
+						if ((vehicle.equals(tableView.getSelectionModel().getSelectedItem())
+								&& vehicle instanceof Motorcycle)
+								|| (vehicle.equals(tableView.getSelectionModel().getSelectedItem())
+										&& vehicle instanceof CompactCar)
+								|| (vehicle.equals(tableView.getSelectionModel().getSelectedItem())
+										&& vehicle instanceof MidSizeCar)
+								|| (vehicle.equals(tableView.getSelectionModel().getSelectedItem())
+										&& vehicle instanceof Truck)) {
+							if (currentTime.isAfter(midnight) && currentTime.isBefore(noon)) {
+								double earlyBirdPayment;
+
+								vehicle.setEndTime(currentTime);
+								earlyBirdPayment = vehicle.calculateEarlyBirdRate(vehicle.getStartTime(),
+										vehicle.getEndTime());
 								vehicle.setAmountCharged(earlyBirdPayment);
+								amountLabel = new Label(String.valueOf(earlyBirdPayment));
 								VBox box = new VBox();
 								box.getChildren().addAll(label, amountLabel, button);
-
 								paymentStage.setScene(new Scene(box));
-							} else if (currentTime.compareTo(noon) > 0 && currentTime.compareTo(elevenFiftyNine) < 0) {
-								regularPayment = vehicle.calculateRegularRate(vehicle.getStartTime(), vehicle.getEndTime());
-								amountLabel2 = new Label(String.valueOf(regularPayment));
+								paymentStage.show();
+
+							} else if (currentTime.isAfter(noon) && currentTime.isBefore(elevenFiftyNine)) {
+								double regularPayment;
+								paymentStage = new Stage();
+
+								vehicle.setEndTime(currentTime);
+								regularPayment = vehicle.calculateRegularRate(vehicle.getStartTime(),
+										vehicle.getEndTime());
 								vehicle.setAmountCharged(regularPayment);
+								amountLabel2 = new Label(String.valueOf(regularPayment));
 								VBox box = new VBox();
-								box.getChildren().addAll(label, amountLabel, button);
-
+								box.getChildren().addAll(label, amountLabel2, button);
 								paymentStage.setScene(new Scene(box));
+								paymentStage.show();
+
 							}
 							button.setOnAction(e1 -> {
 								paymentStage.close();
 							});
 
-							
+							ParkingStructure.unparkOnLevel1(vehicle);
+							allVehicles.remove(vehicle);
 
-							
-
-							paymentStage.show();
-							
-							
 							ParkingStructure.getLevel1().saveLevel();
 						}
 
@@ -184,9 +202,8 @@ public class ViewParkedWindow extends Application implements Serializable {
 				} else {
 					return;
 				}
-				
+
 			}
-			
 
 		});
 
@@ -297,6 +314,59 @@ public class ViewParkedWindow extends Application implements Serializable {
 			e.printStackTrace();
 		}
 
+	}
+
+	public double calculateRegularRate(LocalTime startTime, LocalTime endTime) {
+		double rate = (14.00 / 60);
+		startTime.until(endTime, SECONDS);
+		long seconds = SECONDS.between(startTime, endTime);
+		double subtotal = 0;
+		double tax = 0;
+		double total = 0;
+		if (seconds <= 30) {
+			tax = TAX_RATE * 30;
+			subtotal = rate * 30;
+			total = subtotal + tax;
+			return total;
+			// Anybody who leaves their car longer than expected has to pay
+			// additional 10%
+		} else if (seconds > 30 && seconds < 60) {
+			double newRate = rate + ((rate) * (0.1));
+			tax = TAX_RATE * seconds;
+			subtotal = newRate * seconds;
+			total = subtotal + tax;
+			return total;
+
+		} else if (seconds <= 60) {
+			tax = TAX_RATE * 60;
+			subtotal = rate * 60;
+			total = subtotal + tax;
+			return total;
+			// Anybody who leaves their car longer than expected has to pay
+			// additional 10%
+		} else if (seconds > 60 && seconds < 120) {
+			double newRate = rate + ((rate) * (0.1));
+			tax = TAX_RATE * seconds;
+			subtotal = newRate * seconds;
+			total = subtotal + tax;
+			return total;
+
+		} else if (seconds <= 120) {
+			tax = TAX_RATE * 120;
+			subtotal = rate * 120;
+			total = subtotal + tax;
+			return total;
+			// Anybody who leaves their car longer than expected has to pay
+			// additional 10%
+		} else if (seconds > 120) {
+			double newRate = rate + ((rate) * (0.2));
+			tax = TAX_RATE * seconds;
+			subtotal = newRate * seconds;
+			total = subtotal + tax;
+			return total;
+
+		}
+		return total;
 	}
 
 }

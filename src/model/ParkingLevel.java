@@ -94,7 +94,7 @@ public class ParkingLevel implements Serializable {
 		FileOutputStream fileOutput = null;
 		ObjectOutputStream objectOutput = null;
 		try {
-			fileOutput = new FileOutputStream("saveData.dat");
+			fileOutput = new FileOutputStream("saveData2.dat");
 			objectOutput = new ObjectOutputStream(fileOutput);
 			objectOutput.writeObject(motorcycleLot);
 			objectOutput.writeObject(motorcycleSpaces);
@@ -122,8 +122,8 @@ public class ParkingLevel implements Serializable {
 		ObjectInputStream objectInput = null;
 
 		try {
-			fileInput = new FileInputStream("saveData.dat");
-			File file = new File("saveData.dat");
+			fileInput = new FileInputStream("saveData2.dat");
+			File file = new File("saveData2.dat");
 			objectInput = new ObjectInputStream(fileInput);
 			if (file.exists()) {
 				motorcycleLot = (HashMap<String, ParkingSpace>) objectInput.readObject();

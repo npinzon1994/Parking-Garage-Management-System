@@ -1,33 +1,143 @@
 package model;
 
+import static java.time.temporal.ChronoUnit.SECONDS;
+
 import java.io.Serializable;
-import java.util.concurrent.TimeUnit;
+import java.time.LocalTime;
+
+import javafx.scene.control.ComboBox;
 
 public class Motorcycle extends Vehicle implements Serializable {
 
 	private final double TAX_RATE = 0.18375;
-	
-	private static final long serialVersionUID = 844618332991485586L;	
-	public Motorcycle(String firstName, String lastName, String licensePlate, long startTime, long endTime, double amountCharged) {
-		super(firstName, lastName, licensePlate, startTime, endTime, amountCharged);
+
+	private static final long serialVersionUID = 844618332991485586L;
+
+	public Motorcycle(String firstName, String lastName, String licensePlate, String timeSelect, double secondsParked) {
+		super(firstName, lastName, licensePlate, timeSelect, secondsParked);
 	}
+
+	/*
+	 * This method calculates the minutely rate in seconds for more a
+	 */
+
 	@Override
-	public double calculateEarlyBirdRate(long startTime, long endTime) {
-		double rate = 7.00;
-		double subtotal = (TimeUnit.MILLISECONDS.toMinutes(endTime - startTime)*rate);
-		double tax = subtotal*TAX_RATE;
+	public double calculateEarlyBirdRate(LocalTime startTime, LocalTime endTime) {
+		
+		double rate = (7.00 / 60);
+		startTime.until(endTime, SECONDS);
+		long seconds = SECONDS.between(startTime, endTime);
+		double subtotal = rate*30;
+		double tax = TAX_RATE*30;
 		double total = subtotal + tax;
-		return total;
-	}
-	@Override
-	public double calculateRegularRate(long startTime, long endTime) {
-		double rate = 14.00;
-		double subtotal = (TimeUnit.MILLISECONDS.toMinutes(endTime - startTime)*rate);
-		double tax = subtotal*TAX_RATE;
-		double total = subtotal + tax;
+		if (getTimeSelect().equals("1/2 Hour") && seconds <= 30) {
+			tax = TAX_RATE * 30;
+			subtotal = rate * 30;
+			total = subtotal + tax;
+			return total;
+			// Anybody who leaves their car longer than expected has to pay
+			// additional 10%
+		} else if (getTimeSelect().equals("1/2 Hour") && seconds > 30) {
+			double newRate = rate + ((rate) * (0.1));
+			tax = TAX_RATE * seconds;
+			subtotal = newRate * seconds;
+			total = subtotal + tax;
+			return total;
+
+		} else if (getTimeSelect().equals("1 Hour")  && seconds <= 60) {
+			tax = TAX_RATE * 60;
+			subtotal = rate * 60;
+			total = subtotal + tax;
+			return total;
+			// Anybody who leaves their car longer than expected has to pay
+			// additional 10%
+		} else if (getTimeSelect().equals("1 Hour")  && seconds > 60) {
+			double newRate = rate + ((rate) * (0.1));
+			tax = TAX_RATE * seconds;
+			subtotal = newRate * seconds;
+			total = subtotal + tax;
+			return total;
+
+		} else if (getTimeSelect().equals("2 Hours")  && seconds <= 120) {
+			tax = TAX_RATE * 120;
+			subtotal = rate * 120;
+			total = subtotal + tax;
+			return total;
+			// Anybody who leaves their car longer than expected has to pay
+			// additional 10%
+		} else if (getTimeSelect().equals("2 Hours")  && seconds > 120) {
+			double newRate = rate + ((rate) * (0.2));
+			tax = TAX_RATE * seconds;
+			subtotal = newRate * seconds;
+			total = subtotal + tax;
+			return total;
+
+		}
 		return total;
 	}
 
 	
+
+	@Override
+	public double calculateRegularRate(LocalTime startTime, LocalTime endTime) {
+
+		double rate = (14.00 / 60);
+		startTime.until(endTime, SECONDS);
+		long seconds = SECONDS.between(startTime, endTime);
+		double subtotal = rate*30;
+		double tax = TAX_RATE*30;
+		double total = subtotal + tax;
+		if (getTimeSelect().equals("1/2 Hour") && seconds <= 30) {
+			tax = TAX_RATE * 30;
+			subtotal = rate * 30;
+			total = subtotal + tax;
+			return total;
+			// Anybody who leaves their car longer than expected has to pay
+			// additional 10%
+		} else if (getTimeSelect().equals("1/2 Hour") && seconds > 30) {
+			double newRate = rate + ((rate) * (0.1));
+			tax = TAX_RATE * seconds;
+			subtotal = newRate * seconds;
+			total = subtotal + tax;
+			return total;
+
+		} else if (getTimeSelect().equals("1 Hour")  && seconds <= 60) {
+			tax = TAX_RATE * 60;
+			subtotal = rate * 60;
+			total = subtotal + tax;
+			return total;
+			// Anybody who leaves their car longer than expected has to pay
+			// additional 10%
+		} else if (getTimeSelect().equals("1 Hour")  && seconds > 60) {
+			double newRate = rate + ((rate) * (0.1));
+			tax = TAX_RATE * seconds;
+			subtotal = newRate * seconds;
+			total = subtotal + tax;
+			return total;
+
+		} else if (getTimeSelect().equals("2 Hours")  && seconds <= 120) {
+			tax = TAX_RATE * 120;
+			subtotal = rate * 120;
+			total = subtotal + tax;
+			return total;
+			// Anybody who leaves their car longer than expected has to pay
+			// additional 10%
+		} else if (getTimeSelect().equals("2 Hours")  && seconds > 120) {
+			double newRate = rate + ((rate) * (0.2));
+			tax = TAX_RATE * seconds;
+			subtotal = newRate * seconds;
+			total = subtotal + tax;
+			return total;
+
+		}
+		return total;
+	}
+
+	
+
+	@Override
+	public double FlatRateTilClose() {
+		return 150;
+	}
 
 }
