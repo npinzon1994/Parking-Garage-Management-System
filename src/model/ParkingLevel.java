@@ -1,5 +1,6 @@
 package model;
 
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -13,6 +14,7 @@ import java.util.HashMap;
 
 public class ParkingLevel implements Serializable {
 
+	private static final long serialVersionUID = 844618332991485586L;
 	private HashMap<String, ParkingSpace> motorcycleLot;
 	private ParkingSpace[] motorcycleSpaces;
 
@@ -29,28 +31,28 @@ public class ParkingLevel implements Serializable {
 		motorcycleLot = new HashMap<String, ParkingSpace>();
 		motorcycleSpaces = new MotorcycleSpace[25];
 		for (int i = 0; i < motorcycleSpaces.length; i++) {
-			motorcycleSpaces[i] = new MotorcycleSpace(null, 0, 0, 0);
+			motorcycleSpaces[i] = new MotorcycleSpace(null);
 			motorcycleLot.put(motorcycleSpaces[i].getId(), motorcycleSpaces[i]);
 		}
 
 		compactLot = new HashMap<String, ParkingSpace>();
 		compactSpaces = new CompactSpace[50];
 		for (int i = 0; i < compactSpaces.length; i++) {
-			compactSpaces[i] = new CompactSpace(null, 0, 0, 0);
+			compactSpaces[i] = new CompactSpace(null);
 			compactLot.put(compactSpaces[i].getId(), compactSpaces[i]);
 		}
 
 		midSizeLot = new HashMap<String, ParkingSpace>();
 		midSizeSpaces = new MidSizeSpace[50];
 		for (int i = 0; i < midSizeSpaces.length; i++) {
-			midSizeSpaces[i] = new MidSizeSpace(null, 0, 0, 0);
+			midSizeSpaces[i] = new MidSizeSpace(null);
 			midSizeLot.put(midSizeSpaces[i].getId(), midSizeSpaces[i]);
 		}
 
 		truckLot = new HashMap<String, ParkingSpace>();
 		truckSpaces = new TruckSpace[50];
 		for (int i = 0; i < truckSpaces.length; i++) {
-			truckSpaces[i] = new TruckSpace(null, 0, 0, 0);
+			truckSpaces[i] = new TruckSpace(null);
 			truckLot.put(truckSpaces[i].getId(), truckSpaces[i]);
 		}
 
@@ -96,6 +98,8 @@ public class ParkingLevel implements Serializable {
 			objectOutput = new ObjectOutputStream(fileOutput);
 			objectOutput.writeObject(motorcycleLot);
 			objectOutput.writeObject(motorcycleSpaces);
+			objectOutput.writeInt(Vehicle.getIdInt());
+
 			objectOutput.writeObject(compactLot);
 			objectOutput.writeObject(compactSpaces);
 			objectOutput.writeObject(midSizeLot);
@@ -112,33 +116,34 @@ public class ParkingLevel implements Serializable {
 		}
 
 	}
-	
-	public void loadLevel(){
+
+	public void loadLevel() {
 		FileInputStream fileInput = null;
 		ObjectInputStream objectInput = null;
-		
+
 		try {
 			fileInput = new FileInputStream("saveData.dat");
 			File file = new File("saveData.dat");
 			objectInput = new ObjectInputStream(fileInput);
-			if(file.exists()){
+			if (file.exists()) {
 				motorcycleLot = (HashMap<String, ParkingSpace>) objectInput.readObject();
 				motorcycleSpaces = (ParkingSpace[]) objectInput.readObject();
+				Vehicle.setIdInt(objectInput.readInt());
 				compactLot = (HashMap<String, ParkingSpace>) objectInput.readObject();
 				compactSpaces = (ParkingSpace[]) objectInput.readObject();
 				midSizeLot = (HashMap<String, ParkingSpace>) objectInput.readObject();
 				midSizeSpaces = (ParkingSpace[]) objectInput.readObject();
 				truckLot = (HashMap<String, ParkingSpace>) objectInput.readObject();
 				truckSpaces = (ParkingSpace[]) objectInput.readObject();
+
 			}
 			objectInput.close();
-			
+
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+
 		} catch (ClassNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

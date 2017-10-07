@@ -4,18 +4,16 @@ import java.io.Serializable;
 
 public class HandicappedCompactSpace extends HandicappedSpace implements Serializable {
 
-	private HourlyRate earlyBirdRate; // interface
-	private HourlyRate regularRate; // interface
+	private static final long serialVersionUID = 844618332991485586L;
 
-	public HandicappedCompactSpace(Vehicle vehicle, long startTime, long endTime, double hoursParked) {
-		super(vehicle, startTime, endTime, hoursParked);
-		earlyBirdRate = new EarlyBirdRate();
-		regularRate = new RegularRate();
+	public HandicappedCompactSpace(Vehicle vehicle) {
+		super(vehicle);
+
 	}
 
 	@Override
 	public String toString() {
-		return "HandicappedCompactSpace [earlyBirdRate=" + earlyBirdRate + ", regularRate=" + regularRate + "]";
+		return "HandicappedCompactSpace []";
 	}
 
 }

@@ -4,18 +4,15 @@ import java.io.Serializable;
 
 public class HandicappedMidSizeSpace extends HandicappedSpace implements Serializable {
 
-	private HourlyRate earlyBirdRate;
-	private HourlyRate regularRate;
+	private static final long serialVersionUID = 844618332991485586L;
 
-	public HandicappedMidSizeSpace(Vehicle vehicle, long startTime, long endTime, double hoursParked) {
-		super(vehicle, startTime, endTime, hoursParked);
-		earlyBirdRate = new EarlyBirdRate();
-		regularRate = new RegularRate();
+	public HandicappedMidSizeSpace(Vehicle vehicle) {
+		super(vehicle);
 	}
 
 	@Override
 	public String toString() {
-		return "HandicappedMidSizeSpace [earlyBirdRate=" + earlyBirdRate + ", regularRate=" + regularRate + "]";
+		return "HandicappedMidSizeSpace []";
 	}
 
 }

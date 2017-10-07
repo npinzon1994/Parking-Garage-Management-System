@@ -8,12 +8,15 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.sun.javafx.scene.control.skin.TableHeaderRow;
 
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -21,12 +24,13 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
@@ -38,11 +42,20 @@ import model.Vehicle;
 
 public class ViewParkedWindow extends Application implements Serializable {
 
+	private static final long serialVersionUID = 844618332991485586L;
+	
 	private Pane4MainWindow mainWindowPane;
 	private StackPane root;
 	private String[] nameTokens;
 	private ObservableList<Vehicle> saveList;
 	private ArrayList<Vehicle> saveVehicles;
+	
+	private Button button;
+	private double earlyBirdPayment;
+	private double regularPayment;
+	
+	private Label amountLabel;
+	private Label amountLabel2;
 
 	private HBox mainBox;
 	private VBox listBox;
@@ -116,22 +129,64 @@ public class ViewParkedWindow extends Application implements Serializable {
 			ObservableList<Vehicle> vehiclesSelected, allVehicles;
 			allVehicles = tableView.getItems();
 			vehiclesSelected = tableView.getSelectionModel().getSelectedItems();
-			Alert alert = new Alert(AlertType.CONFIRMATION, "Ticket will now be processed" ,ButtonType.YES, ButtonType.CANCEL);
-			alert.setHeaderText("Unpark " + tableView.getSelectionModel().getSelectedItem().getFirstName() + " "
-					+ tableView.getSelectionModel().getSelectedItem().getLastName() + "'s car?");
-			alert.showAndWait();
-			if (alert.getResult() == ButtonType.CANCEL) {
-				alert.close();
-			} else if (alert.getResult() == ButtonType.YES) {
-				for (Vehicle vehicle : vehiclesSelected) {
-					if (vehicle.equals(tableView.getSelectionModel().getSelectedItem())) {
-						allVehicles.remove(vehicle);
-						ParkingStructure.unparkOnLevel1(vehicle);
-						ParkingStructure.getLevel1().saveLevel();
-					}
+			LocalTime currentTime = LocalTime.now();
+			LocalTime noon = LocalTime.NOON;
+			LocalTime elevenFiftyNine = LocalTime.MAX;
+			LocalTime midnight = LocalTime.MIDNIGHT;
+			if (tableView.getSelectionModel().getSelectedItem() != null) {
+				Alert alert = new Alert(AlertType.CONFIRMATION, "Ticket will now be processed", ButtonType.YES,
+						ButtonType.CANCEL);
+				alert.setHeaderText("Unpark " + tableView.getSelectionModel().getSelectedItem().getFirstName() + " "
+						+ tableView.getSelectionModel().getSelectedItem().getLastName() + "'s car?");
+				alert.showAndWait();
+				if (alert.getResult() == ButtonType.CANCEL) {
+					alert.close();
+				} else if (alert.getResult() == ButtonType.YES) {
+					for (Vehicle vehicle : vehiclesSelected) {
+						if (vehicle.equals(tableView.getSelectionModel().getSelectedItem())) {
+							allVehicles.remove(vehicle);
+							ParkingStructure.unparkOnLevel1(vehicle);
+							Stage paymentStage = new Stage();
+							Label label = new Label("Total payment due: ");
+							button = new Button("Back");
+							if (currentTime.compareTo(midnight) > 0 && currentTime.compareTo(noon) < 0) {
+								earlyBirdPayment = vehicle.calculateEarlyBirdRate(vehicle.getStartTime(), vehicle.getEndTime());
+								amountLabel = new Label(String.valueOf(earlyBirdPayment));
+								vehicle.setAmountCharged(earlyBirdPayment);
+								VBox box = new VBox();
+								box.getChildren().addAll(label, amountLabel, button);
 
+								paymentStage.setScene(new Scene(box));
+							} else if (currentTime.compareTo(noon) > 0 && currentTime.compareTo(elevenFiftyNine) < 0) {
+								regularPayment = vehicle.calculateRegularRate(vehicle.getStartTime(), vehicle.getEndTime());
+								amountLabel2 = new Label(String.valueOf(regularPayment));
+								vehicle.setAmountCharged(regularPayment);
+								VBox box = new VBox();
+								box.getChildren().addAll(label, amountLabel, button);
+
+								paymentStage.setScene(new Scene(box));
+							}
+							button.setOnAction(e1 -> {
+								paymentStage.close();
+							});
+
+							
+
+							
+
+							paymentStage.show();
+							
+							
+							ParkingStructure.getLevel1().saveLevel();
+						}
+
+					}
+				} else {
+					return;
 				}
+				
 			}
+			
 
 		});
 

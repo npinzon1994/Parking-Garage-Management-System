@@ -17,6 +17,9 @@ public class Demo {
 		System.out.println(ParkingStructure.getDate());
 		System.out.println(ParkingStructure.getTime());
 		
+		System.out.println();
+		System.out.println(System.currentTimeMillis()/1000);
+		
 	
 		
 	}

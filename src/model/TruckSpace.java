@@ -4,28 +4,15 @@ import java.io.Serializable;
 
 public class TruckSpace extends RegularSpace implements Serializable {
 
-	private HourlyRate earlyBirdRate;
-	private HourlyRate regularRate;
+	private static final long serialVersionUID = -5243411708594528988L;
 
-	public TruckSpace(Vehicle vehicle, long startTime, long endTime, double hoursParked) {
-		super(vehicle, startTime, endTime, hoursParked);
+	public TruckSpace(Vehicle vehicle) {
+		super(vehicle);
 	}
 
 	@Override
 	public String toString() {
-		return "TruckSpace [earlyBirdRate=" + earlyBirdRate + ", regularRate=" + regularRate + "]";
-	}
-
-	@Override
-	public double calculateEarlyBirdRate(String startTime, String endTime) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public double calculateRegularRate(String startTime, String endTime) {
-		// TODO Auto-generated method stub
-		return 0;
+		return "TruckSpace []";
 	}
 
 }

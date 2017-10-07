@@ -13,8 +13,9 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import model.ParkingStructure;
 
-public class Pane4Create extends Stage implements Serializable {
+public class Pane4Create extends Stage implements Serializable  {
 
+	private static final long serialVersionUID = 844618332991485586L;	
 	private Label firstName;
 	private Label lastName;
 	private Label licensePlateNo;

@@ -4,13 +4,13 @@ import java.io.Serializable;
 
 public class HandicappedMotorcycleSpace extends HandicappedSpace implements Serializable {
 
+	private static final long serialVersionUID = 844618332991485586L;
+
 	private HourlyRate earlyBirdRate;
 	private HourlyRate regularRate;
 
-	public HandicappedMotorcycleSpace(Vehicle vehicle, long startTime, long endTime, double hoursParked) {
-		super(vehicle, startTime, endTime, hoursParked);
-		earlyBirdRate = new EarlyBirdRate();
-		regularRate = new RegularRate();
+	public HandicappedMotorcycleSpace(Vehicle vehicle) {
+		super(vehicle);
 	}
 
 	@Override

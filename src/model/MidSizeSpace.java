@@ -4,32 +4,18 @@ import java.io.Serializable;
 
 public class MidSizeSpace extends RegularSpace implements Serializable {
 
-	private HourlyRate earlyBirdRate; // interface
-	private HourlyRate regularRate; // interface
+	private static final long serialVersionUID = 8942370271694432459L;	
 
-	public MidSizeSpace(Vehicle vehicle, long startTime, long endTime, double hoursParked) {
-		super(vehicle, startTime, endTime, hoursParked);
-		earlyBirdRate = new EarlyBirdRate(); // object containing double value
-		// for early bird rate
-		regularRate = new RegularRate(); // object containing double value for
-		// regular hourly rate
+	public MidSizeSpace(Vehicle vehicle) {
+		super(vehicle);
+	
 	}
 
 	@Override
 	public String toString() {
-		return "MidSizeSpace [earlyBirdRate=" + earlyBirdRate + ", regularRate=" + regularRate + "]";
+		return "MidSizeSpace []";
 	}
 
-	@Override
-	public double calculateEarlyBirdRate(String startTime, String endTime) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public double calculateRegularRate(String startTime, String endTime) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
+	
 
 }

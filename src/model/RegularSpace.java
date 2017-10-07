@@ -4,8 +4,9 @@ import java.io.Serializable;
 
 public abstract class RegularSpace extends ParkingSpace implements Serializable {
 
-	public RegularSpace(Vehicle vehicle, long startTime, long endTime, double hoursParked) {
-		super(vehicle, startTime, endTime, hoursParked);
+	private static final long serialVersionUID = 6814129886443050988L;	
+	public RegularSpace(Vehicle vehicle) {
+		super(vehicle);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -16,7 +17,7 @@ public abstract class RegularSpace extends ParkingSpace implements Serializable 
 				+ "]";
 	}
 
-	public abstract double calculateEarlyBirdRate(String startTime, String endTime);
-	public abstract double calculateRegularRate(String startTime, String endTime);
+	
+
 
 }

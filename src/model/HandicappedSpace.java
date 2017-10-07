@@ -4,8 +4,10 @@ import java.io.Serializable;
 
 public class HandicappedSpace extends ParkingSpace implements Serializable {
 
-	public HandicappedSpace(Vehicle vehicle, long startTime, long endTime, double hoursParked) {
-		super(vehicle, startTime, endTime, hoursParked);
+	private static final long serialVersionUID = 844618332991485586L;
+	
+	public HandicappedSpace(Vehicle vehicle) {
+		super(vehicle);
 
 	}
 

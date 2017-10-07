@@ -4,29 +4,16 @@ import java.io.Serializable;
 
 public class CompactSpace extends RegularSpace implements Serializable {
 
-	private HourlyRate earlyBirdRate; // interface
-	private HourlyRate regularRate; // interface
+	private static final long serialVersionUID = 3451305225730591755L;
 
-	public CompactSpace(Vehicle vehicle, long startTime, long endTime, double hoursParked) {
-		super(vehicle, startTime, endTime, hoursParked);
-		
+	public CompactSpace(Vehicle vehicle) {
+		super(vehicle);
+
 	}
 
 	@Override
 	public String toString() {
-		return "CompactSpace [earlyBirdRate=" + earlyBirdRate + ", regularRate=" + regularRate + "]";
-	}
-
-	@Override
-	public double calculateEarlyBirdRate(String startTime, String endTime) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public double calculateRegularRate(String startTime, String endTime) {
-		// TODO Auto-generated method stub
-		return 0;
+		return "CompactSpace []";
 	}
 
 }

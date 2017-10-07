@@ -4,25 +4,24 @@ import java.io.Serializable;
 
 public abstract class ParkingSpace implements Serializable {
 
+	private static final long serialVersionUID = 844618332991485586L;	
 	private static int idInt = 1;
 
 	private String id;
 	private Vehicle vehicle;
-	private long startTime;
-	private long endTime;
-	private double hoursParked;
 
-	public ParkingSpace(Vehicle vehicle, long startTime, long endTime, double hoursParked) {
+	public ParkingSpace(Vehicle vehicle) {
 		this.id = String.valueOf(idInt);
 		this.vehicle = vehicle;
-		this.startTime = startTime;
-		this.endTime = endTime;
-		this.hoursParked = hoursParked;
 		idInt++;
 	}
 
 	public static int getIdInt() {
 		return idInt;
+	}
+	
+	public static void setIdInt(int idCount){
+		idInt = idCount;
 	}
 
 	public String getId() {
@@ -48,29 +47,6 @@ public abstract class ParkingSpace implements Serializable {
 		this.vehicle = null;
 	}
 
-	public long getStartTime() {
-		return startTime;
-	}
-
-	public void setStartTime(long startTime) {
-		this.startTime = startTime;
-	}
-
-	public long getEndTime() {
-		return endTime;
-	}
-
-	public void setEndTime(long endTime) {
-		this.endTime = endTime;
-	}
-
-	public double getHoursParked() {
-		return hoursParked;
-	}
-
-	public void setHoursParked(double hoursParked) {
-		this.hoursParked = hoursParked;
-	}
 	
 	public boolean contains(Vehicle vehicle){
 		if(vehicle == this.vehicle){
@@ -78,6 +54,7 @@ public abstract class ParkingSpace implements Serializable {
 		}
 		return false;
 	}
+	
 
 	@Override
 	public String toString() {

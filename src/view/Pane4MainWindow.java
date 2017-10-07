@@ -27,20 +27,20 @@ import model.ParkingStructure;
 import model.Truck;
 import model.Vehicle;
 
-public class Pane4MainWindow extends Stage implements Serializable{
+public class Pane4MainWindow extends Stage implements Serializable {
 
+	private static final long serialVersionUID = 844618332991485586L;
 	private Pane4Create createPane;
 
 	private ViewParkedWindow viewParked = new ViewParkedWindow();
-	
+
 	private MenuBar menuBar;
 	private Menu fileMenu;
-	
+
 	private MenuItem newSpaceItem;
 	private MenuItem viewSpacesItem;
 	private MenuItem quitItem;
 	private MenuItem loadItem;
-	
 
 	private StackPane root;
 
@@ -54,7 +54,7 @@ public class Pane4MainWindow extends Stage implements Serializable{
 	private Button showSpacesBtn;
 	private Button newEntryBtn;
 	private Button viewEntriesBtn;
-	
+
 	private Vehicle vehicle;
 
 	private BorderPane mainPane;
@@ -78,15 +78,15 @@ public class Pane4MainWindow extends Stage implements Serializable{
 
 		newEntryBtn = new Button("New Entry");
 		viewEntriesBtn = new Button("View Entries");
-		
+
 		newSpaceItem = new MenuItem("New Entry");
 		viewSpacesItem = new MenuItem("View Entries");
 		quitItem = new MenuItem("Quit");
 		loadItem = new MenuItem("Load");
-		
+
 		fileMenu = new Menu("File");
 		menuBar = new MenuBar();
-		
+
 		fileMenu.getItems().addAll(newSpaceItem, viewSpacesItem, quitItem);
 		menuBar.getMenus().add(fileMenu);
 
@@ -126,26 +126,26 @@ public class Pane4MainWindow extends Stage implements Serializable{
 
 		createPane.getBookSpotButton().setOnAction(e -> {
 			if (createPane.getSizeBox().getValue().equals("Motorcycle")) {
-				vehicle = new Motorcycle(createPane.getFNameField().getText(),
-						createPane.getLNameField().getText(), createPane.getLicensePlateNoField().getText());
+				vehicle = new Motorcycle(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
+						createPane.getLicensePlateNoField().getText(), System.currentTimeMillis(), 0, 0);
 				ParkingStructure.parkOnLevel1(vehicle);
 				createNewSpotAlert();
 				resetFields();
 			} else if (createPane.getSizeBox().getValue().equals("Compact")) {
-				vehicle = new CompactCar(createPane.getFNameField().getText(),
-						createPane.getLNameField().getText(), createPane.getLicensePlateNoField().getText());
+				vehicle = new CompactCar(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
+						createPane.getLicensePlateNoField().getText(), System.currentTimeMillis(), 0, 0);
 				ParkingStructure.parkOnLevel1(vehicle);
 				createNewSpotAlert();
 				resetFields();
 			} else if (createPane.getSizeBox().getValue().equals("Mid Size")) {
-				vehicle = new MidSizeCar(createPane.getFNameField().getText(),
-						createPane.getLNameField().getText(), createPane.getLicensePlateNoField().getText());
+				vehicle = new MidSizeCar(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
+						createPane.getLicensePlateNoField().getText(), System.currentTimeMillis(), 0, 0);
 				ParkingStructure.parkOnLevel1(vehicle);
 				createNewSpotAlert();
 				resetFields();
 			} else if (createPane.getSizeBox().getValue().equals("Truck/Van/SUV")) {
 				vehicle = new Truck(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
-						createPane.getLicensePlateNoField().getText());
+						createPane.getLicensePlateNoField().getText(), System.currentTimeMillis(), 0, 0);
 				ParkingStructure.parkOnLevel1(vehicle);
 				createNewSpotAlert();
 				resetFields();
@@ -174,9 +174,8 @@ public class Pane4MainWindow extends Stage implements Serializable{
 			}
 
 		});
-		
+
 		quitItem.setOnAction(e -> {
-			
 			Platform.exit();
 		});
 
@@ -228,12 +227,12 @@ public class Pane4MainWindow extends Stage implements Serializable{
 		}
 		return false;
 	}
-	
-	public Stage getStage(){
+
+	public Stage getStage() {
 		return this;
 	}
-	
-	public Vehicle getVehicle(){
+
+	public Vehicle getVehicle() {
 		return vehicle;
 	}
 

@@ -2,8 +2,9 @@ package model;
 
 import java.io.Serializable;
 
-public class Vehicle implements Serializable {
+public abstract class Vehicle implements Serializable {
 
+	private static final long serialVersionUID = 844618332991485586L;
 	private static int idInt = 1;
 
 	private String licensePlate;
@@ -12,16 +13,28 @@ public class Vehicle implements Serializable {
 	private String firstName;
 	private String lastName;
 
-	public Vehicle(String firstName, String lastName, String licensePlate) {
+	private long startTime;
+	private long endTime;
+	private double amountCharged;
+
+	public Vehicle(String firstName, String lastName, String licensePlate, long startTime, long endTime,
+			double amountCharged) {
 		this.tagNumber = String.valueOf(idInt);
 		this.licensePlate = licensePlate;
 		this.firstName = firstName;
 		this.lastName = lastName;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.amountCharged = amountCharged;
 		idInt++;
 	}
 
 	public static int getIdInt() {
 		return idInt;
+	}
+
+	public static void setIdInt(int idCount) {
+		idInt = idCount;
 	}
 
 	public String getLicensePlate() {
@@ -35,24 +48,50 @@ public class Vehicle implements Serializable {
 	public String getTagNumber() {
 		return tagNumber;
 	}
-	
-	public String getFirstName(){
+
+	public void setTagNumber(String tagNumber) {
+		this.tagNumber = tagNumber;
+	}
+
+	public String getFirstName() {
 		return firstName;
 	}
-	
-	public String getLastName(){
+
+	public String getLastName() {
 		return lastName;
 	}
-	
-	public void setFirstName(String first){
+
+	public void setFirstName(String first) {
 		this.firstName = first;
 	}
-	
-	public void setLastName(String last){
+
+	public void setLastName(String last) {
 		this.lastName = last;
 	}
-	
-	
+
+	public long getStartTime() {
+		return startTime;
+	}
+
+	public void setStartTime(long startTime) {
+		this.startTime = startTime;
+	}
+
+	public long getEndTime() {
+		return endTime;
+	}
+
+	public void setEndTime(long endTime) {
+		this.endTime = endTime;
+	}
+
+	public double getAmountCharged() {
+		return amountCharged;
+	}
+
+	public void setAmountCharged(double amountCharged) {
+		this.amountCharged = amountCharged;
+	}
 
 	@Override
 	public int hashCode() {
@@ -96,6 +135,10 @@ public class Vehicle implements Serializable {
 			return false;
 		return true;
 	}
+
+	public abstract double calculateEarlyBirdRate(long startTime, long endTime);
+
+	public abstract double calculateRegularRate(long startTime, long endTime);
 
 	@Override
 	public String toString() {
