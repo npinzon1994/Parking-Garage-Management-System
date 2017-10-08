@@ -2,6 +2,7 @@ package view;
 
 import java.io.Serializable;
 
+import javafx.beans.binding.Bindings;
 import javafx.geometry.Insets;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
@@ -47,6 +48,9 @@ public class Pane4Create extends Stage implements Serializable  {
 
 		cancelBtn = new Button("Cancel");
 		bookSpotBtn = new Button("Book Spot");
+		
+		bookSpotBtn.disableProperty().bind((Bindings.isEmpty(fNameField.textProperty())).
+				or(Bindings.isEmpty(lNameField.textProperty()).or(Bindings.isEmpty(licensePlateNoField.textProperty()))));
 
 		handicappedCheckBox = new CheckBox("Handicapped");
 
@@ -64,6 +68,7 @@ public class Pane4Create extends Stage implements Serializable  {
 		grid.setHgap(10);
 		grid.getChildren().addAll(firstName, lastName, fNameField, lNameField, cancelBtn, bookSpotBtn, sizeBox,
 				timeslotBox, licensePlateNo, licensePlateNoField, handicappedCheckBox);
+		this.setResizable(false);
 
 		GridPane.setConstraints(firstName, 0, 0);
 		GridPane.setConstraints(fNameField, 1, 0);

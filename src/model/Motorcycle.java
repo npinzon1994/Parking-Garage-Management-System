@@ -18,7 +18,7 @@ public class Motorcycle extends Vehicle implements Serializable {
 	}
 
 	/*
-	 * This method calculates the minutely rate in seconds for more a
+	 * This method calculates the minutely rate in seconds for quicker testing
 	 */
 
 	@Override
@@ -27,9 +27,9 @@ public class Motorcycle extends Vehicle implements Serializable {
 		double rate = (7.00 / 60);
 		startTime.until(endTime, SECONDS);
 		long seconds = SECONDS.between(startTime, endTime);
-		double subtotal = rate*30;
-		double tax = TAX_RATE*30;
-		double total = subtotal + tax;
+		double subtotal;
+		double tax;
+		double total = 0;
 		if (getTimeSelect().equals("1/2 Hour") && seconds <= 30) {
 			tax = TAX_RATE * 30;
 			subtotal = rate * 30;
@@ -38,7 +38,8 @@ public class Motorcycle extends Vehicle implements Serializable {
 			// Anybody who leaves their car longer than expected has to pay
 			// additional 10%
 		} else if (getTimeSelect().equals("1/2 Hour") && seconds > 30) {
-			double newRate = rate + ((rate) * (0.1));
+			double newRateNum = (rate)*(0.2);
+			double newRate = rate + newRateNum;
 			tax = TAX_RATE * seconds;
 			subtotal = newRate * seconds;
 			total = subtotal + tax;
@@ -52,7 +53,7 @@ public class Motorcycle extends Vehicle implements Serializable {
 			// Anybody who leaves their car longer than expected has to pay
 			// additional 10%
 		} else if (getTimeSelect().equals("1 Hour")  && seconds > 60) {
-			double newRate = rate + ((rate) * (0.1));
+			double newRate = rate + ((rate) * (0.2));
 			tax = TAX_RATE * seconds;
 			subtotal = newRate * seconds;
 			total = subtotal + tax;
@@ -95,7 +96,8 @@ public class Motorcycle extends Vehicle implements Serializable {
 			// Anybody who leaves their car longer than expected has to pay
 			// additional 10%
 		} else if (getTimeSelect().equals("1/2 Hour") && seconds > 30) {
-			double newRate = rate + ((rate) * (0.1));
+			double newRateNum = (rate)*(0.2);
+			double newRate = rate + newRateNum;
 			tax = TAX_RATE * seconds;
 			subtotal = newRate * seconds;
 			total = subtotal + tax;

@@ -68,6 +68,7 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 				ParkingSpace tempSpace = ParkingStructure.getLevel1().getMotorcycleLot().get(e);
 				if (tempSpace.getVehicle() == null && !spaceFound[0]) {
 					tempSpace.setVehicle(vehicle);
+					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
 					tempSpace.getVehicle().setStartTime(LocalTime.now());
 					spaceFound[0] = true;
 				}
@@ -79,6 +80,7 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 				ParkingSpace tempSpace = ParkingStructure.getLevel1().getCompactLot().get(e);
 				if (tempSpace.getVehicle() == null && !spaceFound[0]) {
 					tempSpace.setVehicle(vehicle);
+					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
 					tempSpace.getVehicle().setStartTime(LocalTime.now());
 					spaceFound[0] = true;
 				}
@@ -90,6 +92,7 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 				ParkingSpace tempSpace = ParkingStructure.getLevel1().getMidSizeLot().get(e);
 				if (tempSpace.getVehicle() == null && !spaceFound[0]) {
 					tempSpace.setVehicle(vehicle);
+					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
 					tempSpace.getVehicle().setStartTime(LocalTime.now());
 					spaceFound[0] = true;
 				}
@@ -101,6 +104,7 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 				ParkingSpace tempSpace = ParkingStructure.getLevel1().getTruckLot().get(e);
 				if (tempSpace.getVehicle() == null && !spaceFound[0]) {
 					tempSpace.setVehicle(vehicle);
+					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
 					tempSpace.getVehicle().setStartTime(LocalTime.now());
 					spaceFound[0] = true;
 				}

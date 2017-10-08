@@ -9,10 +9,13 @@ public abstract class ParkingSpace implements Serializable {
 
 	private String id;
 	private Vehicle vehicle;
+	private String spaceType;
+	private int level;
 
 	public ParkingSpace(Vehicle vehicle) {
 		this.id = String.valueOf(idInt);
 		this.vehicle = vehicle;
+		this.level = 1;
 		idInt++;
 	}
 
@@ -28,7 +31,7 @@ public abstract class ParkingSpace implements Serializable {
 		return id;
 	}
 
-	public boolean hasVehicle() {
+	public boolean hasVehicle(Vehicle vehicle) {
 		if (vehicle != null) {
 			return true;
 		}
@@ -55,6 +58,21 @@ public abstract class ParkingSpace implements Serializable {
 		return false;
 	}
 	
+	public String getSpaceType(){
+		return spaceType;
+	}
+	
+	public void setSpaceType(String type){
+		this.spaceType = type;
+	}
+	
+	public int getLevel(){
+		return level;
+	}
+	
+	public void setLevel(int level){
+		this.level = level;
+	}
 
 	@Override
 	public String toString() {

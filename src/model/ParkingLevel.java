@@ -1,6 +1,5 @@
 package model;
 
-import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -11,49 +10,61 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
+import java.util.TreeMap;
 
 public class ParkingLevel implements Serializable {
 
 	private static final long serialVersionUID = 844618332991485586L;
-	private HashMap<String, ParkingSpace> motorcycleLot;
+	private Map<String, ParkingSpace> motorcycleLot;
 	private ParkingSpace[] motorcycleSpaces;
 
-	private HashMap<String, ParkingSpace> compactLot;
+	private Map<String, ParkingSpace> compactLot;
 	private ParkingSpace[] compactSpaces;
 
-	private HashMap<String, ParkingSpace> midSizeLot;
+	private Map<String, ParkingSpace> midSizeLot;
 	private ParkingSpace[] midSizeSpaces;
 
-	private HashMap<String, ParkingSpace> truckLot;
+	private Map<String, ParkingSpace> truckLot;
 	private ParkingSpace[] truckSpaces;
 
 	public ParkingLevel() {
 		motorcycleLot = new HashMap<String, ParkingSpace>();
 		motorcycleSpaces = new MotorcycleSpace[25];
 		for (int i = 0; i < motorcycleSpaces.length; i++) {
-			motorcycleSpaces[i] = new MotorcycleSpace(null);
+			motorcycleSpaces[i] = new MotorcycleSpace(null, 1);
 			motorcycleLot.put(motorcycleSpaces[i].getId(), motorcycleSpaces[i]);
+			
 		}
-
+		
 		compactLot = new HashMap<String, ParkingSpace>();
 		compactSpaces = new CompactSpace[50];
 		for (int i = 0; i < compactSpaces.length; i++) {
-			compactSpaces[i] = new CompactSpace(null);
+			compactSpaces[i] = new CompactSpace(null, 1);
+			compactSpaces[i].setSpaceType("Compact");
+			compactSpaces[i].setLevel(1);
 			compactLot.put(compactSpaces[i].getId(), compactSpaces[i]);
+
 		}
 
 		midSizeLot = new HashMap<String, ParkingSpace>();
 		midSizeSpaces = new MidSizeSpace[50];
 		for (int i = 0; i < midSizeSpaces.length; i++) {
-			midSizeSpaces[i] = new MidSizeSpace(null);
+			midSizeSpaces[i] = new MidSizeSpace(null, 1);
+			midSizeSpaces[i].setSpaceType("Mid Size");
+			midSizeSpaces[i].setLevel(1);
 			midSizeLot.put(midSizeSpaces[i].getId(), midSizeSpaces[i]);
+
 		}
 
 		truckLot = new HashMap<String, ParkingSpace>();
 		truckSpaces = new TruckSpace[50];
 		for (int i = 0; i < truckSpaces.length; i++) {
-			truckSpaces[i] = new TruckSpace(null);
+			truckSpaces[i] = new TruckSpace(null, 1);
+			truckSpaces[i].setSpaceType("Truck");
+			truckSpaces[i].setLevel(1);
 			truckLot.put(truckSpaces[i].getId(), truckSpaces[i]);
+
 		}
 
 	}
@@ -74,19 +85,19 @@ public class ParkingLevel implements Serializable {
 		return truckSpaces;
 	}
 
-	public HashMap<String, ParkingSpace> getMotorcycleLot() {
+	public Map<String, ParkingSpace> getMotorcycleLot() {
 		return motorcycleLot;
 	}
 
-	public HashMap<String, ParkingSpace> getCompactLot() {
+	public Map<String, ParkingSpace> getCompactLot() {
 		return compactLot;
 	}
 
-	public HashMap<String, ParkingSpace> getMidSizeLot() {
+	public Map<String, ParkingSpace> getMidSizeLot() {
 		return midSizeLot;
 	}
 
-	public HashMap<String, ParkingSpace> getTruckLot() {
+	public Map<String, ParkingSpace> getTruckLot() {
 		return truckLot;
 	}
 
@@ -94,7 +105,7 @@ public class ParkingLevel implements Serializable {
 		FileOutputStream fileOutput = null;
 		ObjectOutputStream objectOutput = null;
 		try {
-			fileOutput = new FileOutputStream("saveData2.dat");
+			fileOutput = new FileOutputStream("saveData4.dat");
 			objectOutput = new ObjectOutputStream(fileOutput);
 			objectOutput.writeObject(motorcycleLot);
 			objectOutput.writeObject(motorcycleSpaces);
@@ -122,8 +133,8 @@ public class ParkingLevel implements Serializable {
 		ObjectInputStream objectInput = null;
 
 		try {
-			fileInput = new FileInputStream("saveData2.dat");
-			File file = new File("saveData2.dat");
+			fileInput = new FileInputStream("saveData4.dat");
+			File file = new File("saveData4.dat");
 			objectInput = new ObjectInputStream(fileInput);
 			if (file.exists()) {
 				motorcycleLot = (HashMap<String, ParkingSpace>) objectInput.readObject();

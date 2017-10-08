@@ -6,8 +6,8 @@ public class HandicappedMidSizeSpace extends HandicappedSpace implements Seriali
 
 	private static final long serialVersionUID = 844618332991485586L;
 
-	public HandicappedMidSizeSpace(Vehicle vehicle) {
-		super(vehicle);
+	public HandicappedMidSizeSpace(Vehicle vehicle, int level) {
+		super(vehicle, level);
 	}
 
 	@Override

@@ -10,8 +10,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.text.NumberFormat;
 import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import com.sun.javafx.scene.control.skin.TableHeaderRow;
 
@@ -27,7 +29,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -64,14 +65,14 @@ public class ViewParkedWindow extends Application implements Serializable {
 	private HBox mainBox;
 	private VBox listBox;
 	private VBox buttonBox;
-	private ListView<String> listView;
 
 	private TableView<Vehicle> tableView;
 	private TableColumn<Vehicle, String> lastNameColumn;
 	private TableColumn<Vehicle, String> firstNameColumn;
 	private TableColumn<Vehicle, String> tagNumberColumn;
+	private TableColumn<Vehicle, String> licenseColumn;
+	private TableColumn<Vehicle, String> spaceColumn;
 
-	private Button detailsBtn;
 	private Button cancelBtn;
 	private Button removeBtn;
 
@@ -83,7 +84,6 @@ public class ViewParkedWindow extends Application implements Serializable {
 
 		this.stage = stage;
 
-		listView = new ListView<>();
 		tableView = new TableView<>();
 
 		tableView.widthProperty().addListener(new ChangeListener<Number>() {
@@ -102,25 +102,33 @@ public class ViewParkedWindow extends Application implements Serializable {
 
 		lastNameColumn = new TableColumn("Last Name");
 		lastNameColumn.setPrefWidth(100);
-		// lastNameColumn.setEditable(false);
+		
+		licenseColumn = new TableColumn("License No.");
+		licenseColumn.setResizable(false);
+		licenseColumn.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("licensePlate"));
+		
+		spaceColumn = new TableColumn("Space No.");
+		spaceColumn.setResizable(false);
+		spaceColumn.setMaxWidth(90);
+		spaceColumn.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("spaceNo"));
+		
 		lastNameColumn.setResizable(false);
 		lastNameColumn.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("lastName"));
 
 		firstNameColumn = new TableColumn("First Name");
-		// firstNameColumn.setEditable(false);
+		
 		firstNameColumn.setResizable(false);
 		firstNameColumn.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("firstName"));
 
-		tagNumberColumn = new TableColumn("Tag #");
-		// tagNumberColumn.setEditable(false);
+		tagNumberColumn = new TableColumn("Tag No.");
+		
 		tagNumberColumn.setResizable(false);
 		tagNumberColumn.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("tagNumber"));
 
-		tableView.getColumns().addAll(lastNameColumn, firstNameColumn, tagNumberColumn);
+		tableView.getColumns().addAll(lastNameColumn, firstNameColumn, licenseColumn, spaceColumn, tagNumberColumn);
 		tableView.setItems(displayParkedCars());
-
-		detailsBtn = new Button("Details");
-		cancelBtn = new Button("Back");
+		
+		cancelBtn = new Button("Cancel");
 		removeBtn = new Button("Remove");
 
 		cancelBtn.setOnAction(e -> {
@@ -139,6 +147,7 @@ public class ViewParkedWindow extends Application implements Serializable {
 			LocalTime midnight = LocalTime.MIDNIGHT;
 			Pane4Create pfc = new Pane4Create();
 			paymentStage = new Stage();
+			paymentStage.setResizable(false);
 
 			if (tableView.getSelectionModel().getSelectedItem() != null) {
 				Alert alert = new Alert(AlertType.CONFIRMATION, "Ticket will now be processed", ButtonType.YES,
@@ -167,8 +176,10 @@ public class ViewParkedWindow extends Application implements Serializable {
 								earlyBirdPayment = vehicle.calculateEarlyBirdRate(vehicle.getStartTime(),
 										vehicle.getEndTime());
 								vehicle.setAmountCharged(earlyBirdPayment);
-								amountLabel = new Label(String.valueOf(earlyBirdPayment));
-								VBox box = new VBox();
+								amountLabel = new Label(NumberFormat.getCurrencyInstance(Locale.US).format(earlyBirdPayment));
+								VBox box = new VBox(5);
+								box.setPadding(new Insets(5));
+								amountLabel.setPadding(new Insets(0, 10, 0, 0));
 								box.getChildren().addAll(label, amountLabel, button);
 								paymentStage.setScene(new Scene(box));
 								paymentStage.show();
@@ -181,8 +192,10 @@ public class ViewParkedWindow extends Application implements Serializable {
 								regularPayment = vehicle.calculateRegularRate(vehicle.getStartTime(),
 										vehicle.getEndTime());
 								vehicle.setAmountCharged(regularPayment);
-								amountLabel2 = new Label(String.valueOf(regularPayment));
-								VBox box = new VBox();
+								amountLabel2 = new Label(NumberFormat.getCurrencyInstance(Locale.US).format(regularPayment));
+								VBox box = new VBox(5);
+								box.setPadding(new Insets(5));
+								amountLabel2.setPadding(new Insets(0, 10, 0, 0));
 								box.getChildren().addAll(label, amountLabel2, button);
 								paymentStage.setScene(new Scene(box));
 								paymentStage.show();
@@ -194,6 +207,7 @@ public class ViewParkedWindow extends Application implements Serializable {
 
 							ParkingStructure.unparkOnLevel1(vehicle);
 							allVehicles.remove(vehicle);
+						
 
 							ParkingStructure.getLevel1().saveLevel();
 						}
@@ -210,18 +224,21 @@ public class ViewParkedWindow extends Application implements Serializable {
 		mainBox = new HBox(10);
 		mainBox.setPadding(new Insets(10));
 
-		listBox = new VBox(5);
+		listBox = new VBox(10);
 
-		listBox.getChildren().add(tableView);
+		HBox hbox = new HBox(10);
+		hbox.getChildren().addAll(cancelBtn, removeBtn);
+		listBox.getChildren().addAll(tableView, hbox);
 
 		buttonBox = new VBox(10);
-		buttonBox.getChildren().addAll(detailsBtn, removeBtn, cancelBtn);
 
 		mainBox.getChildren().addAll(listBox, buttonBox);
 		root = new StackPane(mainBox);
 
 		scene = new Scene(root, 500, 500);
 		stage.setScene(scene);
+		stage.setTitle("Vehicles Currently Parked");
+		stage.setResizable(false);
 		stage.show();
 
 	}

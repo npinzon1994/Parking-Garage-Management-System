@@ -6,16 +6,15 @@ public class HandicappedMotorcycleSpace extends HandicappedSpace implements Seri
 
 	private static final long serialVersionUID = 844618332991485586L;
 
-	private HourlyRate earlyBirdRate;
-	private HourlyRate regularRate;
-
-	public HandicappedMotorcycleSpace(Vehicle vehicle) {
-		super(vehicle);
+	public HandicappedMotorcycleSpace(Vehicle vehicle, int level) {
+		super(vehicle, level);
 	}
 
 	@Override
 	public String toString() {
-		return "HandicappedMotorcycleSpace [earlyBirdRate=" + earlyBirdRate + ", regularRate=" + regularRate + "]";
+		return "HandicappedMotorcycleSpace []";
 	}
+
+	
 
 }

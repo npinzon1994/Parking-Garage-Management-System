@@ -15,6 +15,13 @@ public class CompactCar extends Vehicle implements Serializable {
 		super(firstName, lastName, licensePlate, timeSelect, secondsParked);
 	}
 
+	/**
+	 * This method calculates how much money the customer owes the garage. The time selected will charge the customer up to
+	 * a half hour, full hour, or two hours. If they stay longer than specified, the system will charge them an 
+	 * additional 20%.
+	 * @param
+	 */
+	
 	@Override
 	public double calculateEarlyBirdRate(LocalTime startTime, LocalTime endTime) {
 		double rate = (12.00 / 60);

@@ -6,8 +6,8 @@ public class HandicappedCompactSpace extends HandicappedSpace implements Seriali
 
 	private static final long serialVersionUID = 844618332991485586L;
 
-	public HandicappedCompactSpace(Vehicle vehicle) {
-		super(vehicle);
+	public HandicappedCompactSpace(Vehicle vehicle, int level) {
+		super(vehicle, level);
 
 	}
 

@@ -19,6 +19,7 @@ public abstract class Vehicle implements Serializable {
 
 	private LocalTime startTime;
 	private LocalTime endTime;
+	private String spaceNo;
 	private double amountCharged;
 	private double secondsParked;
 
@@ -111,6 +112,14 @@ public abstract class Vehicle implements Serializable {
 
 	public void setSecondsParked(double secondsParked) {
 		this.secondsParked = secondsParked;
+	}
+
+	public String getSpaceNo() {
+		return spaceNo;
+	}
+
+	public void setSpaceNo(String spaceNo) {
+		this.spaceNo = spaceNo;
 	}
 
 	@Override

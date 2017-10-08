@@ -1,10 +1,12 @@
 package view;
 
 import java.io.Serializable;
-import java.util.HashMap;
+import java.util.Map;
 
 import javafx.animation.AnimationTimer;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -13,6 +15,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -33,6 +38,7 @@ public class Pane4MainWindow extends Stage implements Serializable {
 	private Pane4Create createPane;
 
 	private ViewParkedWindow viewParked = new ViewParkedWindow();
+	private Stage freeSpaceStage;
 
 	private MenuBar menuBar;
 	private Menu fileMenu;
@@ -40,7 +46,7 @@ public class Pane4MainWindow extends Stage implements Serializable {
 	private MenuItem newSpaceItem;
 	private MenuItem viewSpacesItem;
 	private MenuItem quitItem;
-	private MenuItem loadItem;
+	private MenuItem freeSpaces;
 
 	private StackPane root;
 
@@ -82,12 +88,35 @@ public class Pane4MainWindow extends Stage implements Serializable {
 		newSpaceItem = new MenuItem("New Entry");
 		viewSpacesItem = new MenuItem("View Entries");
 		quitItem = new MenuItem("Quit");
-		loadItem = new MenuItem("Load");
+		freeSpaces = new MenuItem("View Available Spaces");
+
+		freeSpaces.setOnAction(e -> {
+			TableColumn<ParkingSpace, String> spaceColumn = new TableColumn<>("Space Type");
+			spaceColumn.setCellValueFactory(new PropertyValueFactory<ParkingSpace, String>("spaceType"));
+
+			TableColumn<ParkingSpace, String> numberColumn = new TableColumn<>("Space No.");
+			numberColumn.setCellValueFactory(new PropertyValueFactory<ParkingSpace, String>("id"));
+
+			TableColumn<ParkingSpace, Integer> levelColumn = new TableColumn<>("Level");
+			levelColumn.setCellValueFactory(new PropertyValueFactory<ParkingSpace, Integer>("level"));
+			TableView<ParkingSpace> table = new TableView<>();
+
+			VBox box = new VBox();
+			table.getColumns().addAll(spaceColumn, numberColumn, levelColumn);
+			table.setItems(getEmptySpaces());
+			box.getChildren().add(table);
+			Scene scene = new Scene(box);
+			freeSpaceStage = new Stage();
+			freeSpaceStage.setScene(scene);
+			freeSpaceStage.setResizable(false);
+			freeSpaceStage.show();
+
+		});
 
 		fileMenu = new Menu("File");
 		menuBar = new MenuBar();
 
-		fileMenu.getItems().addAll(newSpaceItem, viewSpacesItem, quitItem);
+		fileMenu.getItems().addAll(newSpaceItem, viewSpacesItem, freeSpaces, quitItem);
 		menuBar.getMenus().add(fileMenu);
 
 		showSpacesBtn = new Button("Show Parking Spots");
@@ -108,6 +137,7 @@ public class Pane4MainWindow extends Stage implements Serializable {
 		topBox.getChildren().addAll(newEntryBtn, viewEntriesBtn, timeBox);
 		mainPane.setTop(menuBar);
 		root.getChildren().add(mainPane);
+		this.setResizable(false);
 
 		newSpaceItem.setOnAction(e -> {
 			mainPane.getChildren().removeAll();
@@ -125,35 +155,50 @@ public class Pane4MainWindow extends Stage implements Serializable {
 		});
 
 		createPane.getBookSpotButton().setOnAction(e -> {
-			if (createPane.getSizeBox().getValue().equals("Motorcycle")) {
-				TimeslotValue timeParked = new TimeslotValue(createPane.getTimeslotBox().getValue());
-				vehicle = new Motorcycle(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
-						createPane.getLicensePlateNoField().getText(), createPane.getTimeslotBox().getValue(), timeParked.getSlotNumber());
-				ParkingStructure.parkOnLevel1(vehicle);
-				createNewSpotAlert();
-				resetFields();
-			} else if (createPane.getSizeBox().getValue().equals("Compact")) {
-				TimeslotValue timeParked = new TimeslotValue(createPane.getTimeslotBox().getValue());
-				vehicle = new CompactCar(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
-						createPane.getLicensePlateNoField().getText(), createPane.getTimeslotBox().getValue(), timeParked.getSlotNumber());
-				ParkingStructure.parkOnLevel1(vehicle);
-				createNewSpotAlert();
-				resetFields();
-			} else if (createPane.getSizeBox().getValue().equals("Mid Size")) {
-				TimeslotValue timeParked = new TimeslotValue(createPane.getTimeslotBox().getValue());
-				vehicle = new MidSizeCar(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
-						createPane.getLicensePlateNoField().getText(), createPane.getTimeslotBox().getValue(), timeParked.getSlotNumber());
-				ParkingStructure.parkOnLevel1(vehicle);
-				createNewSpotAlert();
-				resetFields();
-			} else if (createPane.getSizeBox().getValue().equals("Truck/Van/SUV")) {
-				TimeslotValue timeParked = new TimeslotValue(createPane.getTimeslotBox().getValue());
-				vehicle = new Truck(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
-						createPane.getLicensePlateNoField().getText(), createPane.getTimeslotBox().getValue(), timeParked.getSlotNumber());
-				ParkingStructure.parkOnLevel1(vehicle);
-				createNewSpotAlert();
-				resetFields();
+			if (createPane.getSizeBox().getValue().equals("Select Space Size")) {
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setHeaderText("Please select a size!");
+				alert.showAndWait();
+			} else if(createPane.getTimeslotBox().getValue().equals("Select Time Length")){
+				Alert alert = new Alert(AlertType.ERROR);
+				alert.setHeaderText("Please select a time!");
+				alert.showAndWait();
+			} else {
+				if (createPane.getSizeBox().getValue().equals("Motorcycle")) {
+					TimeslotValue timeParked = new TimeslotValue(createPane.getTimeslotBox().getValue());
+					vehicle = new Motorcycle(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
+							createPane.getLicensePlateNoField().getText(), createPane.getTimeslotBox().getValue(),
+							timeParked.getSlotNumber());
+					ParkingStructure.parkOnLevel1(vehicle);
+					createNewSpotAlert();
+					resetFields();
+				} else if (createPane.getSizeBox().getValue().equals("Compact")) {
+					TimeslotValue timeParked = new TimeslotValue(createPane.getTimeslotBox().getValue());
+					vehicle = new CompactCar(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
+							createPane.getLicensePlateNoField().getText(), createPane.getTimeslotBox().getValue(),
+							timeParked.getSlotNumber());
+					ParkingStructure.parkOnLevel1(vehicle);
+					createNewSpotAlert();
+					resetFields();
+				} else if (createPane.getSizeBox().getValue().equals("Mid Size")) {
+					TimeslotValue timeParked = new TimeslotValue(createPane.getTimeslotBox().getValue());
+					vehicle = new MidSizeCar(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
+							createPane.getLicensePlateNoField().getText(), createPane.getTimeslotBox().getValue(),
+							timeParked.getSlotNumber());
+					ParkingStructure.parkOnLevel1(vehicle);
+					createNewSpotAlert();
+					resetFields();
+				} else if (createPane.getSizeBox().getValue().equals("Truck/Van/SUV")) {
+					TimeslotValue timeParked = new TimeslotValue(createPane.getTimeslotBox().getValue());
+					vehicle = new Truck(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
+							createPane.getLicensePlateNoField().getText(), createPane.getTimeslotBox().getValue(),
+							timeParked.getSlotNumber());
+					ParkingStructure.parkOnLevel1(vehicle);
+					createNewSpotAlert();
+					resetFields();
+				}
 			}
+			
 			ParkingStructure.getLevel1().saveLevel();
 		});
 
@@ -163,7 +208,7 @@ public class Pane4MainWindow extends Stage implements Serializable {
 					&& !hasVehicles(ParkingStructure.getLevel1().getMidSizeLot())
 					&& !hasVehicles(ParkingStructure.getLevel1().getTruckLot())) {
 				Alert alert = new Alert(AlertType.ERROR);
-				alert.setHeaderText("Level 1 lot is empty!");
+				alert.setHeaderText("All lots are empty!");
 				alert.showAndWait();
 			} else {
 				try {
@@ -223,13 +268,42 @@ public class Pane4MainWindow extends Stage implements Serializable {
 		return false;
 	}
 
-	public boolean hasVehicles(HashMap<String, ParkingSpace> map) {
+	public boolean hasVehicles(Map<String, ParkingSpace> map) {
 		for (ParkingSpace space : map.values()) {
 			if (space.getVehicle() != null) {
 				return true;
 			}
 		}
 		return false;
+	}
+
+	public ObservableList<ParkingSpace> getEmptySpaces() {
+		ObservableList<ParkingSpace> spaces = FXCollections.observableArrayList();
+		for (ParkingSpace space : ParkingStructure.getLevel1().getMotorcycleLot().values()) {
+			if (space.getVehicle() == null) {
+				spaces.add(space);
+			}
+		}
+
+		for (ParkingSpace space : ParkingStructure.getLevel1().getCompactLot().values()) {
+			if (space.getVehicle() == null) {
+				spaces.add(space);
+			}
+		}
+
+		for (ParkingSpace space : ParkingStructure.getLevel1().getMidSizeLot().values()) {
+			if (space.getVehicle() == null) {
+				spaces.add(space);
+			}
+		}
+
+		for (ParkingSpace space : ParkingStructure.getLevel1().getTruckLot().values()) {
+			if (space.getVehicle() == null) {
+				spaces.add(space);
+			}
+		}
+		return spaces;
+
 	}
 
 	public Stage getStage() {

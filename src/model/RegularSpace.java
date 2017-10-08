@@ -5,7 +5,7 @@ import java.io.Serializable;
 public abstract class RegularSpace extends ParkingSpace implements Serializable {
 
 	private static final long serialVersionUID = 6814129886443050988L;	
-	public RegularSpace(Vehicle vehicle) {
+	public RegularSpace(Vehicle vehicle, int level) {
 		super(vehicle);
 		// TODO Auto-generated constructor stub
 	}
