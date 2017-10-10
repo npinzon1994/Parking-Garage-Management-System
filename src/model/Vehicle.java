@@ -5,6 +5,15 @@ import java.time.LocalTime;
 
 import javafx.scene.control.ComboBox;
 
+/**
+ * This class can be used to instantiate Vehicle objects to be parked in a
+ * parking garage. There are four subclasses: Motorcycle, CompactCar,
+ * MidSizeCar, and Truck.
+ * 
+ * @author nickpinzon
+ *
+ */
+
 public abstract class Vehicle implements Serializable {
 
 	private static final long serialVersionUID = 844618332991485586L;
@@ -22,8 +31,30 @@ public abstract class Vehicle implements Serializable {
 	private String spaceNo;
 	private double amountCharged;
 	private double secondsParked;
+	
+	private String spaceType;
 
-	public Vehicle(String firstName, String lastName, String licensePlate, String timeSelect, double secondsParked) {
+	private int levelId;
+
+	/**
+	 * 
+	 * Constructs a vehicle object that can be parked and removed from parking
+	 * spaces.
+	 * 
+	 * @param firstName
+	 *            The customer's first name.
+	 * @param lastName
+	 *            The customer's last name.
+	 * @param licensePlate
+	 *            The customer's license plate number.
+	 * @param timeSelect
+	 *            The minimum amount of time for which the customer is charged
+	 * @param secondsParked
+	 *            The number of seconds the vehicle is parked
+	 */
+
+	public Vehicle(String firstName, String lastName, String licensePlate, String timeSelect, double secondsParked,
+			int levelId) {
 		this.tagNumber = String.valueOf(idInt);
 		this.licensePlate = licensePlate;
 		this.firstName = firstName;
@@ -31,6 +62,7 @@ public abstract class Vehicle implements Serializable {
 		this.startTime = LocalTime.now();
 		this.secondsParked = secondsParked;
 		this.timeSelect = timeSelect;
+		this.levelId = levelId;
 		idInt++;
 	}
 
@@ -122,6 +154,22 @@ public abstract class Vehicle implements Serializable {
 		this.spaceNo = spaceNo;
 	}
 
+	public int getLevelId() {
+		return levelId;
+	}
+
+	public void setLevelId(int levelId) {
+		this.levelId = levelId;
+	}
+	
+	public void setSpaceType(String type){
+		this.spaceType = type;
+	}
+	
+	public String getSpaceType(){
+		return spaceType;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -165,16 +213,40 @@ public abstract class Vehicle implements Serializable {
 		return true;
 	}
 
+	/**
+	 * 
+	 * This method calculates the hourly parking rate from 12AM to 7AM.
+	 * 
+	 * @param startTime
+	 *            The time the vehicle parks and starts getting charged.
+	 * @param endTime
+	 *            The time the vehicle leaves and then pays.
+	 * @return The amount to be paid in USD.
+	 */
+
 	public abstract double calculateEarlyBirdRate(LocalTime startTime, LocalTime endTime);
 
-	public abstract double calculateRegularRate(LocalTime startTime, LocalTime endTime);
+	/**
+	 * 
+	 * @param startTime
+	 *            The time the vehicle parks and starts getting charged.
+	 * @param endTime
+	 *            The time the vehicle leaves and then pays.
+	 * @return The amount to be paid in USD.
+	 */
 
-	public abstract double FlatRateTilClose();
+	public abstract double calculateRegularRate(LocalTime startTime, LocalTime endTime);
 
 	@Override
 	public String toString() {
 		return "Vehicle [licensePlate=" + licensePlate + ", tagNumber=" + tagNumber + ", firstName=" + firstName
-				+ ", lastName=" + lastName + "]";
+				+ ", lastName=" + lastName + ", timeSelect=" + timeSelect + ", startTime=" + startTime + ", endTime="
+				+ endTime + ", spaceNo=" + spaceNo + ", amountCharged=" + amountCharged + ", secondsParked="
+				+ secondsParked + ", levelId=" + levelId + "]";
 	}
+
+	/**
+	 * Standard toString() method for the Vehicle class.
+	 */
 
 }

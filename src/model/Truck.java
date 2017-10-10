@@ -10,9 +10,9 @@ public class Truck extends Vehicle implements Serializable {
 	private static final long serialVersionUID = 844618332991485586L;
 
 	private final double TAX_RATE = 0.18235;
-	
-	public Truck(String firstName, String lastName, String licensePlate, String timeSelect, double secondsParked) {
-		super(firstName, lastName, licensePlate, timeSelect, secondsParked);
+
+	public Truck(String firstName, String lastName, String licensePlate, String timeSelect, double secondsParked, int levelId) {
+		super(firstName, lastName, licensePlate, timeSelect, secondsParked, levelId);
 	}
 
 	@Override
@@ -20,8 +20,8 @@ public class Truck extends Vehicle implements Serializable {
 		double rate = (17.00 / 60);
 		startTime.until(endTime, SECONDS);
 		long seconds = SECONDS.between(startTime, endTime);
-		double subtotal = rate*30;
-		double tax = TAX_RATE*30;
+		double subtotal = rate * 30;
+		double tax = TAX_RATE * 30;
 		double total = subtotal + tax;
 		if (getTimeSelect().equals("1/2 Hour") && seconds <= 30) {
 			tax = TAX_RATE * 30;
@@ -37,28 +37,28 @@ public class Truck extends Vehicle implements Serializable {
 			total = subtotal + tax;
 			return total;
 
-		} else if (getTimeSelect().equals("1 Hour")  && seconds <= 60) {
+		} else if (getTimeSelect().equals("1 Hour") && seconds <= 60) {
 			tax = TAX_RATE * 60;
 			subtotal = rate * 60;
 			total = subtotal + tax;
 			return total;
 			// Anybody who leaves their car longer than expected has to pay
 			// additional 10%
-		} else if (getTimeSelect().equals("1 Hour")  && seconds > 60) {
+		} else if (getTimeSelect().equals("1 Hour") && seconds > 60) {
 			double newRate = rate + ((rate) * (0.1));
 			tax = TAX_RATE * seconds;
 			subtotal = newRate * seconds;
 			total = subtotal + tax;
 			return total;
 
-		} else if (getTimeSelect().equals("2 Hours")  && seconds <= 120) {
+		} else if (getTimeSelect().equals("2 Hours") && seconds <= 120) {
 			tax = TAX_RATE * 120;
 			subtotal = rate * 120;
 			total = subtotal + tax;
 			return total;
 			// Anybody who leaves their car longer than expected has to pay
 			// additional 10%
-		} else if (getTimeSelect().equals("2 Hours")  && seconds > 120) {
+		} else if (getTimeSelect().equals("2 Hours") && seconds > 120) {
 			double newRate = rate + ((rate) * (0.2));
 			tax = TAX_RATE * seconds;
 			subtotal = newRate * seconds;
@@ -74,8 +74,8 @@ public class Truck extends Vehicle implements Serializable {
 		double rate = (22.00 / 60);
 		startTime.until(endTime, SECONDS);
 		long seconds = SECONDS.between(startTime, endTime);
-		double subtotal = rate*30;
-		double tax = TAX_RATE*30;
+		double subtotal = rate * 30;
+		double tax = TAX_RATE * 30;
 		double total = subtotal + tax;
 		if (getTimeSelect().equals("1/2 Hour") && seconds <= 30) {
 			tax = TAX_RATE * 30;
@@ -91,28 +91,28 @@ public class Truck extends Vehicle implements Serializable {
 			total = subtotal + tax;
 			return total;
 
-		} else if (getTimeSelect().equals("1 Hour")  && seconds <= 60) {
+		} else if (getTimeSelect().equals("1 Hour") && seconds <= 60) {
 			tax = TAX_RATE * 60;
 			subtotal = rate * 60;
 			total = subtotal + tax;
 			return total;
 			// Anybody who leaves their car longer than expected has to pay
 			// additional 10%
-		} else if (getTimeSelect().equals("1 Hour")  && seconds > 60) {
+		} else if (getTimeSelect().equals("1 Hour") && seconds > 60) {
 			double newRate = rate + ((rate) * (0.1));
 			tax = TAX_RATE * seconds;
 			subtotal = newRate * seconds;
 			total = subtotal + tax;
 			return total;
 
-		} else if (getTimeSelect().equals("2 Hours")  && seconds <= 120) {
+		} else if (getTimeSelect().equals("2 Hours") && seconds <= 120) {
 			tax = TAX_RATE * 120;
 			subtotal = rate * 120;
 			total = subtotal + tax;
 			return total;
 			// Anybody who leaves their car longer than expected has to pay
 			// additional 10%
-		} else if (getTimeSelect().equals("2 Hours")  && seconds > 120) {
+		} else if (getTimeSelect().equals("2 Hours") && seconds > 120) {
 			double newRate = rate + ((rate) * (0.2));
 			tax = TAX_RATE * seconds;
 			subtotal = newRate * seconds;
@@ -122,14 +122,5 @@ public class Truck extends Vehicle implements Serializable {
 		}
 		return total;
 	}
-
-	@Override
-	public double FlatRateTilClose() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	
-
 
 }

@@ -72,6 +72,7 @@ public class ViewParkedWindow extends Application implements Serializable {
 	private TableColumn<Vehicle, String> tagNumberColumn;
 	private TableColumn<Vehicle, String> licenseColumn;
 	private TableColumn<Vehicle, String> spaceColumn;
+	private TableColumn<Vehicle, String> levelColumn;
 
 	private Button cancelBtn;
 	private Button removeBtn;
@@ -102,32 +103,36 @@ public class ViewParkedWindow extends Application implements Serializable {
 
 		lastNameColumn = new TableColumn("Last Name");
 		lastNameColumn.setPrefWidth(100);
-		
+
 		licenseColumn = new TableColumn("License No.");
 		licenseColumn.setResizable(false);
 		licenseColumn.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("licensePlate"));
-		
+
 		spaceColumn = new TableColumn("Space No.");
 		spaceColumn.setResizable(false);
 		spaceColumn.setMaxWidth(90);
 		spaceColumn.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("spaceNo"));
-		
+
 		lastNameColumn.setResizable(false);
 		lastNameColumn.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("lastName"));
 
 		firstNameColumn = new TableColumn("First Name");
-		
+
 		firstNameColumn.setResizable(false);
 		firstNameColumn.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("firstName"));
 
 		tagNumberColumn = new TableColumn("Tag No.");
-		
+
 		tagNumberColumn.setResizable(false);
 		tagNumberColumn.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("tagNumber"));
 
-		tableView.getColumns().addAll(lastNameColumn, firstNameColumn, licenseColumn, spaceColumn, tagNumberColumn);
+		levelColumn = new TableColumn("Level");
+		levelColumn.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("levelId"));
+
+		tableView.getColumns().addAll(lastNameColumn, firstNameColumn, licenseColumn, spaceColumn, levelColumn,
+				tagNumberColumn);
 		tableView.setItems(displayParkedCars());
-		
+
 		cancelBtn = new Button("Cancel");
 		removeBtn = new Button("Remove");
 
@@ -176,13 +181,18 @@ public class ViewParkedWindow extends Application implements Serializable {
 								earlyBirdPayment = vehicle.calculateEarlyBirdRate(vehicle.getStartTime(),
 										vehicle.getEndTime());
 								vehicle.setAmountCharged(earlyBirdPayment);
-								amountLabel = new Label(NumberFormat.getCurrencyInstance(Locale.US).format(earlyBirdPayment));
+								amountLabel = new Label(
+										NumberFormat.getCurrencyInstance(Locale.US).format(earlyBirdPayment));
+								
+								ParkingStructure.unparkOnLevel1(vehicle);
+								allVehicles.remove(vehicle);
 								VBox box = new VBox(5);
 								box.setPadding(new Insets(5));
 								amountLabel.setPadding(new Insets(0, 10, 0, 0));
 								box.getChildren().addAll(label, amountLabel, button);
 								paymentStage.setScene(new Scene(box));
 								paymentStage.show();
+								
 
 							} else if (currentTime.isAfter(noon) && currentTime.isBefore(elevenFiftyNine)) {
 								double regularPayment;
@@ -192,24 +202,24 @@ public class ViewParkedWindow extends Application implements Serializable {
 								regularPayment = vehicle.calculateRegularRate(vehicle.getStartTime(),
 										vehicle.getEndTime());
 								vehicle.setAmountCharged(regularPayment);
-								amountLabel2 = new Label(NumberFormat.getCurrencyInstance(Locale.US).format(regularPayment));
+								amountLabel2 = new Label(
+										NumberFormat.getCurrencyInstance(Locale.US).format(regularPayment));
+								allVehicles.remove(vehicle);
+								ParkingStructure.unparkOnLevel1(vehicle);
 								VBox box = new VBox(5);
 								box.setPadding(new Insets(5));
 								amountLabel2.setPadding(new Insets(0, 10, 0, 0));
 								box.getChildren().addAll(label, amountLabel2, button);
 								paymentStage.setScene(new Scene(box));
 								paymentStage.show();
-
+								
 							}
 							button.setOnAction(e1 -> {
 								paymentStage.close();
 							});
-
-							ParkingStructure.unparkOnLevel1(vehicle);
-							allVehicles.remove(vehicle);
-						
-
-							ParkingStructure.getLevel1().saveLevel();
+							
+							
+							ParkingStructure.save();
 						}
 
 					}
@@ -264,6 +274,56 @@ public class ViewParkedWindow extends Application implements Serializable {
 
 		}
 		for (ParkingSpace space : ParkingStructure.getLevel1().getTruckLot().values()) {
+			if (space.getVehicle() != null) {
+				vehicles.add(space.getVehicle());
+			}
+
+		}
+
+		for (ParkingSpace space : ParkingStructure.getLevel2().getMotorcycleLot().values()) {
+			if (space.getVehicle() != null) {
+				vehicles.add(space.getVehicle());
+			}
+
+		}
+		for (ParkingSpace space : ParkingStructure.getLevel2().getCompactLot().values()) {
+			if (space.getVehicle() != null) {
+				vehicles.add(space.getVehicle());
+			}
+
+		}
+		for (ParkingSpace space : ParkingStructure.getLevel2().getMidSizeLot().values()) {
+			if (space.getVehicle() != null) {
+				vehicles.add(space.getVehicle());
+			}
+
+		}
+		for (ParkingSpace space : ParkingStructure.getLevel2().getTruckLot().values()) {
+			if (space.getVehicle() != null) {
+				vehicles.add(space.getVehicle());
+			}
+
+		}
+
+		for (ParkingSpace space : ParkingStructure.getLevel3().getMotorcycleLot().values()) {
+			if (space.getVehicle() != null) {
+				vehicles.add(space.getVehicle());
+			}
+
+		}
+		for (ParkingSpace space : ParkingStructure.getLevel3().getCompactLot().values()) {
+			if (space.getVehicle() != null) {
+				vehicles.add(space.getVehicle());
+			}
+
+		}
+		for (ParkingSpace space : ParkingStructure.getLevel3().getMidSizeLot().values()) {
+			if (space.getVehicle() != null) {
+				vehicles.add(space.getVehicle());
+			}
+
+		}
+		for (ParkingSpace space : ParkingStructure.getLevel3().getTruckLot().values()) {
 			if (space.getVehicle() != null) {
 				vehicles.add(space.getVehicle());
 			}

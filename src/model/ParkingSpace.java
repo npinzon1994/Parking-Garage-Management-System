@@ -12,10 +12,10 @@ public abstract class ParkingSpace implements Serializable {
 	private String spaceType;
 	private int level;
 
-	public ParkingSpace(Vehicle vehicle) {
+	public ParkingSpace(Vehicle vehicle, int levelId) {
 		this.id = String.valueOf(idInt);
 		this.vehicle = vehicle;
-		this.level = 1;
+		this.level = levelId;
 		idInt++;
 	}
 
@@ -47,7 +47,8 @@ public abstract class ParkingSpace implements Serializable {
 	}
 
 	public void removeVehicle(Vehicle vehicle) {
-		this.vehicle = null;
+		vehicle = null;
+		this.vehicle = vehicle;
 	}
 
 	

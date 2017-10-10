@@ -13,8 +13,8 @@ public class Motorcycle extends Vehicle implements Serializable {
 
 	private static final long serialVersionUID = 844618332991485586L;
 
-	public Motorcycle(String firstName, String lastName, String licensePlate, String timeSelect, double secondsParked) {
-		super(firstName, lastName, licensePlate, timeSelect, secondsParked);
+	public Motorcycle(String firstName, String lastName, String licensePlate, String timeSelect, double secondsParked, int levelId) {
+		super(firstName, lastName, licensePlate, timeSelect, secondsParked, levelId);
 	}
 
 	/*
@@ -23,7 +23,7 @@ public class Motorcycle extends Vehicle implements Serializable {
 
 	@Override
 	public double calculateEarlyBirdRate(LocalTime startTime, LocalTime endTime) {
-		
+
 		double rate = (7.00 / 60);
 		startTime.until(endTime, SECONDS);
 		long seconds = SECONDS.between(startTime, endTime);
@@ -38,35 +38,35 @@ public class Motorcycle extends Vehicle implements Serializable {
 			// Anybody who leaves their car longer than expected has to pay
 			// additional 10%
 		} else if (getTimeSelect().equals("1/2 Hour") && seconds > 30) {
-			double newRateNum = (rate)*(0.2);
+			double newRateNum = (rate) * (0.2);
 			double newRate = rate + newRateNum;
 			tax = TAX_RATE * seconds;
 			subtotal = newRate * seconds;
 			total = subtotal + tax;
 			return total;
 
-		} else if (getTimeSelect().equals("1 Hour")  && seconds <= 60) {
+		} else if (getTimeSelect().equals("1 Hour") && seconds <= 60) {
 			tax = TAX_RATE * 60;
 			subtotal = rate * 60;
 			total = subtotal + tax;
 			return total;
 			// Anybody who leaves their car longer than expected has to pay
 			// additional 10%
-		} else if (getTimeSelect().equals("1 Hour")  && seconds > 60) {
+		} else if (getTimeSelect().equals("1 Hour") && seconds > 60) {
 			double newRate = rate + ((rate) * (0.2));
 			tax = TAX_RATE * seconds;
 			subtotal = newRate * seconds;
 			total = subtotal + tax;
 			return total;
 
-		} else if (getTimeSelect().equals("2 Hours")  && seconds <= 120) {
+		} else if (getTimeSelect().equals("2 Hours") && seconds <= 120) {
 			tax = TAX_RATE * 120;
 			subtotal = rate * 120;
 			total = subtotal + tax;
 			return total;
 			// Anybody who leaves their car longer than expected has to pay
 			// additional 10%
-		} else if (getTimeSelect().equals("2 Hours")  && seconds > 120) {
+		} else if (getTimeSelect().equals("2 Hours") && seconds > 120) {
 			double newRate = rate + ((rate) * (0.2));
 			tax = TAX_RATE * seconds;
 			subtotal = newRate * seconds;
@@ -77,16 +77,14 @@ public class Motorcycle extends Vehicle implements Serializable {
 		return total;
 	}
 
-	
-
 	@Override
 	public double calculateRegularRate(LocalTime startTime, LocalTime endTime) {
 
 		double rate = (14.00 / 60);
 		startTime.until(endTime, SECONDS);
 		long seconds = SECONDS.between(startTime, endTime);
-		double subtotal = rate*30;
-		double tax = TAX_RATE*30;
+		double subtotal = rate * 30;
+		double tax = TAX_RATE * 30;
 		double total = subtotal + tax;
 		if (getTimeSelect().equals("1/2 Hour") && seconds <= 30) {
 			tax = TAX_RATE * 30;
@@ -96,35 +94,35 @@ public class Motorcycle extends Vehicle implements Serializable {
 			// Anybody who leaves their car longer than expected has to pay
 			// additional 10%
 		} else if (getTimeSelect().equals("1/2 Hour") && seconds > 30) {
-			double newRateNum = (rate)*(0.2);
+			double newRateNum = (rate) * (0.2);
 			double newRate = rate + newRateNum;
 			tax = TAX_RATE * seconds;
 			subtotal = newRate * seconds;
 			total = subtotal + tax;
 			return total;
 
-		} else if (getTimeSelect().equals("1 Hour")  && seconds <= 60) {
+		} else if (getTimeSelect().equals("1 Hour") && seconds <= 60) {
 			tax = TAX_RATE * 60;
 			subtotal = rate * 60;
 			total = subtotal + tax;
 			return total;
 			// Anybody who leaves their car longer than expected has to pay
 			// additional 10%
-		} else if (getTimeSelect().equals("1 Hour")  && seconds > 60) {
+		} else if (getTimeSelect().equals("1 Hour") && seconds > 60) {
 			double newRate = rate + ((rate) * (0.1));
 			tax = TAX_RATE * seconds;
 			subtotal = newRate * seconds;
 			total = subtotal + tax;
 			return total;
 
-		} else if (getTimeSelect().equals("2 Hours")  && seconds <= 120) {
+		} else if (getTimeSelect().equals("2 Hours") && seconds <= 120) {
 			tax = TAX_RATE * 120;
 			subtotal = rate * 120;
 			total = subtotal + tax;
 			return total;
 			// Anybody who leaves their car longer than expected has to pay
 			// additional 10%
-		} else if (getTimeSelect().equals("2 Hours")  && seconds > 120) {
+		} else if (getTimeSelect().equals("2 Hours") && seconds > 120) {
 			double newRate = rate + ((rate) * (0.2));
 			tax = TAX_RATE * seconds;
 			subtotal = newRate * seconds;
@@ -133,13 +131,6 @@ public class Motorcycle extends Vehicle implements Serializable {
 
 		}
 		return total;
-	}
-
-	
-
-	@Override
-	public double FlatRateTilClose() {
-		return 150;
 	}
 
 }

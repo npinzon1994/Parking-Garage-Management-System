@@ -14,7 +14,8 @@ public class MainWindow extends Application implements Serializable {
 	@Override
 	public void start(Stage stage) throws Exception {
 		pmw = new Pane4MainWindow();
-		ParkingStructure.getLevel1().loadLevel();
+		ParkingStructure.load();
+		
 		
 	}
 
