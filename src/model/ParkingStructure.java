@@ -14,8 +14,7 @@ import java.time.LocalTime;
 import java.util.Date;
 
 /**
- * This is the parking garage class which has the potential to have many levels,
- * each with 4 different lots per level.
+ * This is the parking garage class which has three levels.
  * 
  * @author Nick Pinzon
  *
@@ -85,7 +84,7 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
 					tempSpace.getVehicle().setSpaceType("Motorcycle");
 					tempSpace.getVehicle().setStartTime(LocalTime.now());
-					
+
 					spaceFound[0] = true;
 				}
 
@@ -103,7 +102,7 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 					tempSpace.getVehicle().setSpaceType("Compact");
 					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
 					tempSpace.getVehicle().setStartTime(LocalTime.now());
-					
+
 					spaceFound[0] = true;
 				}
 
@@ -122,7 +121,7 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 					tempSpace.getVehicle().setSpaceType("Mid Size");
 					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
 					tempSpace.getVehicle().setStartTime(LocalTime.now());
-					
+
 					spaceFound[0] = true;
 				}
 
@@ -141,7 +140,7 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 					tempSpace.getVehicle().setSpaceType("Truck");
 					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
 					tempSpace.getVehicle().setStartTime(LocalTime.now());
-					
+
 					spaceFound[0] = true;
 				}
 
@@ -160,7 +159,7 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
 					tempSpace.getVehicle().setSpaceType("Compact");
 					tempSpace.getVehicle().setStartTime(LocalTime.now());
-					
+
 					spaceFound[0] = true;
 				}
 
@@ -178,7 +177,7 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
 					tempSpace.getVehicle().setSpaceType("Mid Size");
 					tempSpace.getVehicle().setStartTime(LocalTime.now());
-					
+
 					spaceFound[0] = true;
 				}
 
@@ -197,7 +196,7 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
 					tempSpace.getVehicle().setSpaceType("Truck");
 					tempSpace.getVehicle().setStartTime(LocalTime.now());
-					
+
 					spaceFound[0] = true;
 				}
 
@@ -216,7 +215,7 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 					tempSpace.getVehicle().setSpaceType("Mid Size");
 					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
 					tempSpace.getVehicle().setStartTime(LocalTime.now());
-					
+
 					spaceFound[0] = true;
 				}
 
@@ -234,7 +233,7 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 					tempSpace.getVehicle().setSpaceType("Truck");
 					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
 					tempSpace.getVehicle().setStartTime(LocalTime.now());
-					
+
 					spaceFound[0] = true;
 				}
 
@@ -259,52 +258,182 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 	}
 
 	public static void parkOnLevel2(Vehicle vehicle) {
-		if ((vehicle instanceof Motorcycle) && (!(vehicle instanceof CompactCar) && !(vehicle instanceof MidSizeCar)
-				&& !(vehicle instanceof Truck))) {
+		// for motorcycles -- motorcycle lot
+		if ((vehicle instanceof Motorcycle)
+				&& (!(vehicle instanceof CompactCar) && !(vehicle instanceof MidSizeCar) && !(vehicle instanceof Truck))
+				&& !ParkingStructure.getLevel2().motorcyclesFull()) {
 			final boolean[] spaceFound = { false };
 			ParkingStructure.getLevel2().getMotorcycleLot().keySet().forEach(e -> {
 				ParkingSpace tempSpace = ParkingStructure.getLevel2().getMotorcycleLot().get(e);
-				if (tempSpace.getVehicle() == null && !spaceFound[0]) {
+				if ((tempSpace.getVehicle() == null && !spaceFound[0])) {
 					tempSpace.setVehicle(vehicle);
 					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
+					tempSpace.getVehicle().setSpaceType("Motorcycle");
 					tempSpace.getVehicle().setStartTime(LocalTime.now());
+
 					spaceFound[0] = true;
 				}
 
 			});
-		} else if ((vehicle instanceof CompactCar || vehicle instanceof Motorcycle)
-				&& (!(vehicle instanceof MidSizeCar) && !(vehicle instanceof Truck))) {
+
+			// for motorcycles when lot is full -- compact lot
+		} else if ((vehicle instanceof Motorcycle && !(vehicle instanceof CompactCar)
+				&& !(vehicle instanceof MidSizeCar) && !(vehicle instanceof Truck)
+				&& ParkingStructure.getLevel2().motorcyclesFull() && !ParkingStructure.getLevel2().compactsFull())) {
 			final boolean[] spaceFound = { false };
 			ParkingStructure.getLevel2().getCompactLot().keySet().forEach(e -> {
 				ParkingSpace tempSpace = ParkingStructure.getLevel2().getCompactLot().get(e);
-				if (tempSpace.getVehicle() == null && !spaceFound[0]) {
+				if ((tempSpace.getVehicle() == null && !spaceFound[0])) {
 					tempSpace.setVehicle(vehicle);
+					tempSpace.getVehicle().setSpaceType("Compact");
 					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
 					tempSpace.getVehicle().setStartTime(LocalTime.now());
+
 					spaceFound[0] = true;
 				}
 
 			});
-		} else if ((vehicle instanceof MidSizeCar || vehicle instanceof CompactCar || vehicle instanceof Motorcycle)
-				&& !(vehicle instanceof Truck)) {
+
+			// for motorcycles when lot is full -- mid size lot
+		} else if (((vehicle instanceof Motorcycle) && !(vehicle instanceof CompactCar)
+				&& !(vehicle instanceof MidSizeCar) && !(vehicle instanceof Truck)
+				&& !ParkingStructure.getLevel2().midSizesFull() && ParkingStructure.getLevel2().compactsFull()
+				&& ParkingStructure.getLevel2().motorcyclesFull())) {
 			final boolean[] spaceFound = { false };
 			ParkingStructure.getLevel2().getMidSizeLot().keySet().forEach(e -> {
 				ParkingSpace tempSpace = ParkingStructure.getLevel2().getMidSizeLot().get(e);
-				if (tempSpace.getVehicle() == null && !spaceFound[0]) {
+				if ((tempSpace.getVehicle() == null && !spaceFound[0])) {
 					tempSpace.setVehicle(vehicle);
+					tempSpace.getVehicle().setSpaceType("Mid Size");
 					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
 					tempSpace.getVehicle().setStartTime(LocalTime.now());
+
 					spaceFound[0] = true;
 				}
 
 			});
-		} else if (vehicle instanceof Truck || vehicle instanceof MidSizeCar || vehicle instanceof CompactCar
-				|| vehicle instanceof Motorcycle) {
+
+			// for motorcycles when lot is full -- truck
+		} else if (((vehicle instanceof Motorcycle) && !(vehicle instanceof CompactCar)
+				&& !(vehicle instanceof MidSizeCar) && !(vehicle instanceof Truck)
+				&& !ParkingStructure.getLevel2().trucksFull() && ParkingStructure.getLevel2().midSizesFull()
+				&& ParkingStructure.getLevel2().compactsFull() && ParkingStructure.getLevel2().motorcyclesFull())) {
+			final boolean[] spaceFound = { false };
+			ParkingStructure.getLevel2().getTruckLot().keySet().forEach(e -> {
+				ParkingSpace tempSpace = ParkingStructure.getLevel2().getTruckLot().get(e);
+				if ((tempSpace.getVehicle() == null && !spaceFound[0])) {
+					tempSpace.setVehicle(vehicle);
+					tempSpace.getVehicle().setSpaceType("Truck");
+					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
+					tempSpace.getVehicle().setStartTime(LocalTime.now());
+
+					spaceFound[0] = true;
+				}
+
+			});
+		}
+
+		// for compacts
+		else if (((vehicle instanceof CompactCar && !(vehicle instanceof MidSizeCar) && !(vehicle instanceof Truck)
+				&& !(vehicle instanceof Motorcycle) && !ParkingStructure.getLevel2().compactsFull()))) {
+
+			final boolean[] spaceFound = { false };
+			ParkingStructure.getLevel2().getCompactLot().keySet().forEach(e -> {
+				ParkingSpace tempSpace = ParkingStructure.getLevel2().getCompactLot().get(e);
+				if ((tempSpace.getVehicle() == null && !spaceFound[0])) {
+					tempSpace.setVehicle(vehicle);
+					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
+					tempSpace.getVehicle().setSpaceType("Compact");
+					tempSpace.getVehicle().setStartTime(LocalTime.now());
+
+					spaceFound[0] = true;
+				}
+
+			});
+
+			// for compacts when lot is full -- mid size lot
+		} else if (((vehicle instanceof CompactCar) && !(vehicle instanceof Truck) && !(vehicle instanceof MidSizeCar)
+				&& !(vehicle instanceof Motorcycle) && ParkingStructure.getLevel2().compactsFull()
+				&& !ParkingStructure.getLevel2().midSizesFull())) {
+			final boolean[] spaceFound = { false };
+			ParkingStructure.getLevel2().getMidSizeLot().keySet().forEach(e -> {
+				ParkingSpace tempSpace = ParkingStructure.getLevel2().getMidSizeLot().get(e);
+				if ((tempSpace.getVehicle() == null && !spaceFound[0])) {
+					tempSpace.setVehicle(vehicle);
+					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
+					tempSpace.getVehicle().setSpaceType("Mid Size");
+					tempSpace.getVehicle().setStartTime(LocalTime.now());
+
+					spaceFound[0] = true;
+				}
+
+			});
+
+			// for mid size when lot is full -- truck lot
+		} else if (((vehicle instanceof CompactCar) && !(vehicle instanceof Motorcycle)
+				&& !(vehicle instanceof MidSizeCar) && !(vehicle instanceof Truck)
+				&& !ParkingStructure.getLevel2().trucksFull() && ParkingStructure.getLevel2().midSizesFull()
+				&& ParkingStructure.getLevel2().compactsFull())) {
+			final boolean[] spaceFound = { false };
+			ParkingStructure.getLevel2().getTruckLot().keySet().forEach(e -> {
+				ParkingSpace tempSpace = ParkingStructure.getLevel2().getTruckLot().get(e);
+				if ((tempSpace.getVehicle() == null && !spaceFound[0])) {
+					tempSpace.setVehicle(vehicle);
+					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
+					tempSpace.getVehicle().setSpaceType("Truck");
+					tempSpace.getVehicle().setStartTime(LocalTime.now());
+
+					spaceFound[0] = true;
+				}
+
+			});
+		}
+
+		// for mid size cars
+		else if (((vehicle instanceof MidSizeCar) && !(vehicle instanceof Truck) && !(vehicle instanceof CompactCar)
+				&& !(vehicle instanceof Motorcycle) && !ParkingStructure.getLevel2().midSizesFull())) {
+
+			final boolean[] spaceFound = { false };
+			ParkingStructure.getLevel2().getMidSizeLot().keySet().forEach(e -> {
+				ParkingSpace tempSpace = ParkingStructure.getLevel2().getMidSizeLot().get(e);
+				if ((tempSpace.getVehicle() == null && !spaceFound[0])) {
+					tempSpace.setVehicle(vehicle);
+					tempSpace.getVehicle().setSpaceType("Mid Size");
+					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
+					tempSpace.getVehicle().setStartTime(LocalTime.now());
+
+					spaceFound[0] = true;
+				}
+
+			});
+
+			// for mid size cars when lot is full -- truck lot
+		} else if (((vehicle instanceof MidSizeCar) && !(vehicle instanceof Truck) && !(vehicle instanceof CompactCar)
+				&& !(vehicle instanceof Motorcycle) && ParkingStructure.getLevel2().midSizesFull()
+				&& !ParkingStructure.getLevel2().trucksFull())) {
+			final boolean[] spaceFound = { false };
+			ParkingStructure.getLevel2().getTruckLot().keySet().forEach(e -> {
+				ParkingSpace tempSpace = ParkingStructure.getLevel2().getTruckLot().get(e);
+				if ((tempSpace.getVehicle() == null && !spaceFound[0])) {
+					tempSpace.setVehicle(vehicle);
+					tempSpace.getVehicle().setSpaceType("Truck");
+					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
+					tempSpace.getVehicle().setStartTime(LocalTime.now());
+
+					spaceFound[0] = true;
+				}
+
+			});
+		}
+
+		else if (((vehicle instanceof Truck) && !(vehicle instanceof MidSizeCar) && !(vehicle instanceof CompactCar)
+				&& !(vehicle instanceof Motorcycle) && !ParkingStructure.getLevel2().trucksFull())) {
 			final boolean[] spaceFound = { false };
 			ParkingStructure.getLevel2().getTruckLot().keySet().forEach(e -> {
 				ParkingSpace tempSpace = ParkingStructure.getLevel2().getTruckLot().get(e);
 				if (tempSpace.getVehicle() == null && !spaceFound[0]) {
 					tempSpace.setVehicle(vehicle);
+					tempSpace.getVehicle().setSpaceType("Truck");
 					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
 					tempSpace.getVehicle().setStartTime(LocalTime.now());
 					spaceFound[0] = true;
@@ -315,52 +444,182 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 	}
 
 	public static void parkOnLevel3(Vehicle vehicle) {
-		if ((vehicle instanceof Motorcycle) && (!(vehicle instanceof CompactCar) && !(vehicle instanceof MidSizeCar)
-				&& !(vehicle instanceof Truck))) {
+		// for motorcycles -- motorcycle lot
+		if ((vehicle instanceof Motorcycle)
+				&& (!(vehicle instanceof CompactCar) && !(vehicle instanceof MidSizeCar) && !(vehicle instanceof Truck))
+				&& !ParkingStructure.getLevel3().motorcyclesFull()) {
 			final boolean[] spaceFound = { false };
 			ParkingStructure.getLevel3().getMotorcycleLot().keySet().forEach(e -> {
 				ParkingSpace tempSpace = ParkingStructure.getLevel3().getMotorcycleLot().get(e);
-				if (tempSpace.getVehicle() == null && !spaceFound[0]) {
+				if ((tempSpace.getVehicle() == null && !spaceFound[0])) {
 					tempSpace.setVehicle(vehicle);
 					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
+					tempSpace.getVehicle().setSpaceType("Motorcycle");
 					tempSpace.getVehicle().setStartTime(LocalTime.now());
+
 					spaceFound[0] = true;
 				}
 
 			});
-		} else if ((vehicle instanceof CompactCar || vehicle instanceof Motorcycle)
-				&& (!(vehicle instanceof MidSizeCar) && !(vehicle instanceof Truck))) {
+
+			// for motorcycles when lot is full -- compact lot
+		} else if ((vehicle instanceof Motorcycle && !(vehicle instanceof CompactCar)
+				&& !(vehicle instanceof MidSizeCar) && !(vehicle instanceof Truck)
+				&& ParkingStructure.getLevel3().motorcyclesFull() && !ParkingStructure.getLevel3().compactsFull())) {
 			final boolean[] spaceFound = { false };
 			ParkingStructure.getLevel3().getCompactLot().keySet().forEach(e -> {
 				ParkingSpace tempSpace = ParkingStructure.getLevel3().getCompactLot().get(e);
-				if (tempSpace.getVehicle() == null && !spaceFound[0]) {
+				if ((tempSpace.getVehicle() == null && !spaceFound[0])) {
 					tempSpace.setVehicle(vehicle);
+					tempSpace.getVehicle().setSpaceType("Compact");
 					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
 					tempSpace.getVehicle().setStartTime(LocalTime.now());
+
 					spaceFound[0] = true;
 				}
 
 			});
-		} else if ((vehicle instanceof MidSizeCar || vehicle instanceof CompactCar || vehicle instanceof Motorcycle)
-				&& !(vehicle instanceof Truck)) {
+
+			// for motorcycles when lot is full -- mid size lot
+		} else if (((vehicle instanceof Motorcycle) && !(vehicle instanceof CompactCar)
+				&& !(vehicle instanceof MidSizeCar) && !(vehicle instanceof Truck)
+				&& !ParkingStructure.getLevel3().midSizesFull() && ParkingStructure.getLevel3().compactsFull()
+				&& ParkingStructure.getLevel3().motorcyclesFull())) {
 			final boolean[] spaceFound = { false };
 			ParkingStructure.getLevel3().getMidSizeLot().keySet().forEach(e -> {
 				ParkingSpace tempSpace = ParkingStructure.getLevel3().getMidSizeLot().get(e);
-				if (tempSpace.getVehicle() == null && !spaceFound[0]) {
+				if ((tempSpace.getVehicle() == null && !spaceFound[0])) {
 					tempSpace.setVehicle(vehicle);
+					tempSpace.getVehicle().setSpaceType("Mid Size");
 					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
 					tempSpace.getVehicle().setStartTime(LocalTime.now());
+
 					spaceFound[0] = true;
 				}
 
 			});
-		} else if (vehicle instanceof Truck || vehicle instanceof MidSizeCar || vehicle instanceof CompactCar
-				|| vehicle instanceof Motorcycle) {
+
+			// for motorcycles when lot is full -- truck
+		} else if (((vehicle instanceof Motorcycle) && !(vehicle instanceof CompactCar)
+				&& !(vehicle instanceof MidSizeCar) && !(vehicle instanceof Truck)
+				&& !ParkingStructure.getLevel3().trucksFull() && ParkingStructure.getLevel3().midSizesFull()
+				&& ParkingStructure.getLevel3().compactsFull() && ParkingStructure.getLevel3().motorcyclesFull())) {
+			final boolean[] spaceFound = { false };
+			ParkingStructure.getLevel3().getTruckLot().keySet().forEach(e -> {
+				ParkingSpace tempSpace = ParkingStructure.getLevel3().getTruckLot().get(e);
+				if ((tempSpace.getVehicle() == null && !spaceFound[0])) {
+					tempSpace.setVehicle(vehicle);
+					tempSpace.getVehicle().setSpaceType("Truck");
+					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
+					tempSpace.getVehicle().setStartTime(LocalTime.now());
+
+					spaceFound[0] = true;
+				}
+
+			});
+		}
+
+		// for compacts
+		else if (((vehicle instanceof CompactCar && !(vehicle instanceof MidSizeCar) && !(vehicle instanceof Truck)
+				&& !(vehicle instanceof Motorcycle) && !ParkingStructure.getLevel3().compactsFull()))) {
+
+			final boolean[] spaceFound = { false };
+			ParkingStructure.getLevel3().getCompactLot().keySet().forEach(e -> {
+				ParkingSpace tempSpace = ParkingStructure.getLevel3().getCompactLot().get(e);
+				if ((tempSpace.getVehicle() == null && !spaceFound[0])) {
+					tempSpace.setVehicle(vehicle);
+					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
+					tempSpace.getVehicle().setSpaceType("Compact");
+					tempSpace.getVehicle().setStartTime(LocalTime.now());
+
+					spaceFound[0] = true;
+				}
+
+			});
+
+			// for compacts when lot is full -- mid size lot
+		} else if (((vehicle instanceof CompactCar) && !(vehicle instanceof Truck) && !(vehicle instanceof MidSizeCar)
+				&& !(vehicle instanceof Motorcycle) && ParkingStructure.getLevel3().compactsFull()
+				&& !ParkingStructure.getLevel3().midSizesFull())) {
+			final boolean[] spaceFound = { false };
+			ParkingStructure.getLevel3().getMidSizeLot().keySet().forEach(e -> {
+				ParkingSpace tempSpace = ParkingStructure.getLevel3().getMidSizeLot().get(e);
+				if ((tempSpace.getVehicle() == null && !spaceFound[0])) {
+					tempSpace.setVehicle(vehicle);
+					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
+					tempSpace.getVehicle().setSpaceType("Mid Size");
+					tempSpace.getVehicle().setStartTime(LocalTime.now());
+
+					spaceFound[0] = true;
+				}
+
+			});
+
+			// for mid size when lot is full -- truck lot
+		} else if (((vehicle instanceof CompactCar) && !(vehicle instanceof Motorcycle)
+				&& !(vehicle instanceof MidSizeCar) && !(vehicle instanceof Truck)
+				&& !ParkingStructure.getLevel3().trucksFull() && ParkingStructure.getLevel3().midSizesFull()
+				&& ParkingStructure.getLevel3().compactsFull())) {
+			final boolean[] spaceFound = { false };
+			ParkingStructure.getLevel3().getTruckLot().keySet().forEach(e -> {
+				ParkingSpace tempSpace = ParkingStructure.getLevel3().getTruckLot().get(e);
+				if ((tempSpace.getVehicle() == null && !spaceFound[0])) {
+					tempSpace.setVehicle(vehicle);
+					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
+					tempSpace.getVehicle().setSpaceType("Truck");
+					tempSpace.getVehicle().setStartTime(LocalTime.now());
+
+					spaceFound[0] = true;
+				}
+
+			});
+		}
+
+		// for mid size cars
+		else if (((vehicle instanceof MidSizeCar) && !(vehicle instanceof Truck) && !(vehicle instanceof CompactCar)
+				&& !(vehicle instanceof Motorcycle) && !ParkingStructure.getLevel3().midSizesFull())) {
+
+			final boolean[] spaceFound = { false };
+			ParkingStructure.getLevel3().getMidSizeLot().keySet().forEach(e -> {
+				ParkingSpace tempSpace = ParkingStructure.getLevel3().getMidSizeLot().get(e);
+				if ((tempSpace.getVehicle() == null && !spaceFound[0])) {
+					tempSpace.setVehicle(vehicle);
+					tempSpace.getVehicle().setSpaceType("Mid Size");
+					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
+					tempSpace.getVehicle().setStartTime(LocalTime.now());
+
+					spaceFound[0] = true;
+				}
+
+			});
+
+			// for mid size cars when lot is full -- truck lot
+		} else if (((vehicle instanceof MidSizeCar) && !(vehicle instanceof Truck) && !(vehicle instanceof CompactCar)
+				&& !(vehicle instanceof Motorcycle) && ParkingStructure.getLevel3().midSizesFull()
+				&& !ParkingStructure.getLevel3().trucksFull())) {
+			final boolean[] spaceFound = { false };
+			ParkingStructure.getLevel3().getTruckLot().keySet().forEach(e -> {
+				ParkingSpace tempSpace = ParkingStructure.getLevel3().getTruckLot().get(e);
+				if ((tempSpace.getVehicle() == null && !spaceFound[0])) {
+					tempSpace.setVehicle(vehicle);
+					tempSpace.getVehicle().setSpaceType("Truck");
+					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
+					tempSpace.getVehicle().setStartTime(LocalTime.now());
+
+					spaceFound[0] = true;
+				}
+
+			});
+		}
+
+		else if (((vehicle instanceof Truck) && !(vehicle instanceof MidSizeCar) && !(vehicle instanceof CompactCar)
+				&& !(vehicle instanceof Motorcycle) && !ParkingStructure.getLevel3().trucksFull())) {
 			final boolean[] spaceFound = { false };
 			ParkingStructure.getLevel3().getTruckLot().keySet().forEach(e -> {
 				ParkingSpace tempSpace = ParkingStructure.getLevel3().getTruckLot().get(e);
 				if (tempSpace.getVehicle() == null && !spaceFound[0]) {
 					tempSpace.setVehicle(vehicle);
+					tempSpace.getVehicle().setSpaceType("Truck");
 					tempSpace.getVehicle().setSpaceNo(tempSpace.getId());
 					tempSpace.getVehicle().setStartTime(LocalTime.now());
 					spaceFound[0] = true;
@@ -425,8 +684,7 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 	}
 
 	public static void unparkOnLevel2(Vehicle vehicle) {
-		if ((vehicle instanceof Motorcycle) && (!(vehicle instanceof CompactCar) && !(vehicle instanceof MidSizeCar)
-				&& !(vehicle instanceof Truck))) {
+		if ((vehicle instanceof Motorcycle && vehicle.getSpaceType().equals("Motorcycle"))) {
 			final boolean[] spaceFound = { false };
 			ParkingStructure.getLevel2().getMotorcycleLot().keySet().forEach(e -> { // loops
 																					// through
@@ -440,8 +698,8 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 				}
 
 			});
-		} else if ((vehicle instanceof CompactCar || vehicle instanceof Motorcycle)
-				&& (!(vehicle instanceof MidSizeCar) && !(vehicle instanceof Truck))) {
+		} else if ((vehicle instanceof CompactCar && vehicle.getSpaceType().equals("Compact"))
+				|| (vehicle instanceof Motorcycle && vehicle.getSpaceType().equals("Compact"))) {
 			final boolean[] spaceFound = { false };
 			ParkingStructure.getLevel2().getCompactLot().keySet().forEach(e -> {
 				ParkingSpace tempSpace = ParkingStructure.getLevel2().getCompactLot().get(e);
@@ -451,8 +709,9 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 				}
 
 			});
-		} else if ((vehicle instanceof MidSizeCar || vehicle instanceof CompactCar || vehicle instanceof Motorcycle)
-				&& !(vehicle instanceof Truck)) {
+		} else if ((vehicle instanceof MidSizeCar && vehicle.getSpaceType().equals("Mid Size"))
+				|| (vehicle instanceof CompactCar && vehicle.getSpaceType().equals("Mid Size"))
+				|| (vehicle instanceof Motorcycle && vehicle.getSpaceType().equals("Mid Size"))) {
 			final boolean[] spaceFound = { false };
 			ParkingStructure.getLevel2().getMidSizeLot().keySet().forEach(e -> {
 				ParkingSpace tempSpace = ParkingStructure.getLevel2().getMidSizeLot().get(e);
@@ -462,8 +721,10 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 				}
 
 			});
-		} else if (vehicle instanceof Truck || vehicle instanceof MidSizeCar || vehicle instanceof CompactCar
-				|| vehicle instanceof Motorcycle) {
+		} else if ((vehicle instanceof Truck && vehicle.getSpaceType().equals("Truck"))
+				|| (vehicle instanceof MidSizeCar && vehicle.getSpaceType().equals("Truck"))
+				|| (vehicle instanceof CompactCar && vehicle.getSpaceType().equals("Truck"))
+				|| (vehicle instanceof Motorcycle && vehicle.getSpaceType().equals("Truck"))) {
 			final boolean[] spaceFound = { false };
 			ParkingStructure.getLevel2().getTruckLot().keySet().forEach(e -> {
 				ParkingSpace tempSpace = ParkingStructure.getLevel2().getTruckLot().get(e);
@@ -477,7 +738,7 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 	}
 
 	public static void unparkOnLevel3(Vehicle vehicle) {
-		if (vehicle instanceof Motorcycle) {
+		if ((vehicle instanceof Motorcycle && vehicle.getSpaceType().equals("Motorcycle"))) {
 			final boolean[] spaceFound = { false };
 			ParkingStructure.getLevel3().getMotorcycleLot().keySet().forEach(e -> { // loops
 																					// through
@@ -491,7 +752,8 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 				}
 
 			});
-		} else if (vehicle instanceof CompactCar) {
+		} else if ((vehicle instanceof CompactCar && vehicle.getSpaceType().equals("Compact"))
+				|| (vehicle instanceof Motorcycle && vehicle.getSpaceType().equals("Compact"))) {
 			final boolean[] spaceFound = { false };
 			ParkingStructure.getLevel3().getCompactLot().keySet().forEach(e -> {
 				ParkingSpace tempSpace = ParkingStructure.getLevel3().getCompactLot().get(e);
@@ -501,7 +763,9 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 				}
 
 			});
-		} else if (vehicle instanceof MidSizeCar) {
+		} else if ((vehicle instanceof MidSizeCar && vehicle.getSpaceType().equals("Mid Size"))
+				|| (vehicle instanceof CompactCar && vehicle.getSpaceType().equals("Mid Size"))
+				|| (vehicle instanceof Motorcycle && vehicle.getSpaceType().equals("Mid Size"))) {
 			final boolean[] spaceFound = { false };
 			ParkingStructure.getLevel3().getMidSizeLot().keySet().forEach(e -> {
 				ParkingSpace tempSpace = ParkingStructure.getLevel3().getMidSizeLot().get(e);
@@ -511,7 +775,10 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 				}
 
 			});
-		} else if (vehicle instanceof Truck) {
+		} else if ((vehicle instanceof Truck && vehicle.getSpaceType().equals("Truck"))
+				|| (vehicle instanceof MidSizeCar && vehicle.getSpaceType().equals("Truck"))
+				|| (vehicle instanceof CompactCar && vehicle.getSpaceType().equals("Truck"))
+				|| (vehicle instanceof Motorcycle && vehicle.getSpaceType().equals("Truck"))) {
 			final boolean[] spaceFound = { false };
 			ParkingStructure.getLevel3().getTruckLot().keySet().forEach(e -> {
 				ParkingSpace tempSpace = ParkingStructure.getLevel3().getTruckLot().get(e);
@@ -528,7 +795,7 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 		FileOutputStream fileOutput = null;
 		ObjectOutputStream objectOutput = null;
 		try {
-			fileOutput = new FileOutputStream("saveData22.dat");
+			fileOutput = new FileOutputStream("saveData26.dat");
 			objectOutput = new ObjectOutputStream(fileOutput);
 			objectOutput.writeObject(getLevel1());
 			objectOutput.writeObject(getLevel2());
@@ -552,8 +819,8 @@ public class ParkingStructure implements ParkingBehavior, Serializable {
 		ObjectInputStream objectInput = null;
 
 		try {
-			fileInput = new FileInputStream("saveData22.dat");
-			File file = new File("saveData22.dat");
+			fileInput = new FileInputStream("saveData26.dat");
+			File file = new File("saveData26.dat");
 			objectInput = new ObjectInputStream(fileInput);
 			if (file.exists()) {
 				setLevel1((ParkingLevel) objectInput.readObject());

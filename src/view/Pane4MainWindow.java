@@ -2,10 +2,15 @@ package view;
 
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
+import java.time.LocalTime;
 import java.util.Date;
 import java.util.Map;
 
+import com.sun.javafx.scene.control.skin.TableHeaderRow;
+
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
@@ -15,6 +20,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
@@ -31,7 +37,6 @@ import javafx.stage.Stage;
 import model.CompactCar;
 import model.MidSizeCar;
 import model.Motorcycle;
-import model.ParkingLevel;
 import model.ParkingSpace;
 import model.ParkingStructure;
 import model.Truck;
@@ -163,9 +168,23 @@ public class Pane4MainWindow extends Stage implements Serializable {
 			levelColumnLv1.setCellValueFactory(new PropertyValueFactory<ParkingSpace, Integer>("level"));
 			TableView<ParkingSpace> table = new TableView<>();
 			table.autosize();
+			table.widthProperty().addListener(new ChangeListener<Number>() {
+				@Override
+				public void changed(ObservableValue<? extends Number> source, Number oldWidth, Number newWidth) {
+					TableHeaderRow header = (TableHeaderRow) table.lookup("TableHeaderRow");
+					header.reorderingProperty().addListener(new ChangeListener<Boolean>() {
+						@Override
+						public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue,
+								Boolean newValue) {
+							header.setReordering(false);
+						}
+					});
+				}
+			});
 
 			table.getColumns().addAll(spaceColumnLv1, numberColumnLv1, levelColumnLv1);
 			table.setItems(getEmptySpacesLv1());
+			table.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 			cancelBtn.setOnAction(e1 -> {
 				freeSpaceStage.close();
@@ -182,12 +201,14 @@ public class Pane4MainWindow extends Stage implements Serializable {
 
 			TableColumn<ParkingSpace, Integer> levelColumnLv2 = new TableColumn<>("Level");
 			levelColumnLv2.setCellValueFactory(new PropertyValueFactory<ParkingSpace, Integer>("level"));
+			levelColumnLv2.setPrefWidth(100);
 			TableView<ParkingSpace> table2 = new TableView<>();
 			table2.autosize();
 
 			VBox box2 = new VBox(10);
 			table2.getColumns().addAll(spaceColumnLv2, numberColumnLv2, levelColumnLv2);
 			table2.setItems(getEmptySpacesLv2());
+			table2.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 			box2.getChildren().addAll(table2, btnBox2);
 
 			cancelBtn2.setOnAction(e1 -> {
@@ -203,12 +224,14 @@ public class Pane4MainWindow extends Stage implements Serializable {
 
 			TableColumn<ParkingSpace, Integer> levelColumnLv3 = new TableColumn<>("Level");
 			levelColumnLv3.setCellValueFactory(new PropertyValueFactory<ParkingSpace, Integer>("level"));
+			levelColumnLv3.setPrefWidth(100);
 			TableView<ParkingSpace> table3 = new TableView<>();
 			table3.autosize();
 
 			VBox box3 = new VBox(10);
 			table3.getColumns().addAll(spaceColumnLv3, numberColumnLv3, levelColumnLv3);
 			table3.setItems(getEmptySpacesLv3());
+			table3.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 			box3.getChildren().addAll(table3, btnBox3);
 
 			cancelBtn3.setOnAction(e1 -> {
@@ -315,6 +338,7 @@ public class Pane4MainWindow extends Stage implements Serializable {
 			mainbox.setPadding(new Insets(10));
 
 			scene = new Scene(mainbox);
+			scene.getStylesheets().add(getClass().getResource("MauveStorm.css").toExternalForm());
 			freeSpaceStage = new Stage();
 			freeSpaceStage.setScene(scene);
 			freeSpaceStage.setTitle("Available Parking - Level 1");
@@ -356,22 +380,29 @@ public class Pane4MainWindow extends Stage implements Serializable {
 			if (createPane.getSizeBox().getValue().equals("Select Space Size")) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setHeaderText("Please select a size!");
+				DialogPane pane = alert.getDialogPane();
+				pane.getStylesheets().add(getClass().getResource("MauveStorm.css").toExternalForm());
 				alert.showAndWait();
+				
 			} else if (createPane.getTimeslotBox().getValue().equals("Select Time Length")) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setHeaderText("Please select a time!");
+				DialogPane pane = alert.getDialogPane();
+				pane.getStylesheets().add(getClass().getResource("MauveStorm.css").toExternalForm());
 				alert.showAndWait();
 			} else {
 				if (createPane.getSizeBox().getValue().equals("Motorcycle")) {
 
 					if (!ParkingStructure.getLevel1().motorcyclesFull() || !ParkingStructure.getLevel1().compactsFull()
-							||!ParkingStructure.getLevel1().midSizesFull()
+							|| !ParkingStructure.getLevel1().midSizesFull()
 							|| !ParkingStructure.getLevel1().trucksFull()) {
 						TimeslotValue timeParked = new TimeslotValue(createPane.getTimeslotBox().getValue());
 						vehicle = new Motorcycle(createPane.getFNameField().getText(),
 								createPane.getLNameField().getText(), createPane.getLicensePlateNoField().getText(),
 								createPane.getTimeslotBox().getValue(), timeParked.getSlotNumber(), 1);
-						
+
+						vehicle.setStartTime(LocalTime.now());
+						vehicle.setLevelId(1);
 						ParkingStructure.parkOnLevel1(vehicle);
 						createNewSpotAlertLv1();
 						resetFields();
@@ -384,7 +415,9 @@ public class Pane4MainWindow extends Stage implements Serializable {
 						vehicle = new Motorcycle(createPane.getFNameField().getText(),
 								createPane.getLNameField().getText(), createPane.getLicensePlateNoField().getText(),
 								createPane.getTimeslotBox().getValue(), timeParked.getSlotNumber(), 2);
-					
+
+						vehicle.setStartTime(LocalTime.now());
+						vehicle.setLevelId(2);
 						ParkingStructure.parkOnLevel2(vehicle);
 						createNewSpotAlertLv2();
 						resetFields();
@@ -398,7 +431,9 @@ public class Pane4MainWindow extends Stage implements Serializable {
 						vehicle = new Motorcycle(createPane.getFNameField().getText(),
 								createPane.getLNameField().getText(), createPane.getLicensePlateNoField().getText(),
 								createPane.getTimeslotBox().getValue(), timeParked.getSlotNumber(), 3);
-						
+
+						vehicle.setStartTime(LocalTime.now());
+						vehicle.setLevelId(3);
 						ParkingStructure.parkOnLevel3(vehicle);
 						createNewSpotAlertLv3();
 						resetFields();
@@ -411,12 +446,12 @@ public class Pane4MainWindow extends Stage implements Serializable {
 							&& ParkingStructure.getLevel3().compactsFull()
 							&& ParkingStructure.getLevel1().midSizesFull()
 							&& ParkingStructure.getLevel2().midSizesFull()
-							&& ParkingStructure.getLevel3().midSizesFull()
-							&& ParkingStructure.getLevel1().trucksFull()
-							&& ParkingStructure.getLevel2().trucksFull()
-							&& ParkingStructure.getLevel3().trucksFull()) {
+							&& ParkingStructure.getLevel3().midSizesFull() && ParkingStructure.getLevel1().trucksFull()
+							&& ParkingStructure.getLevel2().trucksFull() && ParkingStructure.getLevel3().trucksFull()) {
 						Alert alert = new Alert(AlertType.ERROR);
 						alert.setHeaderText("Parking garage is full!");
+						DialogPane pane = alert.getDialogPane();
+						pane.getStylesheets().add(getClass().getResource("MauveStorm.css").toExternalForm());
 						alert.showAndWait();
 					}
 
@@ -428,6 +463,7 @@ public class Pane4MainWindow extends Stage implements Serializable {
 						vehicle = new CompactCar(createPane.getFNameField().getText(),
 								createPane.getLNameField().getText(), createPane.getLicensePlateNoField().getText(),
 								createPane.getTimeslotBox().getValue(), timeParked.getSlotNumber(), 1);
+						vehicle.setStartTime(LocalTime.now());
 						vehicle.setLevelId(1);
 						ParkingStructure.parkOnLevel1(vehicle);
 						createNewSpotAlertLv1();
@@ -440,6 +476,7 @@ public class Pane4MainWindow extends Stage implements Serializable {
 						vehicle = new CompactCar(createPane.getFNameField().getText(),
 								createPane.getLNameField().getText(), createPane.getLicensePlateNoField().getText(),
 								createPane.getTimeslotBox().getValue(), timeParked.getSlotNumber(), 2);
+						vehicle.setStartTime(LocalTime.now());
 						vehicle.setLevelId(2);
 						ParkingStructure.parkOnLevel2(vehicle);
 						createNewSpotAlertLv2();
@@ -453,6 +490,7 @@ public class Pane4MainWindow extends Stage implements Serializable {
 						vehicle = new CompactCar(createPane.getFNameField().getText(),
 								createPane.getLNameField().getText(), createPane.getLicensePlateNoField().getText(),
 								createPane.getTimeslotBox().getValue(), timeParked.getSlotNumber(), 3);
+						vehicle.setStartTime(LocalTime.now());
 						vehicle.setLevelId(3);
 						ParkingStructure.parkOnLevel3(vehicle);
 						createNewSpotAlertLv3();
@@ -463,12 +501,12 @@ public class Pane4MainWindow extends Stage implements Serializable {
 							&& ParkingStructure.getLevel3().compactsFull()
 							&& ParkingStructure.getLevel1().midSizesFull()
 							&& ParkingStructure.getLevel2().midSizesFull()
-							&& ParkingStructure.getLevel3().midSizesFull()
-							&& ParkingStructure.getLevel1().trucksFull()
-							&& ParkingStructure.getLevel2().trucksFull()
-							&& ParkingStructure.getLevel3().trucksFull()) {
+							&& ParkingStructure.getLevel3().midSizesFull() && ParkingStructure.getLevel1().trucksFull()
+							&& ParkingStructure.getLevel2().trucksFull() && ParkingStructure.getLevel3().trucksFull()) {
 						Alert alert = new Alert(AlertType.ERROR);
 						alert.setHeaderText("Parking garage is full!");
+						DialogPane pane = alert.getDialogPane();
+						pane.getStylesheets().add(getClass().getResource("MauveStorm.css").toExternalForm());
 						alert.showAndWait();
 					}
 				} else if (createPane.getSizeBox().getValue().equals("Mid Size")) {
@@ -478,6 +516,7 @@ public class Pane4MainWindow extends Stage implements Serializable {
 						vehicle = new MidSizeCar(createPane.getFNameField().getText(),
 								createPane.getLNameField().getText(), createPane.getLicensePlateNoField().getText(),
 								createPane.getTimeslotBox().getValue(), timeParked.getSlotNumber(), 1);
+						vehicle.setStartTime(LocalTime.now());
 						vehicle.setLevelId(1);
 						ParkingStructure.parkOnLevel1(vehicle);
 						createNewSpotAlertLv1();
@@ -488,6 +527,7 @@ public class Pane4MainWindow extends Stage implements Serializable {
 						vehicle = new MidSizeCar(createPane.getFNameField().getText(),
 								createPane.getLNameField().getText(), createPane.getLicensePlateNoField().getText(),
 								createPane.getTimeslotBox().getValue(), timeParked.getSlotNumber(), 2);
+						vehicle.setStartTime(LocalTime.now());
 						vehicle.setLevelId(2);
 						ParkingStructure.parkOnLevel2(vehicle);
 						createNewSpotAlertLv2();
@@ -499,6 +539,7 @@ public class Pane4MainWindow extends Stage implements Serializable {
 						vehicle = new MidSizeCar(createPane.getFNameField().getText(),
 								createPane.getLNameField().getText(), createPane.getLicensePlateNoField().getText(),
 								createPane.getTimeslotBox().getValue(), timeParked.getSlotNumber(), 3);
+						vehicle.setStartTime(LocalTime.now());
 						vehicle.setLevelId(3);
 						ParkingStructure.parkOnLevel3(vehicle);
 						createNewSpotAlertLv3();
@@ -509,15 +550,18 @@ public class Pane4MainWindow extends Stage implements Serializable {
 							&& ParkingStructure.getLevel3().motorcyclesFull()) {
 						Alert alert = new Alert(AlertType.ERROR);
 						alert.setHeaderText("All midsize spaces are full!");
+						DialogPane pane = alert.getDialogPane();
+						pane.getStylesheets().add(getClass().getResource("MauveStorm.css").toExternalForm());
 						alert.showAndWait();
 					}
 				} else if (createPane.getSizeBox().getValue().equals("Truck/Van/SUV")) {
 
 					if (!ParkingStructure.getLevel1().trucksFull()) {
 						TimeslotValue timeParked = new TimeslotValue(createPane.getTimeslotBox().getValue());
-						vehicle = new Truck(createPane.getFNameField().getText(),
-								createPane.getLNameField().getText(), createPane.getLicensePlateNoField().getText(),
-								createPane.getTimeslotBox().getValue(), timeParked.getSlotNumber(), 1);
+						vehicle = new Truck(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
+								createPane.getLicensePlateNoField().getText(), createPane.getTimeslotBox().getValue(),
+								timeParked.getSlotNumber(), 1);
+						vehicle.setStartTime(LocalTime.now());
 						vehicle.setLevelId(1);
 						ParkingStructure.parkOnLevel1(vehicle);
 						createNewSpotAlertLv1();
@@ -525,9 +569,10 @@ public class Pane4MainWindow extends Stage implements Serializable {
 					} else if (ParkingStructure.getLevel1().trucksFull()
 							&& !ParkingStructure.getLevel2().trucksFull()) {
 						TimeslotValue timeParked = new TimeslotValue(createPane.getTimeslotBox().getValue());
-						vehicle = new Truck(createPane.getFNameField().getText(),
-								createPane.getLNameField().getText(), createPane.getLicensePlateNoField().getText(),
-								createPane.getTimeslotBox().getValue(), timeParked.getSlotNumber(), 2);
+						vehicle = new Truck(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
+								createPane.getLicensePlateNoField().getText(), createPane.getTimeslotBox().getValue(),
+								timeParked.getSlotNumber(), 2);
+						vehicle.setStartTime(LocalTime.now());
 						vehicle.setLevelId(2);
 						ParkingStructure.parkOnLevel2(vehicle);
 						createNewSpotAlertLv2();
@@ -535,9 +580,10 @@ public class Pane4MainWindow extends Stage implements Serializable {
 					} else if (ParkingStructure.getLevel2().trucksFull() && ParkingStructure.getLevel1().trucksFull()
 							&& !ParkingStructure.getLevel3().trucksFull()) {
 						TimeslotValue timeParked = new TimeslotValue(createPane.getTimeslotBox().getValue());
-						vehicle = new Truck(createPane.getFNameField().getText(),
-								createPane.getLNameField().getText(), createPane.getLicensePlateNoField().getText(),
-								createPane.getTimeslotBox().getValue(), timeParked.getSlotNumber(), 3);
+						vehicle = new Truck(createPane.getFNameField().getText(), createPane.getLNameField().getText(),
+								createPane.getLicensePlateNoField().getText(), createPane.getTimeslotBox().getValue(),
+								timeParked.getSlotNumber(), 3);
+						vehicle.setStartTime(LocalTime.now());
 						vehicle.setLevelId(3);
 						ParkingStructure.parkOnLevel3(vehicle);
 						createNewSpotAlertLv3();
@@ -547,6 +593,8 @@ public class Pane4MainWindow extends Stage implements Serializable {
 							&& ParkingStructure.getLevel3().trucksFull()) {
 						Alert alert = new Alert(AlertType.ERROR);
 						alert.setHeaderText("All truck spaces are full!");
+						DialogPane pane = alert.getDialogPane();
+						pane.getStylesheets().add(getClass().getResource("MauveStorm.css").toExternalForm());
 						alert.showAndWait();
 					}
 				}
@@ -594,6 +642,7 @@ public class Pane4MainWindow extends Stage implements Serializable {
 		});
 
 		scene = new Scene(root, 550, 350);
+		scene.getStylesheets().add(getClass().getResource("MauveStorm.css").toExternalForm());
 		this.setScene(scene);
 		this.show();
 	}
@@ -611,6 +660,8 @@ public class Pane4MainWindow extends Stage implements Serializable {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setHeaderText(createPane.getFNameField().getText() + " " + createPane.getLNameField().getText()
 				+ "'s vehicle has been parked on level 1");
+		DialogPane pane = alert.getDialogPane();
+		pane.getStylesheets().add(getClass().getResource("MauveStorm.css").toExternalForm());
 		alert.showAndWait();
 		return alert;
 	}
@@ -619,6 +670,8 @@ public class Pane4MainWindow extends Stage implements Serializable {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setHeaderText(createPane.getFNameField().getText() + " " + createPane.getLNameField().getText()
 				+ "'s vehicle has been parked on level 2");
+		DialogPane pane = alert.getDialogPane();
+		pane.getStylesheets().add(getClass().getResource("MauveStorm.css").toExternalForm());
 		alert.showAndWait();
 		return alert;
 	}
@@ -627,6 +680,8 @@ public class Pane4MainWindow extends Stage implements Serializable {
 		Alert alert = new Alert(AlertType.INFORMATION);
 		alert.setHeaderText(createPane.getFNameField().getText() + " " + createPane.getLNameField().getText()
 				+ "'s vehicle has been parked on level 3");
+		DialogPane pane = alert.getDialogPane();
+		pane.getStylesheets().add(getClass().getResource("MauveStorm.css").toExternalForm());
 		alert.showAndWait();
 		return alert;
 	}

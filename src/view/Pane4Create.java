@@ -59,15 +59,16 @@ public class Pane4Create extends Stage implements Serializable  {
 		sizeBox.getSelectionModel().selectFirst();
 
 		timeslotBox = new ComboBox<String>();
-		timeslotBox.getItems().addAll("Select Time Length", "1/2 hour", "1 Hour", "2 Hours", "To Close (8PM)");
+		timeslotBox.getItems().addAll("Select Time Length", "Up to 1/2 Hour", "Up to 1 Hour", "Up to 2 Hours");
 		timeslotBox.getSelectionModel().selectFirst();
+		timeslotBox.setPrefWidth(180);
 
 		grid = new GridPane();
 		grid.setPadding(new Insets(15));
 		grid.setVgap(10);
 		grid.setHgap(10);
 		grid.getChildren().addAll(firstName, lastName, fNameField, lNameField, cancelBtn, bookSpotBtn, sizeBox,
-				timeslotBox, licensePlateNo, licensePlateNoField, handicappedCheckBox);
+				timeslotBox, licensePlateNo, licensePlateNoField);
 		this.setResizable(false);
 
 		GridPane.setConstraints(firstName, 0, 0);

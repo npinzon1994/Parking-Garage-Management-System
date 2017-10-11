@@ -28,6 +28,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
+import javafx.scene.control.DialogPane;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -86,6 +87,7 @@ public class ViewParkedWindow extends Application implements Serializable {
 		this.stage = stage;
 
 		tableView = new TableView<>();
+		
 
 		tableView.widthProperty().addListener(new ChangeListener<Number>() {
 			@Override
@@ -125,13 +127,16 @@ public class ViewParkedWindow extends Application implements Serializable {
 
 		tagNumberColumn.setResizable(false);
 		tagNumberColumn.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("tagNumber"));
+		tagNumberColumn.setPrefWidth(110);
 
 		levelColumn = new TableColumn("Level");
 		levelColumn.setCellValueFactory(new PropertyValueFactory<Vehicle, String>("levelId"));
+		levelColumn.setPrefWidth(50);
 
 		tableView.getColumns().addAll(lastNameColumn, firstNameColumn, licenseColumn, spaceColumn, levelColumn,
 				tagNumberColumn);
 		tableView.setItems(displayParkedCars());
+		tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 
 		cancelBtn = new Button("Cancel");
 		removeBtn = new Button("Remove");
@@ -159,6 +164,8 @@ public class ViewParkedWindow extends Application implements Serializable {
 						ButtonType.CANCEL);
 				alert.setHeaderText("Unpark " + tableView.getSelectionModel().getSelectedItem().getFirstName() + " "
 						+ tableView.getSelectionModel().getSelectedItem().getLastName() + "'s car?");
+				DialogPane pane = alert.getDialogPane();
+				pane.getStylesheets().add(getClass().getResource("MauveStorm.css").toExternalForm());
 				alert.showAndWait();
 				if (alert.getResult() == ButtonType.CANCEL) {
 					alert.close();
@@ -184,13 +191,24 @@ public class ViewParkedWindow extends Application implements Serializable {
 								amountLabel = new Label(
 										NumberFormat.getCurrencyInstance(Locale.US).format(earlyBirdPayment));
 								
-								ParkingStructure.unparkOnLevel1(vehicle);
-								allVehicles.remove(vehicle);
+								if(vehicle.getLevelId() == 1){
+									ParkingStructure.unparkOnLevel1(vehicle);
+									allVehicles.remove(vehicle);
+								} else if(vehicle.getLevelId() == 2){
+									ParkingStructure.unparkOnLevel2(vehicle);
+									allVehicles.remove(vehicle);
+								} else if(vehicle.getLevelId() == 3){
+									ParkingStructure.unparkOnLevel3(vehicle);
+									allVehicles.remove(vehicle);
+								}
+								
 								VBox box = new VBox(5);
 								box.setPadding(new Insets(5));
 								amountLabel.setPadding(new Insets(0, 10, 0, 0));
-								box.getChildren().addAll(label, amountLabel, button);
+								box.getChildren().addAll(label, amountLabel, button);							
 								paymentStage.setScene(new Scene(box));
+								
+								paymentStage.getScene().getStylesheets().add(getClass().getResource("MauveStorm.css").toExternalForm());
 								paymentStage.show();
 								
 
@@ -203,14 +221,23 @@ public class ViewParkedWindow extends Application implements Serializable {
 										vehicle.getEndTime());
 								vehicle.setAmountCharged(regularPayment);
 								amountLabel2 = new Label(
-										NumberFormat.getCurrencyInstance(Locale.US).format(regularPayment));
-								allVehicles.remove(vehicle);
-								ParkingStructure.unparkOnLevel1(vehicle);
+										NumberFormat.getCurrencyInstance(Locale.US).format(vehicle.getAmountCharged()));
+								if(vehicle.getLevelId() == 1){
+									ParkingStructure.unparkOnLevel1(vehicle);
+									allVehicles.remove(vehicle);
+								} else if(vehicle.getLevelId() == 2){
+									ParkingStructure.unparkOnLevel2(vehicle);
+									allVehicles.remove(vehicle);
+								} else if(vehicle.getLevelId() == 3){
+									ParkingStructure.unparkOnLevel3(vehicle);
+									allVehicles.remove(vehicle);
+								}
 								VBox box = new VBox(5);
 								box.setPadding(new Insets(5));
 								amountLabel2.setPadding(new Insets(0, 10, 0, 0));
 								box.getChildren().addAll(label, amountLabel2, button);
 								paymentStage.setScene(new Scene(box));
+								paymentStage.getScene().getStylesheets().add(getClass().getResource("MauveStorm.css").toExternalForm());
 								paymentStage.show();
 								
 							}
@@ -245,7 +272,8 @@ public class ViewParkedWindow extends Application implements Serializable {
 		mainBox.getChildren().addAll(listBox, buttonBox);
 		root = new StackPane(mainBox);
 
-		scene = new Scene(root, 500, 500);
+		scene = new Scene(root, 535, 500);
+		scene.getStylesheets().add(getClass().getResource("MauveStorm.css").toExternalForm());
 		stage.setScene(scene);
 		stage.setTitle("Vehicles Currently Parked");
 		stage.setResizable(false);

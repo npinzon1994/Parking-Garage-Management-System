@@ -237,6 +237,10 @@ public abstract class Vehicle implements Serializable {
 
 	public abstract double calculateRegularRate(LocalTime startTime, LocalTime endTime);
 
+	/**
+	 * Standard toString() method for the Vehicle class.
+	 */
+	
 	@Override
 	public String toString() {
 		return "Vehicle [licensePlate=" + licensePlate + ", tagNumber=" + tagNumber + ", firstName=" + firstName
@@ -245,8 +249,5 @@ public abstract class Vehicle implements Serializable {
 				+ secondsParked + ", levelId=" + levelId + "]";
 	}
 
-	/**
-	 * Standard toString() method for the Vehicle class.
-	 */
 
 }

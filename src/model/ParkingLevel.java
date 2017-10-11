@@ -32,7 +32,7 @@ public class ParkingLevel implements Serializable {
 	public ParkingLevel(int id) {
 		this.id = id;
 		motorcycleLot = new HashMap<String, ParkingSpace>();
-		motorcycleSpaces = new MotorcycleSpace[10];
+		motorcycleSpaces = new MotorcycleSpace[5];
 		for (int i = 0; i < motorcycleSpaces.length; i++) {
 			motorcycleSpaces[i] = new MotorcycleSpace(null, id);
 			motorcycleLot.put(motorcycleSpaces[i].getId(), motorcycleSpaces[i]);
@@ -40,7 +40,7 @@ public class ParkingLevel implements Serializable {
 		}
 
 		compactLot = new HashMap<String, ParkingSpace>();
-		compactSpaces = new CompactSpace[15];
+		compactSpaces = new CompactSpace[5];
 		for (int i = 0; i < compactSpaces.length; i++) {
 			compactSpaces[i] = new CompactSpace(null, id);
 			compactSpaces[i].setSpaceType("Compact");
@@ -49,7 +49,7 @@ public class ParkingLevel implements Serializable {
 		}
 
 		midSizeLot = new HashMap<String, ParkingSpace>();
-		midSizeSpaces = new MidSizeSpace[15];
+		midSizeSpaces = new MidSizeSpace[5];
 		for (int i = 0; i < midSizeSpaces.length; i++) {
 			midSizeSpaces[i] = new MidSizeSpace(null, id);
 			midSizeSpaces[i].setSpaceType("Mid Size");
@@ -58,7 +58,7 @@ public class ParkingLevel implements Serializable {
 		}
 
 		truckLot = new HashMap<String, ParkingSpace>();
-		truckSpaces = new TruckSpace[15];
+		truckSpaces = new TruckSpace[5];
 		for (int i = 0; i < truckSpaces.length; i++) {
 			truckSpaces[i] = new TruckSpace(null, id);
 			truckSpaces[i].setSpaceType("Truck");
@@ -109,7 +109,7 @@ public class ParkingLevel implements Serializable {
 				count++;
 			}
 		}
-		return count == 10;
+		return count == 5;
 		
 	}
 
@@ -120,7 +120,7 @@ public class ParkingLevel implements Serializable {
 				count++;
 			}
 		}
-		return count == 15;
+		return count == 5;
 	}
 
 	public boolean midSizesFull() {
@@ -130,7 +130,7 @@ public class ParkingLevel implements Serializable {
 				count++;
 			}
 		}
-		return count == 15;
+		return count == 5;
 	}
 
 	public boolean trucksFull() {
@@ -140,7 +140,7 @@ public class ParkingLevel implements Serializable {
 				count++;
 			}
 		}
-		return count == 15;
+		return count == 5;
 	}
 
 	public int getId() {

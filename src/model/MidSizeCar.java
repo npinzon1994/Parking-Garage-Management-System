@@ -23,43 +23,43 @@ public class MidSizeCar extends Vehicle implements Serializable {
 		double subtotal = rate * 30;
 		double tax = TAX_RATE * 30;
 		double total = subtotal + tax;
-		if (getTimeSelect().equals("1/2 Hour") && seconds <= 30) {
+		if (getTimeSelect().equals("Up to 1/2 Hour") && seconds <= 30) {
 			tax = TAX_RATE * 30;
 			subtotal = rate * 30;
 			total = subtotal + tax;
 			return total;
 			// Anybody who leaves their car longer than expected has to pay
 			// additional 10%
-		} else if (getTimeSelect().equals("1/2 Hour") && seconds > 30) {
-			double newRate = rate + ((rate) * (0.1));
+		} else if (getTimeSelect().equals("Up to 1/2 Hour") && seconds > 30) {
+			double newRate = ((rate) * (1.2));
 			tax = TAX_RATE * seconds;
 			subtotal = newRate * seconds;
 			total = subtotal + tax;
 			return total;
 
-		} else if (getTimeSelect().equals("1 Hour") && seconds <= 60) {
+		} else if (getTimeSelect().equals("Up to 1 Hour") && seconds <= 60) {
 			tax = TAX_RATE * 60;
 			subtotal = rate * 60;
 			total = subtotal + tax;
 			return total;
 			// Anybody who leaves their car longer than expected has to pay
 			// additional 10%
-		} else if (getTimeSelect().equals("1 Hour") && seconds > 60) {
-			double newRate = rate + ((rate) * (0.1));
+		} else if (getTimeSelect().equals("Up to 1 Hour") && seconds > 60) {
+			double newRate = ((rate) * (1.2));
 			tax = TAX_RATE * seconds;
 			subtotal = newRate * seconds;
 			total = subtotal + tax;
 			return total;
 
-		} else if (getTimeSelect().equals("2 Hours") && seconds <= 120) {
+		} else if (getTimeSelect().equals("Up to 2 Hours") && seconds <= 120) {
 			tax = TAX_RATE * 120;
 			subtotal = rate * 120;
 			total = subtotal + tax;
 			return total;
 			// Anybody who leaves their car longer than expected has to pay
 			// additional 10%
-		} else if (getTimeSelect().equals("2 Hours") && seconds > 120) {
-			double newRate = rate + ((rate) * (0.2));
+		} else if (getTimeSelect().equals("Up to 2 Hours") && seconds > 120) {
+			double newRate = ((rate) * (1.2));
 			tax = TAX_RATE * seconds;
 			subtotal = newRate * seconds;
 			total = subtotal + tax;
@@ -77,43 +77,43 @@ public class MidSizeCar extends Vehicle implements Serializable {
 		double subtotal = rate * 30;
 		double tax = TAX_RATE * 30;
 		double total = subtotal + tax;
-		if (getTimeSelect().equals("1/2 Hour") && seconds <= 30) {
+		if (getTimeSelect().equals("Up to 1/2 Hour") && seconds <= 30) {
 			tax = TAX_RATE * 30;
 			subtotal = rate * 30;
 			total = subtotal + tax;
 			return total;
 			// Anybody who leaves their car longer than expected has to pay
 			// additional 10%
-		} else if (getTimeSelect().equals("1/2 Hour") && seconds > 30) {
-			double newRate = rate + ((rate) * (0.1));
+		} else if (getTimeSelect().equals("Up to 1/2 Hour") && seconds > 30) {
+			double newRate = ((rate) * (1.2));
 			tax = TAX_RATE * seconds;
 			subtotal = newRate * seconds;
 			total = subtotal + tax;
 			return total;
 
-		} else if (getTimeSelect().equals("1 Hour") && seconds <= 60) {
+		} else if (getTimeSelect().equals("Up to 1 Hour") && seconds <= 60) {
 			tax = TAX_RATE * 60;
 			subtotal = rate * 60;
 			total = subtotal + tax;
 			return total;
 			// Anybody who leaves their car longer than expected has to pay
 			// additional 10%
-		} else if (getTimeSelect().equals("1 Hour") && seconds > 60) {
-			double newRate = rate + ((rate) * (0.1));
+		} else if (getTimeSelect().equals("Up to 1 Hour") && seconds > 60) {
+			double newRate = ((rate) * (1.2));
 			tax = TAX_RATE * seconds;
 			subtotal = newRate * seconds;
 			total = subtotal + tax;
 			return total;
 
-		} else if (getTimeSelect().equals("2 Hours") && seconds <= 120) {
+		} else if (getTimeSelect().equals("Up to 2 Hours") && seconds <= 120) {
 			tax = TAX_RATE * 120;
 			subtotal = rate * 120;
 			total = subtotal + tax;
 			return total;
 			// Anybody who leaves their car longer than expected has to pay
 			// additional 10%
-		} else if (getTimeSelect().equals("2 Hours") && seconds > 120) {
-			double newRate = rate + ((rate) * (0.2));
+		} else if (getTimeSelect().equals("Up to 2 Hours") && seconds > 120) {
+			double newRate = ((rate) * (1.2));
 			tax = TAX_RATE * seconds;
 			subtotal = newRate * seconds;
 			total = subtotal + tax;
