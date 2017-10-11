@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <class-diagram version="1.2.1" icons="true" automaticImage="PNG" always-add-relationships="false" generalizations="true" 
   realizations="true" associations="true" dependencies="false" nesting-relationships="true" router="FAN">  
-  <interface id="1" language="java" name="model.HourlyRate" project="CSE248ParkingLotProject" 
-    file="/CSE248ParkingLotProject/src/model/HourlyRate.java" binary="false" corner="BOTTOM_RIGHT">    
+  <interface id="1" language="java" name="model.HourlyRate" project="PinzonCSE248ParkingLotProject" 
+    file="/PinzonCSE248ParkingLotProject/src/model/HourlyRate.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="101" width="176" x="296" y="480"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -10,8 +10,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="2" language="java" name="model.ParkingSpace" project="CSE248ParkingLotProject" 
-    file="/CSE248ParkingLotProject/src/model/ParkingSpace.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="2" language="java" name="model.ParkingSpace" project="PinzonCSE248ParkingLotProject" 
+    file="/PinzonCSE248ParkingLotProject/src/model/ParkingSpace.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="407" width="184" x="1967" y="909"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -19,8 +19,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="3" language="java" name="model.RegularRate" project="CSE248ParkingLotProject" 
-    file="/CSE248ParkingLotProject/src/model/RegularRate.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="3" language="java" name="model.RegularRate" project="PinzonCSE248ParkingLotProject" 
+    file="/PinzonCSE248ParkingLotProject/src/model/RegularRate.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="155" width="176" x="188" y="-67"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -28,8 +28,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <interface id="4" language="java" name="model.ParkingBehavior" project="CSE248ParkingLotProject" 
-    file="/CSE248ParkingLotProject/src/model/ParkingBehavior.java" binary="false" corner="BOTTOM_RIGHT">    
+  <interface id="4" language="java" name="model.ParkingBehavior" project="PinzonCSE248ParkingLotProject" 
+    file="/PinzonCSE248ParkingLotProject/src/model/ParkingBehavior.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="191" width="258" x="2287" y="480"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -37,8 +37,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </interface>  
-  <class id="5" language="java" name="model.Vehicle" project="CSE248ParkingLotProject" 
-    file="/CSE248ParkingLotProject/src/model/Vehicle.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="5" language="java" name="model.Vehicle" project="PinzonCSE248ParkingLotProject" 
+    file="/PinzonCSE248ParkingLotProject/src/model/Vehicle.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="893" width="317" x="859" y="1356"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -46,8 +46,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="6" language="java" name="model.Demo" project="CSE248ParkingLotProject" 
-    file="/CSE248ParkingLotProject/src/model/Demo.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="6" language="java" name="model.Demo" project="PinzonCSE248ParkingLotProject" 
+    file="/PinzonCSE248ParkingLotProject/src/model/Demo.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="119" width="200" x="1174" y="-67"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -55,8 +55,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="7" language="java" name="model.Truck" project="CSE248ParkingLotProject" 
-    file="/CSE248ParkingLotProject/src/model/Truck.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="7" language="java" name="model.Truck" project="PinzonCSE248ParkingLotProject" 
+    file="/PinzonCSE248ParkingLotProject/src/model/Truck.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="155" width="317" x="145" y="2289"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -64,8 +64,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="8" language="java" name="model.EarlyBirdRate" project="CSE248ParkingLotProject" 
-    file="/CSE248ParkingLotProject/src/model/EarlyBirdRate.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="8" language="java" name="model.EarlyBirdRate" project="PinzonCSE248ParkingLotProject" 
+    file="/PinzonCSE248ParkingLotProject/src/model/EarlyBirdRate.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="155" width="176" x="404" y="-67"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -73,8 +73,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="9" language="java" name="model.HandicappedCompactSpace" project="CSE248ParkingLotProject" 
-    file="/CSE248ParkingLotProject/src/model/HandicappedCompactSpace.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="9" language="java" name="model.HandicappedCompactSpace" project="PinzonCSE248ParkingLotProject" 
+    file="/PinzonCSE248ParkingLotProject/src/model/HandicappedCompactSpace.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="119" width="249" x="1573" y="2289"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -82,8 +82,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="10" language="java" name="model.HandicappedMidSizeSpace" project="CSE248ParkingLotProject" 
-    file="/CSE248ParkingLotProject/src/model/HandicappedMidSizeSpace.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="10" language="java" name="model.HandicappedMidSizeSpace" project="PinzonCSE248ParkingLotProject" 
+    file="/PinzonCSE248ParkingLotProject/src/model/HandicappedMidSizeSpace.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="119" width="244" x="1862" y="2289"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -91,8 +91,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="11" language="java" name="model.HandicappedSpace" project="CSE248ParkingLotProject" 
-    file="/CSE248ParkingLotProject/src/model/HandicappedSpace.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="11" language="java" name="model.HandicappedSpace" project="PinzonCSE248ParkingLotProject" 
+    file="/PinzonCSE248ParkingLotProject/src/model/HandicappedSpace.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="119" width="200" x="1967" y="1356"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -100,8 +100,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="12" language="java" name="model.MotorcycleSpace" project="CSE248ParkingLotProject" 
-    file="/CSE248ParkingLotProject/src/model/MotorcycleSpace.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="12" language="java" name="model.MotorcycleSpace" project="PinzonCSE248ParkingLotProject" 
+    file="/PinzonCSE248ParkingLotProject/src/model/MotorcycleSpace.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="119" width="185" x="2715" y="2289"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -109,8 +109,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="13" language="java" name="model.HandicappedTruckSpace" project="CSE248ParkingLotProject" 
-    file="/CSE248ParkingLotProject/src/model/HandicappedTruckSpace.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="13" language="java" name="model.HandicappedTruckSpace" project="PinzonCSE248ParkingLotProject" 
+    file="/PinzonCSE248ParkingLotProject/src/model/HandicappedTruckSpace.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="119" width="230" x="2146" y="2289"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -118,8 +118,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="14" language="java" name="model.CompactSpace" project="CSE248ParkingLotProject" 
-    file="/CSE248ParkingLotProject/src/model/CompactSpace.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="14" language="java" name="model.CompactSpace" project="PinzonCSE248ParkingLotProject" 
+    file="/PinzonCSE248ParkingLotProject/src/model/CompactSpace.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="119" width="175" x="2940" y="2289"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -127,8 +127,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="15" language="java" name="model.MidSizeSpace" project="CSE248ParkingLotProject" 
-    file="/CSE248ParkingLotProject/src/model/MidSizeSpace.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="15" language="java" name="model.MidSizeSpace" project="PinzonCSE248ParkingLotProject" 
+    file="/PinzonCSE248ParkingLotProject/src/model/MidSizeSpace.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="119" width="170" x="3155" y="2289"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -136,8 +136,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="16" language="java" name="model.Motorcycle" project="CSE248ParkingLotProject" 
-    file="/CSE248ParkingLotProject/src/model/Motorcycle.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="16" language="java" name="model.Motorcycle" project="PinzonCSE248ParkingLotProject" 
+    file="/PinzonCSE248ParkingLotProject/src/model/Motorcycle.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="155" width="317" x="502" y="2289"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -145,8 +145,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="17" language="java" name="model.TruckSpace" project="CSE248ParkingLotProject" 
-    file="/CSE248ParkingLotProject/src/model/TruckSpace.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="17" language="java" name="model.TruckSpace" project="PinzonCSE248ParkingLotProject" 
+    file="/PinzonCSE248ParkingLotProject/src/model/TruckSpace.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="119" width="156" x="3365" y="2289"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -154,8 +154,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="18" language="java" name="model.HandicappedMotorcycleSpace" project="CSE248ParkingLotProject" 
-    file="/CSE248ParkingLotProject/src/model/HandicappedMotorcycleSpace.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="18" language="java" name="model.HandicappedMotorcycleSpace" project="PinzonCSE248ParkingLotProject" 
+    file="/PinzonCSE248ParkingLotProject/src/model/HandicappedMotorcycleSpace.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="119" width="259" x="2416" y="2289"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -163,8 +163,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="19" language="java" name="model.RegularSpace" project="CSE248ParkingLotProject" 
-    file="/CSE248ParkingLotProject/src/model/RegularSpace.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="19" language="java" name="model.RegularSpace" project="PinzonCSE248ParkingLotProject" 
+    file="/PinzonCSE248ParkingLotProject/src/model/RegularSpace.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="119" width="170" x="2940" y="1356"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -172,8 +172,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="20" language="java" name="model.ParkingStructure" project="CSE248ParkingLotProject" 
-    file="/CSE248ParkingLotProject/src/model/ParkingStructure.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="20" language="java" name="model.ParkingStructure" project="PinzonCSE248ParkingLotProject" 
+    file="/PinzonCSE248ParkingLotProject/src/model/ParkingStructure.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="497" width="194" x="1967" y="-67"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -181,8 +181,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="21" language="java" name="model.MidSizeCar" project="CSE248ParkingLotProject" 
-    file="/CSE248ParkingLotProject/src/model/MidSizeCar.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="21" language="java" name="model.MidSizeCar" project="PinzonCSE248ParkingLotProject" 
+    file="/PinzonCSE248ParkingLotProject/src/model/MidSizeCar.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="155" width="317" x="859" y="2289"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -190,8 +190,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="22" language="java" name="model.CompactCar" project="CSE248ParkingLotProject" 
-    file="/CSE248ParkingLotProject/src/model/CompactCar.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="22" language="java" name="model.CompactCar" project="PinzonCSE248ParkingLotProject" 
+    file="/PinzonCSE248ParkingLotProject/src/model/CompactCar.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="155" width="317" x="1216" y="2289"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
@@ -199,8 +199,8 @@
       <operations public="true" package="true" protected="true" private="true" static="true"/>    
     </display>  
   </class>  
-  <class id="23" language="java" name="model.ParkingLevel" project="CSE248ParkingLotProject" 
-    file="/CSE248ParkingLotProject/src/model/ParkingLevel.java" binary="false" corner="BOTTOM_RIGHT">    
+  <class id="23" language="java" name="model.ParkingLevel" project="PinzonCSE248ParkingLotProject" 
+    file="/PinzonCSE248ParkingLotProject/src/model/ParkingLevel.java" binary="false" corner="BOTTOM_RIGHT">    
     <position height="389" width="280" x="1967" y="480"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
